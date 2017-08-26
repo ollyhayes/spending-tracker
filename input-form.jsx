@@ -28,7 +28,7 @@ export default class InputForm extends React.Component
 
 	render()
 	{
-		return <form>
+		return <form onSubmit={this.handleSubmit}>
 			<input type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
 			<input type="text" name="amount" value={this.state.amount} onChange={this.handleChange}/>
 			<input type="submit" value="Submit"/>

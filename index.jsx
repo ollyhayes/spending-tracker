@@ -15,6 +15,7 @@ class Content extends React.Component
 	}
 }
 
-ReactDOM.render(
-	<Content/>,
-	document.querySelector("body > div"));
+document.addEventListener("DOMContentLoaded", () =>
+	ReactDOM.render(
+		<Content/>,
+		document.querySelector("body > div")));
