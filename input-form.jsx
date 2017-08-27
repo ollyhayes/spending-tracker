@@ -8,8 +8,25 @@ export default class InputForm extends React.Component
 
 		this.state = {
 			description: "",
-			amount: ""
+			amount: "",
+			category: ""
 		};
+
+		this.groupedCategories = [
+			[
+				"Food - Breakfast",
+				"Food - Lunch",
+				"Food - Dinner"
+			],
+			[
+				"Drinks - Soft",
+				"Drinks - Alcoholic"
+			],
+			[
+				"Travel",
+				"Medical"
+			]
+		];
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,16 +39,29 @@ export default class InputForm extends React.Component
 
 	handleSubmit(event)
 	{
-		console.log(`Submitting: description - ${this.state.description}, amount - ${this.state.amount}`);
+		console.log(`Submitting: category - ${this.state.category}, description - ${this.state.description}, amount - ${this.state.amount}`);
 		event.preventDefault();
 	}
 
 	render()
 	{
 		return <form onSubmit={this.handleSubmit}>
-			<input type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
-			<input type="text" name="amount" value={this.state.amount} onChange={this.handleChange}/>
-			<input type="submit" value="Submit"/>
+			<div>
+				{
+					this.groupedCategories.forEach(categoryGroup =>
+						<div>
+							{
+								categoryGroup.forEach(category =>
+									<input name="category" value={category} type="button" onClick={this.handleChange}/>)
+							}
+						</div>)
+				}
+			</div>
+			<div>
+				<input type="text" name="amount" value={this.state.amount} onChange={this.handleChange}/>
+				<input type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
+				<input type="submit" value="Submit"/>
+			</div>
 		</form>;
 	}
 }
