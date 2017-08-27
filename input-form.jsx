@@ -2,9 +2,11 @@ import * as React from "react";
 
 export default class InputForm extends React.Component
 {
-	constructor()
+	constructor(props)
 	{
-		super();
+		super(props);
+
+		this.spendingManager = props.spendingManager;
 
 		this.state = {
 			description: "",
@@ -39,8 +41,20 @@ export default class InputForm extends React.Component
 
 	handleSubmit(event)
 	{
-		console.log(`Submitting: category - ${this.state.category}, description - ${this.state.description}, amount - ${this.state.amount}`);
 		event.preventDefault();
+		console.log(`Submitting: category - ${this.state.category}, description - ${this.state.description}, amount - ${this.state.amount}`);
+
+		this.spendingManager.addExpenditure(
+			new Date(),
+			this.state.category,
+			this.state.amount,
+			this.state.description);
+
+		this.setState({
+			description: "",
+			amount: "",
+			category: ""
+		});
 	}
 
 	render()
