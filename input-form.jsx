@@ -62,11 +62,11 @@ export default class InputForm extends React.Component
 		return <form onSubmit={this.handleSubmit}>
 			<div>
 				{
-					this.groupedCategories.forEach(categoryGroup =>
-						<div>
+					this.groupedCategories.map((categoryGroup, index) =>
+						<div key={index}>
 							{
-								categoryGroup.forEach(category =>
-									<input name="category" value={category} type="button" onClick={this.handleChange}/>)
+								categoryGroup.map(category =>
+									<input key={category} name="category" value={category} type="button" onClick={this.handleChange}/>)
 							}
 						</div>)
 				}

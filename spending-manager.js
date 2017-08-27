@@ -4,10 +4,16 @@ export default class SpendingManager
 	{
 		const expendituresJson = localStorage.getItem("expenditures");
 
+		this.handlers = [];
 
 		this.expenditures = expendituresJson
 			? JSON.parse(expendituresJson)
 			: [];
+	}
+
+	registerUpdate(handler)
+	{
+		this.handlers.push(handler);
 	}
 
 	addExpenditure(date, category, amount, description)
@@ -19,11 +25,12 @@ export default class SpendingManager
 			description: description
 		});
 
-		this.save();
+		this._save();
 	}
 
-	save()
+	_save()
 	{
 		localStorage.setItem("expenditures", JSON.stringify(this.expenditures));
+		this.handlers.forEach(handler => handler());
 	}
 }
