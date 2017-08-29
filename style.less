@@ -14,11 +14,11 @@ html,body
 body
 {
 	overflow-y: scroll;
+	font-size: 2em;
 }
 
 body > div
 {
-	font-size: 16px;
 	font-family: sans-serif;
 
     margin: auto;
@@ -40,9 +40,46 @@ body > div
 		font-size: 2em;
 		font-weight: bold;
 	}
-}
 
-input[type=button].selected
-{
-	background: red;
+	.control()
+	{
+		background-color: white;
+		padding: 20px;
+		border: @border 1px solid;
+	}
+
+	form
+	{
+		.control();
+
+		.category-group
+		{
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.category-button
+		{
+			height: 100px;
+			width: 50px;
+			flex-grow: 1;
+			margin: 10px;
+			background: white;
+			border-style: solid;
+			border-color: grey;
+			border-width: 1px;
+			font-size: 1em;
+			white-space: normal;
+
+			&.selected
+			{
+				background: red;
+			}
+		}
+
+		label
+		{
+			display: block;
+		}
+	}
 }

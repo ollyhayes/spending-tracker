@@ -18,15 +18,23 @@ export default class InputForm extends React.Component
 			[
 				"Food - Breakfast",
 				"Food - Lunch",
-				"Food - Dinner"
+				"Food - Dinner",
+				"Food"
 			],
 			[
 				"Drinks - Soft",
 				"Drinks - Alcoholic"
 			],
 			[
-				"Travel",
+				"Sights",
+				"Transport",
+				"Laundry",
 				"Medical"
+			],
+			[
+				"Technology",
+				"Clothing",
+				"Other"
 			]
 		];
 
@@ -60,28 +68,30 @@ export default class InputForm extends React.Component
 	render()
 	{
 		return <form onSubmit={this.handleSubmit}>
-			<div>
-				{
-					this.groupedCategories.map((categoryGroup, index) =>
-						<div key={index}>
-							{
-								categoryGroup.map(category =>
-									<input
-										className={this.state.category == category ? "selected" : ""}
-										key={category}
-										name="category"
-										value={category}
-										type="button"
-										onClick={this.handleChange}/>)
-							}
-						</div>)
-				}
-			</div>
-			<div>
+			{
+				this.groupedCategories.map((categoryGroup, index) =>
+					<div className="category-group" key={index}>
+						{
+							categoryGroup.map(category =>
+								<input
+									className={"category-button" + (this.state.category == category ? " selected" : "")}
+									key={category}
+									name="category"
+									value={category}
+									type="button"
+									onClick={this.handleChange}/>)
+						}
+					</div>)
+			}
+			<label>
+				Amount:
 				<input type="text" name="amount" value={this.state.amount} onChange={this.handleChange}/>
+			</label>
+			<label>
+				Description:
 				<input type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
-				<input type="submit" value="Submit"/>
-			</div>
+			</label>
+			<input type="submit" value="Submit"/>
 		</form>;
 	}
 }
