@@ -10,30 +10,39 @@ export default class ExpenditureList extends React.Component
 		this.spendingManager.registerUpdate(() => this.handleUpdate());
 
 		this.state = {
-			expenditures: []
+			expenditures: this.spendingManager.expenditures
 		};
 	}
 
 	handleUpdate()
 	{
 		this.setState({
-			expenditures: this.spendingManager
+			expenditures: this.spendingManager.expenditures
 		});
 	}
 
 	render()
 	{
-		return "";
-		// begin here!
-		// return <table>
-		// 	<tbody>
-		// 		{
-		// 			this.state.expenditures.map(expenditure =>
-		// 				<tr>
-
-		// 				</tr>)
-		// 		}
-		// 	</tbody>
-		// 	</table>;
+		return <table>
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Category</th>
+					<th>Description</th>
+					<th>Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+				{
+					this.state.expenditures.map(expenditure =>
+						<tr key={expenditure.date.getTime()}>
+							<td>{expenditure.date.toString()}</td>
+							<td>{expenditure.category}</td>
+							<td>{expenditure.description}</td>
+							<td>{expenditure.amount}</td>
+						</tr>)
+				}
+			</tbody>
+		</table>;
 	}
 }

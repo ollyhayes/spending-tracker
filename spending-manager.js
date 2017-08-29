@@ -9,6 +9,9 @@ export default class SpendingManager
 		this.expenditures = expendituresJson
 			? JSON.parse(expendituresJson)
 			: [];
+
+		// urgh, there must be a better way, but no internet at the moment
+		this.expenditures.forEach(expenditure => expenditure.date = new Date(expenditure.date));
 	}
 
 	registerUpdate(handler)

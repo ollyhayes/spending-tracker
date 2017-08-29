@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import InputForm from "./input-form.jsx";
+import ExpenditureList from "./expenditure-list.jsx";
 import SpendingManager from "./spending-manager.js";
 
 class Content extends React.Component
@@ -13,7 +14,10 @@ class Content extends React.Component
 
 	render()
 	{
-		return <InputForm spendingManager={this.spendingManager}/>;
+		return <div>
+			<InputForm spendingManager={this.spendingManager}/>
+			<ExpenditureList spendingManager={this.spendingManager}/>
+		</div>;
 	}
 }
 
