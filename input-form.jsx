@@ -66,7 +66,13 @@ export default class InputForm extends React.Component
 						<div key={index}>
 							{
 								categoryGroup.map(category =>
-									<input key={category} name="category" value={category} type="button" onClick={this.handleChange}/>)
+									<input
+										className={this.state.category == category ? "selected" : ""}
+										key={category}
+										name="category"
+										value={category}
+										type="button"
+										onClick={this.handleChange}/>)
 							}
 						</div>)
 				}
