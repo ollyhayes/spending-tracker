@@ -1,3 +1,47 @@
+//@background: #87FF99;
+//@highlight: #5AC751;
+//@border: #0DA700;
+@background: gainsboro;
+@highlight: #D9D9D9;
+@border: gray;
+
+html,body
+{
+	margin: 0;
+	height: 100%;
+}
+
+body
+{
+	overflow-y: scroll;
+}
+
+body > div
+{
+	font-size: 16px;
+	font-family: sans-serif;
+
+    margin: auto;
+	padding: 0 20px;
+
+    max-width: 800px;
+	min-height: 100%;
+
+    background-color: @background;
+
+    border-color: @border;
+    border-width: 1px;
+    border-left-style: solid;
+    border-right-style: solid;
+
+	header
+	{
+		padding: 10px 0;
+		font-size: 2em;
+		font-weight: bold;
+	}
+}
+
 input[type=button].selected
 {
 	background: red;

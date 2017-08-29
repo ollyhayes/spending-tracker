@@ -15,6 +15,7 @@ class Content extends React.Component
 	render()
 	{
 		return <div>
+			<header>Travel Expenses</header>
 			<InputForm spendingManager={this.spendingManager}/>
 			<ExpenditureList spendingManager={this.spendingManager}/>
 		</div>;
@@ -23,7 +24,6 @@ class Content extends React.Component
 
 document.addEventListener("DOMContentLoaded", () =>
 {
-
 	ReactDOM.render(
 		<Content/>,
 		document.querySelector("body > div"));
