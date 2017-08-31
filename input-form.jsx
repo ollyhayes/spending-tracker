@@ -91,7 +91,9 @@ export default class InputForm extends React.Component
 				Description:
 				<input type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
 			</label>
-			<input type="submit" value="Submit"/>
+			<div className="submit-section">
+				<input type="submit" value="Submit"/>
+			</div>
 		</form>;
 	}
 }

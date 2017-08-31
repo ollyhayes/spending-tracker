@@ -17,6 +17,22 @@ body
 	font-size: 2em;
 }
 
+.bordered()
+{
+	border: @border 1px solid;
+}
+
+.button()
+{
+	height: 100px;
+	width: 170px;
+	margin: 10px;
+	font-size: 1em;
+	white-space: normal;
+	background: white;
+	.bordered();
+}
+
 body > div
 {
 	font-family: sans-serif;
@@ -29,10 +45,9 @@ body > div
 
     background-color: @background;
 
-    border-color: @border;
-    border-width: 1px;
-    border-left-style: solid;
-    border-right-style: solid;
+	.bordered();
+    border-top-style: none;
+    border-bottom-style: none;
 
 	header
 	{
@@ -45,7 +60,7 @@ body > div
 	{
 		background-color: white;
 		padding: 20px;
-		border: @border 1px solid;
+		.bordered();
 	}
 
 	form
@@ -60,16 +75,8 @@ body > div
 
 		.category-button
 		{
-			height: 100px;
-			width: 50px;
+			.button();
 			flex-grow: 1;
-			margin: 10px;
-			background: white;
-			border-style: solid;
-			border-color: grey;
-			border-width: 1px;
-			font-size: 1em;
-			white-space: normal;
 
 			&.selected
 			{
@@ -79,7 +86,25 @@ body > div
 
 		label
 		{
-			display: block;
+			display: flex;
+			justify-content: space-between;
+			margin: 10px;
+
+			input
+			{
+				.bordered();
+			}
+		}
+
+		.submit-section
+		{
+			display: flex;
+			flex-direction: row-reverse;
+
+			input
+			{
+				.button();
+			}
 		}
 	}
 }
