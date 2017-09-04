@@ -15,7 +15,9 @@ class Content extends React.Component
 	render()
 	{
 		return <div>
-			<header>Travel Expenses</header>
+			<div className="sync-status">
+				4 items awaiting sync...
+			</div>
 			<InputForm spendingManager={this.spendingManager}/>
 		</div>;
 

@@ -67,33 +67,39 @@ export default class InputForm extends React.Component
 
 	render()
 	{
-		return <form onSubmit={this.handleSubmit}>
-			{
-				this.groupedCategories.map((categoryGroup, index) =>
-					<div className="category-group" key={index}>
-						{
-							categoryGroup.map(category =>
-								<input
-									className={"category-button" + (this.state.category == category ? " selected" : "")}
-									key={category}
-									name="category"
-									value={category}
-									type="button"
-									onClick={this.handleChange}/>)
-						}
-					</div>)
-			}
-			<label>
-				Amount:
-				<input type="text" name="amount" value={this.state.amount} onChange={this.handleChange}/>
-			</label>
-			<label>
-				Description:
-				<input type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
-			</label>
-			<div className="submit-section">
-				<input type="submit" value="Submit"/>
-			</div>
-		</form>;
+		return <div className="input-form">
+			<header>New item...</header>
+			<form onSubmit={this.handleSubmit}>
+				<div className="category-section">
+					<label>Select category:</label>
+					{
+						this.groupedCategories.map((categoryGroup, index) =>
+							<div className="category-group" key={index}>
+								{
+									categoryGroup.map(category =>
+										<input
+											className={"category-button" + (this.state.category == category ? " selected" : "")}
+											key={category}
+											name="category"
+											value={category}
+											type="button"
+											onClick={this.handleChange}/>)
+								}
+							</div>)
+					}
+				</div>
+				<div className="text-section">
+					<label>Enter amount:</label>
+					<input type="text" name="amount" value={this.state.amount} onChange={this.handleChange}/>
+				</div>
+				<div className="text-section">
+					<label>Enter description:</label>
+					<input type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
+				</div>
+				<div className="submit-section">
+					<input type="submit" value="Submit"/>
+				</div>
+			</form>
+		</div>;
 	}
 }

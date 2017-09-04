@@ -51,8 +51,7 @@ body > div
 
 	header
 	{
-		padding: 10px 0;
-		font-size: 2em;
+		font-size: 1.3em;
 		font-weight: bold;
 	}
 
@@ -64,39 +63,60 @@ body > div
 		margin-bottom: 20px;
 	}
 
-	form
+	.sync-status
+	{
+		text-align: right;
+		color: red;
+		padding: 10px;
+		text-decoration: underline;
+	}
+
+	.input-form
 	{
 		.control();
 
-		.category-group
+		form > div
 		{
-			display: flex;
-			justify-content: space-between;
+			margin-top: 30px;
 		}
 
-		.category-button
+		.category-section
 		{
-			.button();
-			flex-grow: 1;
-
-			&.selected
+			.category-group
 			{
-				background: red;
+				display: flex;
+				justify-content: space-between;
+
+				.category-button
+				{
+					.button();
+					flex-grow: 1;
+
+					&.selected
+					{
+						background: red;
+					}
+				}
 			}
 		}
 
-		label
+		.text-section
 		{
-			display: flex;
-			justify-content: space-between;
-			align-items: baseline;
-			margin: 10px;
+			label
+			{
+				// display: flex;
+				// justify-content: space-between;
+				// align-items: baseline;
+				// margin: 10px;
+
+			}
 
 			input
 			{
 				.button();
 				width: 350px;
-				margin: 10px 0;
+				display: block;
+				margin: auto;
 			}
 		}
 
