@@ -31,6 +31,12 @@ export default class SpendingManager
 		this._save();
 	}
 
+	clearExpenditures()
+	{
+		this.expenditures = [];
+		this._save();
+	}
+
 	_save()
 	{
 		localStorage.setItem("expenditures", JSON.stringify(this.expenditures));

@@ -3,13 +3,30 @@ import * as ReactDOM from "react-dom";
 import InputForm from "./input-form.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
 import SpendingManager from "./spending-manager.js";
+import SheetUpdater from "./sheet-updater.js";
 
 class Content extends React.Component
 {
 	constructor()
 	{
 		super();
+
 		this.spendingManager = new SpendingManager();
+		this.sheetUpdater = new SheetUpdater();
+
+		this.spendingManager.registerUpdate(async () =>
+		{
+			try
+			{
+				await this.sheetUpdater.trySync(this.spendingManager.expenditures);
+
+				this.spendingManager.clearExpenditures();
+			}
+			catch (error)
+			{
+				console.log("not synced");
+			}
+		});
 	}
 
 	render()
