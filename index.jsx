@@ -14,23 +14,19 @@ class Content extends React.Component
 		this.spendingManager = new SpendingManager();
 		this.sheetUpdater = new SheetUpdater();
 
-		this.spendingManager.registerUpdate(async () =>
-		{
-			try
-			{
-				await this.sheetUpdater.trySync(this.spendingManager.expenditures);
+		this.spendingManager.registerUpdate(() =>
+			this.sheetUpdater.trySync(this.spendingManager.expenditures));
 
+		this.sheetUpdater.registerUpdate(status =>
+		{
+			if (status === this.sheetUpdater.statuses.synced)
 				this.spendingManager.clearExpenditures();
-			}
-			catch (error)
-			{
-				console.log("not synced");
-			}
 		});
 	}
 
 	render()
 	{
+		// make this into a component that reflects the current state properly
 		return <div>
 			<div className="sync-status">
 				4 items awaiting sync...
