@@ -26,16 +26,17 @@ export default class InputForm extends React.Component
 				"Drinks - Alcoholic"
 			],
 			[
-				"Sights",
-				"Transport",
 				"Laundry",
+				"Clothing",
+				"Toiletries",
 				"Medical"
 			],
 			[
+				"Sights",
+				"Transport",
 				"Technology",
-				"Clothing",
 				"Other"
-			]
+			],
 		];
 
 		this.handleChange = this.handleChange.bind(this);
