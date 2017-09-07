@@ -23,16 +23,16 @@ export default class SheetUpdater
 	{
 		this._setStatus(this.statuses.attemptingSync);
 
-		return new Promise((resolve, reject) =>
+		return new Promise(resolve =>
 		{
 			if (window.pass)
 			{
-				resolve();
+				resolve(true);
 				this._setStatus(this.statuses.synced);
 			}
 			else
 			{
-				reject();
+				resolve(false);
 				this._setStatus(this.statuses.noConnection);
 			}
 		});
