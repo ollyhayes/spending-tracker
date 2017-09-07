@@ -25,16 +25,21 @@ export default class SheetUpdater
 
 		return new Promise(resolve =>
 		{
-			if (window.pass)
-			{
-				resolve(true);
-				this._setStatus(this.statuses.synced);
-			}
-			else
-			{
-				resolve(false);
-				this._setStatus(this.statuses.noConnection);
-			}
+			setTimeout(
+				() =>
+				{
+					if (window.pass)
+					{
+						resolve(true);
+						this._setStatus(this.statuses.synced);
+					}
+					else
+					{
+						resolve(false);
+						this._setStatus(this.statuses.noConnection);
+					}
+				},
+				2000);
 		});
 	}
 

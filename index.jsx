@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import InputForm from "./input-form.jsx";
+import SyncStatus from "./sync-status.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
 import SpendingManager from "./spending-manager.js";
 import SheetUpdater from "./sheet-updater.js";
@@ -26,11 +27,8 @@ class Content extends React.Component
 
 	render()
 	{
-		// make this into a component that reflects the current state properly
 		return <div>
-			<div className="sync-status">
-				4 items awaiting sync...
-			</div>
+			<SyncStatus spendingManager={this.spendingManager} sheetUpdater={this.sheetUpdater}/>
 			<InputForm spendingManager={this.spendingManager}/>
 		</div>;
 
