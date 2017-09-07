@@ -39,8 +39,18 @@ export default class InputForm extends React.Component
 			],
 		];
 
+		this.focusOnCategoryChangeElement = null;
+
+		this.handleCategoryChange = this.handleCategoryChange.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleCategoryChange(event)
+	{
+		this.handleChange(event);
+
+		this.focusOnCategoryChangeElement.focus();
 	}
 
 	handleChange(event)
@@ -84,14 +94,19 @@ export default class InputForm extends React.Component
 											name="category"
 											value={category}
 											type="button"
-											onClick={this.handleChange}/>)
+											onClick={this.handleCategoryChange}/>)
 								}
 							</div>)
 					}
 				</div>
 				<div className="text-section">
 					<label>Enter amount:</label>
-					<input type="text" name="amount" value={this.state.amount} onChange={this.handleChange}/>
+					<input
+						type="text"
+						name="amount"
+						value={this.state.amount}
+						onChange={this.handleChange}
+						ref={element => this.focusOnCategoryChangeElement = element}/>
 				</div>
 				<div className="text-section">
 					<label>Enter description:</label>
