@@ -1,11 +1,20 @@
+const gapi = window.gapi;
+
 export default class AccountManager
 {
 	constructor()
 	{
 		this.handlers = [];
 
-		this.initialised = false;
-		this.currentUser = "";
+		this.statuses = {
+			notConnected: 0,
+			connecting: 1,
+			signedOut: 2,
+			signedIn: 3
+		};
+
+		this.status = this.statuses.notConnected;
+		this.userName = "";
 		this.accessToken = "";
 	}
 
@@ -16,6 +25,9 @@ export default class AccountManager
 
 	initialise()
 	{
+		this.status = this.statuses.connecting;
+		this.handlers.forEach(handler => handler());
+
 		return new Promise((resolve, reject) =>
 		{
 			gapi.load(
@@ -65,18 +77,24 @@ export default class AccountManager
 
 	_update()
 	{
-		const auth = gapi.auth2.getAuthInstance();
-
-		if (auth.isSignedIn.get())
+		if (!gapi.auth2)
 		{
-			const user = auth.currentUser.get();
-			this.currentUser = user.getBasicProfile().getName();
-			this.accessToken = user.getAuthResponse().access_token;
+			this.status = this.statuses.notConnected;
+			this.username = "";
+			this.accessToken = "";
+		}
+		else if (!gapi.auth2.getAuthInstance().isSignedIn.get())
+		{
+			this.status = this.statuses.signedOut;
+			this.username = "";
+			this.accessToken = "";
 		}
 		else
 		{
-			this.currentUser = "";
-			this.accessToken = "";
+			this.status = this.statuses.signedIn;
+			const user = gapi.auth2.getAuthInstance().currentUser.get();
+			this.username = user.getBasicProfile().getName();
+			this.accessToken = user.getAuthResponse().access_token;
 		}
 
 		this.handlers.forEach(handler => handler());
