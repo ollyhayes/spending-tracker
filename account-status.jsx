@@ -20,6 +20,8 @@ export default class AccountStatus extends React.Component
 		};
 	}
 
+	// add methods for sign in and sign out next
+
 	_getStatus()
 	{
 		switch (this.state.status)
