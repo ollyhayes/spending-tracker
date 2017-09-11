@@ -16,7 +16,7 @@ export default class SyncStatus extends React.Component
 			this.setState({syncInProgress: status === this.sheetUpdater.statuses.attemptingSync}));
 
 		this.state = {
-			syncInProgress: status === this.sheetUpdater.statuses.attemptingSync,
+			syncInProgress: this.sheetUpdater.status === this.sheetUpdater.statuses.attemptingSync,
 			numberOfItemsAwaitingSync: this.spendingManager.expenditures.length
 		};
 	}

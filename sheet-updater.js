@@ -1,8 +1,9 @@
 export default class SheetUpdater
 {
-	constructor()
+	constructor(accountManager)
 	{
 		this.handlers = [];
+		this.accountManager = accountManager;
 
 		this.statuses = {
 			unknown: 0,
@@ -25,6 +26,8 @@ export default class SheetUpdater
 
 		return new Promise(resolve =>
 		{
+			const accessToken = this.accountManager.accessToken;
+
 			setTimeout(
 				() =>
 				{

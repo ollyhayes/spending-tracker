@@ -5,6 +5,7 @@ import SyncStatus from "./sync-status.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
 import SpendingManager from "./spending-manager.js";
 import SheetUpdater from "./sheet-updater.js";
+import AccountManager from "./account-manager.js";
 
 class Content extends React.Component
 {
@@ -13,7 +14,8 @@ class Content extends React.Component
 		super();
 
 		this.spendingManager = new SpendingManager();
-		this.sheetUpdater = new SheetUpdater();
+		this.accountManager = new AccountManager();
+		this.sheetUpdater = new SheetUpdater(this.accountManager);
 
 		this.spendingManager.registerUpdate(() =>
 			this.sheetUpdater.trySync(this.spendingManager.expenditures));
