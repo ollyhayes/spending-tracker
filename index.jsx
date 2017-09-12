@@ -26,6 +26,8 @@ class Content extends React.Component
 			if (status === this.sheetUpdater.statuses.synced)
 				this.spendingManager.clearExpenditures();
 		});
+
+		this.accountManager.initialise();
 	}
 
 	render()
