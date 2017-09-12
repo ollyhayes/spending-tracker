@@ -8,7 +8,7 @@ export default class AccountManager
 
 		this.statuses = {
 			notConnected: 0,
-			connecting: 1,
+			loading: 1,
 			signedOut: 2,
 			signedIn: 3
 		};
@@ -25,8 +25,7 @@ export default class AccountManager
 
 	initialise()
 	{
-		this.status = this.statuses.connecting;
-		this.handlers.forEach(handler => handler());
+		this._setLoading();
 
 		return new Promise((resolve, reject) =>
 		{
@@ -63,6 +62,8 @@ export default class AccountManager
 
 	async signIn()
 	{
+		this._setLoading();
+
 		await gapi.auth2.getAuthInstance().signIn();
 
 		this._update();
@@ -70,9 +71,17 @@ export default class AccountManager
 
 	async signOut()
 	{
+		this._setLoading();
+
 		await gapi.auth2.getAuthInstance().signOut();
 
 		this._update();
+	}
+
+	_setLoading()
+	{
+		this.status = this.statuses.loading;
+		this.handlers.forEach(handler => handler());
 	}
 
 	_update()

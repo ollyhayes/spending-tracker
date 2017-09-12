@@ -2,6 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import InputForm from "./input-form.jsx";
 import SyncStatus from "./sync-status.jsx";
+import AccountStatus from "./account-status.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
 import SpendingManager from "./spending-manager.js";
 import SheetUpdater from "./sheet-updater.js";
@@ -32,6 +33,7 @@ class Content extends React.Component
 		return <div>
 			<SyncStatus spendingManager={this.spendingManager} sheetUpdater={this.sheetUpdater}/>
 			<InputForm spendingManager={this.spendingManager}/>
+			<AccountStatus accountManager={this.accountManager}/>
 		</div>;
 
 		// leaving this out for now

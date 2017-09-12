@@ -20,7 +20,15 @@ export default class AccountStatus extends React.Component
 		};
 	}
 
-	// add methods for sign in and sign out next
+	handleSignIn()
+	{
+		this.accountManager.signIn();
+	}
+
+	handleSignOut()
+	{
+		this.accountManager.signOut();
+	}
 
 	_getStatus()
 	{
@@ -28,8 +36,8 @@ export default class AccountStatus extends React.Component
 		{
 		case this.accountManager.statuses.notConnected:
 			return <span>Not connected to internet</span>;
-		case this.accountManager.statuses.connecting:
-			return <span>Connecting...</span>;
+		case this.accountManager.statuses.loading:
+			return <span>Loading...</span>;
 		case this.accountManager.statuses.signedOut:
 			return <a onClick={this.handleSignIn}>Sign in</a>;
 		case this.accountManager.statuses.signedIn:
