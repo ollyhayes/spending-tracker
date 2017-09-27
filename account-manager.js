@@ -7,12 +7,22 @@ function loadGapi()
 		gapi.load(
 			"auth2",
 			{
-				callback: () => resolve(),
+				callback: resolve,
 				onerror: () => reject("Client library load error"),
 				timeout: 5000,
 				ontimeout: () => reject("Client library load error")
 			});
 	});
+}
+
+function initAuth(options)
+{
+	return new Promise((resolve, reject) =>
+		// I don't think this returns a real promise so we have to wrap it
+		gapi.auth2.init(options)
+			.then(
+				resolve,
+				error => reject("Auth init error: " + error)));
 }
 
 export default class AccountManager
@@ -46,23 +56,10 @@ export default class AccountManager
 		{
 			await loadGapi();
 
-			gapi.auth2.init({
+			await initAuth({
 				clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
 				scope: "https://www.googleapis.com/auth/spreadsheets"
-			}).then(
-				() =>
-				{
-					const auth = gapi.auth2.getAuthInstance();
-					auth.isSignedIn.listen(() => this._update());
-
-					this._update();
-				},
-				error => 
-				{
-					console.log(`Auth init error: ${error}`);
-
-					this._update();
-				});
+			});
 		}
 		catch (error)
 		{
@@ -72,57 +69,6 @@ export default class AccountManager
 		{
 			this._update();
 		}
-
-		//return new Promise((resolve, reject) =>
-		//{
-		//	gapi.load(
-		//		"auth2",
-		//		{
-		//			// using async callback locks up the browser for some reason
-		//			//callback: async () =>
-		//			//{
-		//			//	try
-		//			//	{
-		//			//		await gapi.auth2.init({
-		//			//			clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
-		//			//			scope: "https://www.googleapis.com/auth/spreadsheets"
-		//			//		});
-
-		//			//		const auth = gapi.auth2.getAuthInstance();
-		//			//		auth.isSignedIn.listen(() => this._update());
-
-		//			//		resolve();
-		//			//	}
-		//			//	catch (error)
-		//			//	{
-		//			//		reject(`Auth init error: ${error}`);
-		//			//	}
-		//			//	finally
-		//			//	{
-		//			//		this._update();
-		//			//	}
-		//			//},
-		//			callback: () =>
-		//			{
-		//				gapi.auth2.init({
-		//					clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
-		//					scope: "https://www.googleapis.com/auth/spreadsheets"
-		//				}).then(
-		//					() =>
-		//					{
-		//						const auth = gapi.auth2.getAuthInstance();
-		//						auth.isSignedIn.listen(() => this._update());
-
-		//						resolve();
-		//					},
-		//					error => reject(`Auth init error: ${error}`)
-		//				).then(() => this._update());
-		//			},
-		//			onerror: () => reject("Client library load error"),
-		//			timeout: 5000,
-		//			ontimeout: () => reject("Client library load error")
-		//		});
-		//});
 	}
 
 	async signIn()
