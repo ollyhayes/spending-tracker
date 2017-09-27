@@ -1,5 +1,20 @@
 const gapi = window.gapi;
 
+function loadGapi()
+{
+	return new Promise((resolve, reject) =>
+	{
+		gapi.load(
+			"auth2",
+			{
+				callback: () => resolve(),
+				onerror: () => reject("Client library load error"),
+				timeout: 5000,
+				ontimeout: () => reject("Client library load error")
+			});
+	});
+}
+
 export default class AccountManager
 {
 	constructor()
@@ -23,62 +38,92 @@ export default class AccountManager
 		this.handlers.push(handler);
 	}
 
-	initialise()
+	async initialise()
 	{
 		this._setLoading();
 
-		return new Promise((resolve, reject) =>
+		try
 		{
-			gapi.load(
-				"auth2",
+			await loadGapi();
+
+			gapi.auth2.init({
+				clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
+				scope: "https://www.googleapis.com/auth/spreadsheets"
+			}).then(
+				() =>
 				{
-					// using async callback locks up the browser for some reason
-					//callback: async () =>
-					//{
-					//	try
-					//	{
-					//		await gapi.auth2.init({
-					//			clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
-					//			scope: "https://www.googleapis.com/auth/spreadsheets"
-					//		});
+					const auth = gapi.auth2.getAuthInstance();
+					auth.isSignedIn.listen(() => this._update());
 
-					//		const auth = gapi.auth2.getAuthInstance();
-					//		auth.isSignedIn.listen(() => this._update());
+					this._update();
+				},
+				error => 
+				{
+					console.log(`Auth init error: ${error}`);
 
-					//		resolve();
-					//	}
-					//	catch (error)
-					//	{
-					//		reject(`Auth init error: ${error}`);
-					//	}
-					//	finally
-					//	{
-					//		this._update();
-					//	}
-					//},
-					callback: () =>
-					{
-						gapi.auth2.init({
-							clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
-							scope: "https://www.googleapis.com/auth/spreadsheets"
-						}).then(
-							() =>
-							{
-								const auth = gapi.auth2.getAuthInstance();
-								auth.isSignedIn.listen(() => this._update());
-
-								resolve();
-							},
-							error => reject(`Auth init error: ${error}`)
-						).then(() => this._update());
-					},
-					onerror: () => reject("Client library load error"),
-					timeout: 5000,
-					ontimeout: () => reject("Client library load error")
+					this._update();
 				});
-		});
-	}
+		}
+		catch (error)
+		{
+			console.log(error);
+		}
+		finally
+		{
+			this._update();
+		}
 
+		//return new Promise((resolve, reject) =>
+		//{
+		//	gapi.load(
+		//		"auth2",
+		//		{
+		//			// using async callback locks up the browser for some reason
+		//			//callback: async () =>
+		//			//{
+		//			//	try
+		//			//	{
+		//			//		await gapi.auth2.init({
+		//			//			clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
+		//			//			scope: "https://www.googleapis.com/auth/spreadsheets"
+		//			//		});
+
+		//			//		const auth = gapi.auth2.getAuthInstance();
+		//			//		auth.isSignedIn.listen(() => this._update());
+
+		//			//		resolve();
+		//			//	}
+		//			//	catch (error)
+		//			//	{
+		//			//		reject(`Auth init error: ${error}`);
+		//			//	}
+		//			//	finally
+		//			//	{
+		//			//		this._update();
+		//			//	}
+		//			//},
+		//			callback: () =>
+		//			{
+		//				gapi.auth2.init({
+		//					clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
+		//					scope: "https://www.googleapis.com/auth/spreadsheets"
+		//				}).then(
+		//					() =>
+		//					{
+		//						const auth = gapi.auth2.getAuthInstance();
+		//						auth.isSignedIn.listen(() => this._update());
+
+		//						resolve();
+		//					},
+		//					error => reject(`Auth init error: ${error}`)
+		//				).then(() => this._update());
+		//			},
+		//			onerror: () => reject("Client library load error"),
+		//			timeout: 5000,
+		//			ontimeout: () => reject("Client library load error")
+		//		});
+		//});
+	}
 
 	async signIn()
 	{
@@ -106,7 +151,7 @@ export default class AccountManager
 
 	_update()
 	{
-		if (!gapi.auth2)
+		if (!gapi || !gapi.auth2)
 		{
 			this.status = this.statuses.notConnected;
 			this.username = "";
