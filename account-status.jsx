@@ -16,8 +16,11 @@ export default class AccountStatus extends React.Component
 
 		this.state = {
 			status: this.accountManager.status,
-			userName: this.accountManager.userName
+			username: this.accountManager.username
 		};
+
+		this.handleSignIn = this.handleSignIn.bind(this);
+		this.handleSignOut = this.handleSignOut.bind(this);
 	}
 
 	handleSignIn()
@@ -35,13 +38,13 @@ export default class AccountStatus extends React.Component
 		switch (this.state.status)
 		{
 		case this.accountManager.statuses.notConnected:
-			return <span>Not connected to internet</span>;
+			return <span>Cannot connect to server</span>;
 		case this.accountManager.statuses.loading:
 			return <span>Loading...</span>;
 		case this.accountManager.statuses.signedOut:
-			return <a onClick={this.handleSignIn}>Sign in</a>;
+			return <a href="javascript:void(0)" onClick={this.handleSignIn}>Sign in</a>;
 		case this.accountManager.statuses.signedIn:
-			return <span>Signed in as: {this.state.userName}<a onClick={this.handleSignOut}>Sign out</a></span>;
+			return <span>Signed in as: {this.state.username}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>;
 		}
 	}
 

@@ -32,27 +32,30 @@ export default class AccountManager
 			gapi.load(
 				"auth2",
 				{
-					// callback: async () =>
-					// {
-					// 	try
-					// 	{
-					// 		await gapi.auth2.init({
-					// 			clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
-					// 			scope: "https://www.googleapis.com/auth/spreadsheets"
-					// 		});
+					// using async callback locks up the browser for some reason
+					//callback: async () =>
+					//{
+					//	try
+					//	{
+					//		await gapi.auth2.init({
+					//			clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
+					//			scope: "https://www.googleapis.com/auth/spreadsheets"
+					//		});
 
-					// 		const auth = gapi.auth2.getAuthInstance();
-					// 		auth.isSignedIn.listen(() => this._update());
+					//		const auth = gapi.auth2.getAuthInstance();
+					//		auth.isSignedIn.listen(() => this._update());
 
-					// 		this.initialised = true;
-					// 		this._update();
-					// 		resolve();
-					// 	}
-					// 	catch (error)
-					// 	{
-					// 		reject(`Auth init error: ${error}`);
-					// 	}
-					// },
+					//		resolve();
+					//	}
+					//	catch (error)
+					//	{
+					//		reject(`Auth init error: ${error}`);
+					//	}
+					//	finally
+					//	{
+					//		this._update();
+					//	}
+					//},
 					callback: () =>
 					{
 						gapi.auth2.init({
@@ -64,11 +67,10 @@ export default class AccountManager
 								const auth = gapi.auth2.getAuthInstance();
 								auth.isSignedIn.listen(() => this._update());
 
-								this.initialised = true;
-								this._update();
 								resolve();
 							},
-							error => reject(`Auth init error: ${error}`));
+							error => reject(`Auth init error: ${error}`)
+						).then(() => this._update());
 					},
 					onerror: () => reject("Client library load error"),
 					timeout: 5000,
@@ -76,6 +78,7 @@ export default class AccountManager
 				});
 		});
 	}
+
 
 	async signIn()
 	{
