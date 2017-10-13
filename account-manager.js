@@ -21,7 +21,7 @@ function initAuth(options)
 		// I don't think this returns a real promise so we have to wrap it
 		gapi.auth2.init(options)
 			.then(
-				resolve,
+				() => resolve(), // if we pass the resolve method directly the page locks up
 				error => reject("Auth init error: " + error)));
 }
 
