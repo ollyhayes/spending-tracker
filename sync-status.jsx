@@ -1,4 +1,5 @@
 import * as React from "react";
+import {statuses} from "./sheet-updater";
 
 export default class SyncStatus extends React.Component
 {
@@ -13,10 +14,10 @@ export default class SyncStatus extends React.Component
 			this.setState({numberOfItemsAwaitingSync: this.spendingManager.expenditures.length}));
 
 		this.sheetUpdater.registerUpdate(status =>
-			this.setState({syncInProgress: status === this.sheetUpdater.statuses.attemptingSync}));
+			this.setState({syncInProgress: status === statuses.attemptingSync}));
 
 		this.state = {
-			syncInProgress: this.sheetUpdater.status === this.sheetUpdater.statuses.attemptingSync,
+			syncInProgress: this.sheetUpdater.status === statuses.attemptingSync,
 			numberOfItemsAwaitingSync: this.spendingManager.expenditures.length
 		};
 	}

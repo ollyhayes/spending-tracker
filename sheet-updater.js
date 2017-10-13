@@ -1,3 +1,10 @@
+export const statuses = {
+	unknown: 0,
+	attemptingSync: 1,
+	noConnection: 2,
+	synced: 3
+};
+
 export default class SheetUpdater
 {
 	constructor(accountManager)
@@ -5,14 +12,7 @@ export default class SheetUpdater
 		this.handlers = [];
 		this.accountManager = accountManager;
 
-		this.statuses = {
-			unknown: 0,
-			attemptingSync: 1,
-			noConnection: 2,
-			synced: 3
-		};
-
-		this.status = this.statuses.idle;
+		this.status = statuses.idle;
 	}
 
 	registerUpdate(handler)
@@ -22,7 +22,7 @@ export default class SheetUpdater
 
 	trySync(expenditures)
 	{
-		this._setStatus(this.statuses.attemptingSync);
+		this._setStatus(statuses.attemptingSync);
 
 		return new Promise(resolve =>
 		{
@@ -34,12 +34,12 @@ export default class SheetUpdater
 					if (window.pass)
 					{
 						resolve(true);
-						this._setStatus(this.statuses.synced);
+						this._setStatus(statuses.synced);
 					}
 					else
 					{
 						resolve(false);
-						this._setStatus(this.statuses.noConnection);
+						this._setStatus(statuses.noConnection);
 					}
 				},
 				2000);

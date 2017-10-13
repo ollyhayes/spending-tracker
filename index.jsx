@@ -5,7 +5,7 @@ import SyncStatus from "./sync-status.jsx";
 import AccountStatus from "./account-status.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
 import SpendingManager from "./spending-manager.js";
-import SheetUpdater from "./sheet-updater.js";
+import {default as SheetUpdater, statuses} from "./sheet-updater.js";
 import AccountManager from "./account-manager.js";
 
 class Content extends React.Component
@@ -23,7 +23,7 @@ class Content extends React.Component
 
 		this.sheetUpdater.registerUpdate(status =>
 		{
-			if (status === this.sheetUpdater.statuses.synced)
+			if (status === statuses.synced)
 				this.spendingManager.clearExpenditures();
 		});
 
