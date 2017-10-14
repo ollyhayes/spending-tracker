@@ -14,12 +14,16 @@ class Content extends React.Component
 	{
 		super();
 
+		// move all this logic into a seperate multi manager, shouldn't be handled in the UI
 		this.spendingManager = new SpendingManager();
 		this.accountManager = new AccountManager();
-		this.sheetUpdater = new SheetUpdater(this.accountManager);
+		this.sheetUpdater = new SheetUpdater();
 
 		this.spendingManager.registerUpdate(() =>
-			this.sheetUpdater.trySync(this.spendingManager.expenditures));
+		{
+			if (this.accountManager.signedIn)
+				this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
+		});
 
 		this.sheetUpdater.registerUpdate(status =>
 		{
@@ -33,7 +37,10 @@ class Content extends React.Component
 	render()
 	{
 		return <div>
-			<SyncStatus spendingManager={this.spendingManager} sheetUpdater={this.sheetUpdater}/>
+			<SyncStatus
+				spendingManager={this.spendingManager}
+				sheetUpdater={this.sheetUpdater}
+				accountManager={this.accountManager}/>
 			<InputForm spendingManager={this.spendingManager}/>
 			<AccountStatus accountManager={this.accountManager}/>
 		</div>;

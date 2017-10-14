@@ -7,10 +7,9 @@ export const statuses = {
 
 export default class SheetUpdater
 {
-	constructor(accountManager)
+	constructor()
 	{
 		this.handlers = [];
-		this.accountManager = accountManager;
 
 		this.status = statuses.idle;
 	}
@@ -20,14 +19,12 @@ export default class SheetUpdater
 		this.handlers.push(handler);
 	}
 
-	trySync(expenditures)
+	trySync(expenditures, accessToken)
 	{
 		this._setStatus(statuses.attemptingSync);
 
 		return new Promise(resolve =>
 		{
-			const accessToken = this.accountManager.accessToken;
-
 			setTimeout(
 				() =>
 				{
