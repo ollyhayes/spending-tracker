@@ -1,4 +1,4 @@
-export const statuses = {
+export const status = {
 	unknown: 0,
 	attemptingSync: 1,
 	noConnection: 2,
@@ -11,7 +11,7 @@ export default class SheetUpdater
 	{
 		this.handlers = [];
 
-		this.status = statuses.unknown;
+		this.status = status.unknown;
 	}
 
 	registerUpdate(handler)
@@ -21,7 +21,7 @@ export default class SheetUpdater
 
 	trySync(expenditures, accessToken)
 	{
-		this._setStatus(statuses.attemptingSync);
+		this._setStatus(status.attemptingSync);
 
 		return new Promise(resolve =>
 		{
@@ -31,12 +31,12 @@ export default class SheetUpdater
 					if (window.pass)
 					{
 						resolve(true);
-						this._setStatus(statuses.synced);
+						this._setStatus(status.synced);
 					}
 					else
 					{
 						resolve(false);
-						this._setStatus(statuses.noConnection);
+						this._setStatus(status.noConnection);
 					}
 				},
 				2000);

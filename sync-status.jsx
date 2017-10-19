@@ -1,6 +1,6 @@
 import * as React from "react";
-import {statuses as sheetsStatuses} from "./sheet-updater";
-import {statuses as accountStatuses} from "./account-manager";
+import {status as sheetsstatus} from "./sheet-updater";
+import {status as accountstatus} from "./account-manager";
 
 export default class SyncStatus extends React.Component
 {
@@ -38,10 +38,10 @@ export default class SyncStatus extends React.Component
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
 
-		if (this.state.accountStatus == accountStatuses.loading || this.state.sheetsUpdaterStatus == sheetsStatuses.attemptingSync)
+		if (this.state.accountStatus == accountstatus.loading || this.state.sheetsUpdaterStatus == sheetsstatus.attemptingSync)
 			return <span>Loading...</span>;
 
-		if (this.state.accountStatus == accountStatuses.signedOut)
+		if (this.state.accountStatus == accountstatus.signedOut)
 			return <span>Sign in to continue...</span>; // make link
 
 		if (this.state.numberOfItemsAwatingSync == 0)

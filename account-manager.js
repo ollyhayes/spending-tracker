@@ -25,7 +25,7 @@ function initAuth(options)
 				error => reject("Auth init error: " + error)));
 }
 
-export const statuses = {
+export const status = {
 	notConnected: 0,
 	loading: 1,
 	signedOut: 2,
@@ -38,7 +38,7 @@ export default class AccountManager
 	{
 		this.handlers = [];
 
-		this.status = statuses.notConnected;
+		this.status = status.notConnected;
 		this.userName = "";
 		this.accessToken = "";
 	}
@@ -91,7 +91,7 @@ export default class AccountManager
 
 	_setLoading()
 	{
-		this.status = statuses.loading;
+		this.status = status.loading;
 		this.handlers.forEach(handler => handler());
 	}
 
@@ -99,19 +99,19 @@ export default class AccountManager
 	{
 		if (!gapi || !gapi.auth2)
 		{
-			this.status = statuses.notConnected;
+			this.status = status.notConnected;
 			this.username = "";
 			this.accessToken = "";
 		}
 		else if (!gapi.auth2.getAuthInstance().isSignedIn.get())
 		{
-			this.status = statuses.signedOut;
+			this.status = status.signedOut;
 			this.username = "";
 			this.accessToken = "";
 		}
 		else
 		{
-			this.status = statuses.signedIn;
+			this.status = status.signedIn;
 			const user = gapi.auth2.getAuthInstance().currentUser.get();
 			this.username = user.getBasicProfile().getName();
 			this.accessToken = user.getAuthResponse().access_token;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {statuses} from "./account-manager";
+import {status} from "./account-manager";
 
 export default class AccountStatus extends React.Component
 {
@@ -38,13 +38,13 @@ export default class AccountStatus extends React.Component
 	{
 		switch (this.state.status)
 		{
-		case statuses.notConnected:
+		case status.notConnected:
 			return <span>Cannot connect to server</span>;
-		case statuses.loading:
+		case status.loading:
 			return <span>Loading...</span>;
-		case statuses.signedOut:
+		case status.signedOut:
 			return <a href="javascript:void(0)" onClick={this.handleSignIn}>Sign in</a>;
-		case statuses.signedIn:
+		case status.signedIn:
 			return <span>Signed in as: {this.state.username}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>;
 		}
 	}
