@@ -19,12 +19,6 @@ const queryString = "responseValueRenderOption=FORMATTED_VALUE" +
 	"&alt=json" + 
 	`&key=${apiKey}`;
 
-const body = {
-	values: [
-		[ "date-test", "amount-test" ]
-	]
-};
-
 export default class SheetUpdater
 {
 	constructor()
@@ -51,8 +45,7 @@ export default class SheetUpdater
 			request.setRequestHeader("Content-type", "application/json");
 			request.setRequestHeader("Authorization", `Bearer ${accessToken}`);
 
-			const json = JSON.stringify(body);
-			request.send(json);
+			request.send(this._getJsonBody(expenditures));
 
 			request.onreadystatechange = () =>
 			{
@@ -71,6 +64,22 @@ export default class SheetUpdater
 				}
 			};
 		});
+	}
+
+	_getJsonBody(expenditures)
+	{
+		const body = {
+			values: expenditures.map(expenditure => [
+				expenditure.date.toString(), // use moment here to format as dd/MM/yy
+				"12:00:00",
+				"Kuala Lumpur",
+				expenditure.category,
+				expenditure.description,
+				expenditure.amount
+			])
+		};
+
+		return JSON.stringify(body);
 	}
 
 	_setStatus(status)
