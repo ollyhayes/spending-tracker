@@ -1,6 +1,6 @@
 import * as React from "react";
-import {sheetStatuses} from "./sheet-updater";
-import {accountStatuses} from "./sheet-updater";
+import {statuses as sheetsStatuses} from "./sheet-updater";
+import {statuses as accountStatuses} from "./account-manager";
 
 export default class SyncStatus extends React.Component
 {
@@ -18,31 +18,34 @@ export default class SyncStatus extends React.Component
 		this.sheetUpdater.registerUpdate(status =>
 			this.setState({syncStatus: status}));
 
+		this.accountManager.registerUpdate(() =>
+			this.setState({accountStatus: this.accountManager.status}));
+
 		this.state = {
 			accountStatus: this.accountManager.status,
-			syncStatus: this.syncStatus.status,
+			sheetsUpdaterStatus: this.sheetUpdater.status,
 			numberOfItemsAwaitingSync: this.spendingManager.expenditures.length
 		};
 	}
 
-	handleSync()
-	{
-		this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
-	}
+	//handleSync()
+	//{
+	//	this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
+	//}
 
 	_getStatus()
 	{
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
 
-		if (accountStatus == loading || syncStatus == loading)
+		if (this.state.accountStatus == accountStatuses.loading || this.state.sheetsUpdaterStatus == sheetsStatuses.attemptingSync)
 			return <span>Loading...</span>;
 
-		if (accountStatus == signedOut)
+		if (this.state.accountStatus == accountStatuses.signedOut)
 			return <span>Sign in to continue...</span>; // make link
 
-		if (numberOfIems == 0)
-			return <span>Synced with server</span>
+		if (this.state.numberOfItemsAwatingSync == 0)
+			return <span>Synced with server</span>;
 
 		return <span>{this.state.numberOfItemsAwaitingSync} items awaiting sync...</span>; // make link
 	}
@@ -50,16 +53,14 @@ export default class SyncStatus extends React.Component
 	render()
 	{
 		return <div className="sync-status">
-			{
-				this._getStatus()
-			}
+			{ this._getStatus() }
 		</div>;
 	}
 }
 
-todo:
-	fix up psuedo code above
-	simplify account status
+//todo:
+//	fix up psuedo code above
+//	simplify account status
 
 
 //no internet

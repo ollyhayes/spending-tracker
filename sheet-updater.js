@@ -11,7 +11,7 @@ export default class SheetUpdater
 	{
 		this.handlers = [];
 
-		this.status = statuses.idle;
+		this.status = statuses.unknown;
 	}
 
 	registerUpdate(handler)
