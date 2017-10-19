@@ -16,7 +16,7 @@ export default class SyncStatus extends React.Component
 			this.setState({numberOfItemsAwaitingSync: this.spendingManager.expenditures.length}));
 
 		this.sheetUpdater.registerUpdate(status =>
-			this.setState({syncStatus: status}));
+			this.setState({sheetsUpdaterStatus: status}));
 
 		this.accountManager.registerUpdate(() =>
 			this.setState({accountStatus: this.accountManager.status}));
@@ -33,10 +33,10 @@ export default class SyncStatus extends React.Component
 
 	async handleSync()
 	{
-		if (this.state.accountStatus == accountStatus.notConnected)
+		if (this.state.accountStatus === accountStatus.notConnected)
 			await this.accountManager.initialise();
 
-		if (this.state.accountStatus == accountStatus.signedIn)
+		if (this.state.accountStatus === accountStatus.signedIn)
 			this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
 	}
 
@@ -50,13 +50,13 @@ export default class SyncStatus extends React.Component
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
 
-		if (this.state.accountStatus == accountStatus.loading || this.state.sheetsUpdaterStatus == sheetsstatus.attemptingSync)
+		if (this.state.accountStatus === accountStatus.loading || this.state.sheetsUpdaterStatus === sheetsstatus.attemptingSync)
 			return <span>Loading...</span>;
 
-		if (this.state.accountStatus == accountStatus.signedOut)
+		if (this.state.accountStatus === accountStatus.signedOut)
 			return <a href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
 
-		if (this.state.numberOfItemsAwatingSync == 0)
+		if (this.state.numberOfItemsAwaitingSync === 0)
 			return <span className="sync">Synced with server</span>;
 
 		return <a className="no-sync" href="javascript:void(0)" onClick={this.handleSync}>{this.state.numberOfItemsAwaitingSync} items awaiting sync...</a>;

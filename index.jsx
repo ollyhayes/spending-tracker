@@ -6,7 +6,7 @@ import AccountStatus from "./account-status.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
 import SpendingManager from "./spending-manager.js";
 import {default as SheetUpdater, status as syncStatus} from "./sheet-updater.js";
-import AccountManager from "./account-manager.js";
+import {default as AccountManager, status as accountStatus} from "./account-manager.js";
 
 class Content extends React.Component
 {
@@ -21,7 +21,7 @@ class Content extends React.Component
 
 		this.spendingManager.registerUpdate(() =>
 		{
-			if (this.accountManager.signedIn)
+			if (this.spendingManager.expenditures.length > 0 && this.accountManager.status === accountStatus.signedIn)
 				this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
 		});
 

@@ -3,6 +3,8 @@ todo:
 	simplify account status
 	add temporary message
 	allow updating
+	create multimanager and get crap out of index
+	switch to using mobx
 
 
 no internet

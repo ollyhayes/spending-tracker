@@ -30,7 +30,7 @@ export default class AccountStatus extends React.Component
 
 	render()
 	{
-		return this.state.status == status.signedIn
+		return this.state.status === status.signedIn
 			? <div className="account-status">
 				<span>Signed in as: {this.state.username}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>
 			</div>
