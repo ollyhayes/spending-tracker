@@ -1,6 +1,6 @@
 import * as React from "react";
 import {status as sheetsstatus} from "./sheet-updater";
-import {status as accountstatus} from "./account-manager";
+import {status as accountStatus} from "./account-manager";
 
 export default class SyncStatus extends React.Component
 {
@@ -26,28 +26,40 @@ export default class SyncStatus extends React.Component
 			sheetsUpdaterStatus: this.sheetUpdater.status,
 			numberOfItemsAwaitingSync: this.spendingManager.expenditures.length
 		};
+
+		this.handleSync = this.handleSync.bind(this);
+		this.handleSignIn = this.handleSignIn.bind(this);
 	}
 
-	//handleSync()
-	//{
-	//	this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
-	//}
+	async handleSync()
+	{
+		if (this.state.accountStatus == accountStatus.notConnected)
+			await this.accountManager.initialise();
+
+		if (this.state.accountStatus == accountStatus.signedIn)
+			this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
+	}
+
+	async handleSignIn()
+	{
+		this.accountManager.signIn();
+	}
 
 	_getStatus()
 	{
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
 
-		if (this.state.accountStatus == accountstatus.loading || this.state.sheetsUpdaterStatus == sheetsstatus.attemptingSync)
+		if (this.state.accountStatus == accountStatus.loading || this.state.sheetsUpdaterStatus == sheetsstatus.attemptingSync)
 			return <span>Loading...</span>;
 
-		if (this.state.accountStatus == accountstatus.signedOut)
-			return <span>Sign in to continue...</span>; // make link
+		if (this.state.accountStatus == accountStatus.signedOut)
+			return <a href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
 
 		if (this.state.numberOfItemsAwatingSync == 0)
-			return <span>Synced with server</span>;
+			return <span className="sync">Synced with server</span>;
 
-		return <span>{this.state.numberOfItemsAwaitingSync} items awaiting sync...</span>; // make link
+		return <a className="no-sync" href="javascript:void(0)" onClick={this.handleSync}>{this.state.numberOfItemsAwaitingSync} items awaiting sync...</a>;
 	}
 
 	render()

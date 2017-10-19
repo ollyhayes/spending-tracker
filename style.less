@@ -66,9 +66,22 @@ body > div
 	.sync-status
 	{
 		text-align: right;
-		color: red;
 		padding: 10px;
-		text-decoration: underline;
+
+		a,span
+		{
+			color: #FF7E00; // amber
+
+			&.sync
+			{
+				color: green;
+			}
+
+			&.no-sync
+			{
+				color: red;
+			}
+		}
 	}
 
 	.input-form
