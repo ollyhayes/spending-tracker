@@ -1,38 +1,40 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import {status} from "./account-manager";
 
+@observer
 export default class AccountStatus extends React.Component
 {
 	constructor(props)
 	{
 		super(props);
 
-		this.accountManager = props.accountManager;
+		this.manager = props.manager;
 
-		this.accountManager.registerUpdate(() =>
-			this.setState({
-				status: this.accountManager.status,
-				username: this.accountManager.username
-			}));
+		// this.manager.registerAccountUpdate(() =>
+		// 	this.setState({
+		// 		status: this.accountManager.status,
+		// 		username: this.accountManager.username
+		// 	}));
 
-		this.state = {
-			status: this.accountManager.status,
-			username: this.accountManager.username
-		};
+		// this.state = {
+		// 	status: this.manager.status,
+		// 	username: this.manager.username
+		// };
 
 		this.handleSignOut = this.handleSignOut.bind(this);
 	}
 
 	handleSignOut()
 	{
-		this.accountManager.signOut();
+		this.manager.accountManager.signOut();
 	}
 
 	render()
 	{
-		return this.state.status === status.signedIn
+		return this.manager.accountManager.status === status.signedIn
 			? <div className="account-status">
-				<span>Signed in as: {this.state.username}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>
+				<span>Signed in as: {this.manager.accountManager.username}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>
 			</div>
 			: null;
 	}

@@ -1,3 +1,5 @@
+import {observable} from "mobx";
+
 const gapi = window.gapi;
 
 function loadGapi()
@@ -34,19 +36,9 @@ export const status = {
 
 export default class AccountManager
 {
-	constructor()
-	{
-		this.handlers = [];
-
-		this.status = status.notConnected;
-		this.userName = "";
-		this.accessToken = "";
-	}
-
-	registerUpdate(handler)
-	{
-		this.handlers.push(handler);
-	}
+	@observable status = status.notConnected;
+	@observable userName = "";
+	@observable accessToken = "";
 
 	async initialise()
 	{
@@ -92,7 +84,6 @@ export default class AccountManager
 	_setLoading()
 	{
 		this.status = status.loading;
-		this.handlers.forEach(handler => handler());
 	}
 
 	_update()
@@ -116,7 +107,5 @@ export default class AccountManager
 			this.username = user.getBasicProfile().getName();
 			this.accessToken = user.getAuthResponse().access_token;
 		}
-
-		this.handlers.forEach(handler => handler());
 	}
 }

@@ -1,30 +1,29 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import {status as sheetsstatus} from "./sheet-updater";
 import {status as accountStatus} from "./account-manager";
 
+@observer
 export default class SyncStatus extends React.Component
 {
 	constructor(props)
 	{
 		super(props);
 
-		this.spendingManager = props.spendingManager;
-		this.sheetUpdater = props.sheetUpdater;
-		this.accountManager = props.accountManager;
+		this.manager = props.manager;
 
-		this.spendingManager.registerUpdate(() =>
+		this.manager.spendingManager.registerUpdate(() =>
 			this.setState({numberOfItemsAwaitingSync: this.spendingManager.expenditures.length}));
 
-		this.sheetUpdater.registerUpdate(status =>
+		this.manager.sheetUpdater.registerUpdate(status =>
 			this.setState({sheetsUpdaterStatus: status}));
 
-		this.accountManager.registerUpdate(() =>
-			this.setState({accountStatus: this.accountManager.status}));
+		// this.manager.accountManager.registerUpdate(() =>
+		// 	this.setState({accountStatus: this.accountManager.status}));
 
 		this.state = {
-			accountStatus: this.accountManager.status,
-			sheetsUpdaterStatus: this.sheetUpdater.status,
-			numberOfItemsAwaitingSync: this.spendingManager.expenditures.length
+			sheetsUpdaterStatus: this.manager.sheetUpdater.status,
+			numberOfItemsAwaitingSync: this.manager.spendingManager.expenditures.length
 		};
 
 		this.handleSync = this.handleSync.bind(this);
@@ -33,16 +32,16 @@ export default class SyncStatus extends React.Component
 
 	async handleSync()
 	{
-		if (this.state.accountStatus === accountStatus.notConnected)
+		if (this.manager.accountManager.status === accountStatus.notConnected)
 			await this.accountManager.initialise();
 
-		if (this.state.accountStatus === accountStatus.signedIn)
+		if (this.manager.accountManager.status === accountStatus.signedIn)
 			this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
 	}
 
 	async handleSignIn()
 	{
-		this.accountManager.signIn();
+		this.manager.accountManager.signIn();
 	}
 
 	_getStatus()
@@ -50,10 +49,10 @@ export default class SyncStatus extends React.Component
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
 
-		if (this.state.accountStatus === accountStatus.loading || this.state.sheetsUpdaterStatus === sheetsstatus.attemptingSync)
+		if (this.manager.accountManager.status === accountStatus.loading || this.state.sheetsUpdaterStatus === sheetsstatus.attemptingSync)
 			return <span>Loading...</span>;
 
-		if (this.state.accountStatus === accountStatus.signedOut)
+		if (this.manager.accountManager.status === accountStatus.signedOut)
 			return <a href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
 
 		if (this.state.numberOfItemsAwaitingSync === 0)
