@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const status = {
 	unknown: 0,
 	attemptingSync: 1,
@@ -7,7 +9,7 @@ export const status = {
 
 const spreadsheetId = "1_WgnEfEjsM0EvyDkOq9U1iGbmcno4tGWZZUWyp8975w";
 const range = "A1";
-const apiKey = "AIzaSyBlVXClFKOd0SxDFMBmgZYcOZJdM0LUW0I"
+const apiKey = "AIzaSyBlVXClFKOd0SxDFMBmgZYcOZJdM0LUW0I";
 
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`;
 
@@ -68,11 +70,13 @@ export default class SheetUpdater
 
 	_getJsonBody(expenditures)
 	{
+		const date = moment(expenditures.date);
+
 		const body = {
 			values: expenditures.map(expenditure => [
-				expenditure.date.toString(), // use moment here to format as dd/MM/yy
-				"12:00:00",
-				"Kuala Lumpur",
+				date.format("DD/MM/YYYY"),
+				date.format("HH:mm:ss"),
+				"",
 				expenditure.category,
 				expenditure.description,
 				expenditure.amount

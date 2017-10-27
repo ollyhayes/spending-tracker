@@ -1,6 +1,6 @@
 todo:
-	fix up psuedo code above
-	simplify account status
+		fix up psuedo code above
+		simplify account status
 	add temporary message
 	allow updating
 	create multimanager and get crap out of index
