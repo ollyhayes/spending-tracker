@@ -1,7 +1,6 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {status as sheetsstatus} from "./sheet-updater";
-import {status as accountStatus} from "./account-manager";
+import {accountStatus, syncStatus} from "./manager";
 
 @observer
 export default class SyncStatus extends React.Component
@@ -18,10 +17,10 @@ export default class SyncStatus extends React.Component
 
 	async handleSync()
 	{
-		if (this.manager.accountManager.status === accountStatus.notConnected)
+		if (this.manager.accountStatus === accountStatus.notConnected)
 			await this.manager.accountManager.initialise();
 
-		if (this.manager.accountManager.status === accountStatus.signedIn)
+		if (this.manager.accountStatus === accountStatus.signedIn)
 			this.manager.sheetUpdater.trySync(this.manager.spendingManager.expenditures, this.manager.accountManager.accessToken);
 	}
 
@@ -35,17 +34,17 @@ export default class SyncStatus extends React.Component
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
 
-		if (this.manager.accountManager.status === accountStatus.loading
-			|| this.manager.sheetUpdater.status === sheetsstatus.attemptingSync)
+		if (this.manager.accountStatus === accountStatus.loading
+			|| this.manager.syncStatus === syncStatus.attemptingSync)
 			return <span>Loading...</span>;
 
-		if (this.manager.accountManager.status === accountStatus.signedOut)
+		if (this.manager.accountStatus === accountStatus.signedOut)
 			return <a href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
 
-		if (this.manager.spendingManager.expenditures.length === 0)
+		if (this.manager.numberOfItemsAwaitingSync === 0)
 			return <span className="sync">Synced with server</span>;
 
-		return <a className="no-sync" href="javascript:void(0)" onClick={this.handleSync}>{this.manager.spendingManager.expenditures.length} items awaiting sync...</a>;
+		return <a className="no-sync" href="javascript:void(0)" onClick={this.handleSync}>{this.manager.numberOfItemsAwaitingSync} items awaiting sync...</a>;
 	}
 
 	render()

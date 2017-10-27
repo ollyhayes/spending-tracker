@@ -1,6 +1,9 @@
+import {observable, computed} from "mobx";
 import SpendingManager from "./spending-manager.js";
 import {default as SheetUpdater, status as syncStatus} from "./sheet-updater.js";
 import {default as AccountManager, status as accountStatus} from "./account-manager.js";
+
+export {accountStatus, syncStatus};
 
 export default class Manager
 {
@@ -37,7 +40,17 @@ export default class Manager
 		// });
 
 		this.accountManager.initialise();
+
+		window.accountManager = this.accountManager;
+		window.sheetUpdater = this.sheetUpdater;
 	}
+
+	@computed get accountStatus() { return this.accountManager.status; }
+	@computed get accountUsername() { return this.accountManager.username; }
+
+	@computed get syncStatus() { return this.sheetUpdater.status; }
+
+	@computed get numberOfItemsAwaitingSync() { return this.spendingManager.expenditures.length; }
 
 	// signIn()
 	// {

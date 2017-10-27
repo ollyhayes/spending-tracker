@@ -1,6 +1,6 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {status} from "./account-manager";
+import {accountStatus} from "./manager";
 
 @observer
 export default class AccountStatus extends React.Component
@@ -21,9 +21,9 @@ export default class AccountStatus extends React.Component
 
 	render()
 	{
-		return this.manager.accountManager.status === status.signedIn
+		return this.manager.accountStatus === accountStatus.signedIn
 			? <div className="account-status">
-				<span>Signed in as: {this.manager.accountManager.username}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>
+				<span>Signed in as: {this.manager.accountUsername}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>
 			</div>
 			: null;
 	}
