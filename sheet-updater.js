@@ -1,4 +1,5 @@
 import moment from "moment";
+import {observable} from "mobx";
 
 export const status = {
 	unknown: 0,
@@ -23,21 +24,11 @@ const queryString = "responseValueRenderOption=FORMATTED_VALUE" +
 
 export default class SheetUpdater
 {
-	constructor()
-	{
-		this.handlers = [];
-
-		this.status = status.unknown;
-	}
-
-	registerUpdate(handler)
-	{
-		this.handlers.push(handler);
-	}
+	@observable status = status.unknown;
 
 	trySync(expenditures, accessToken)
 	{
-		this._setStatus(status.attemptingSync);
+		this.status = status.attemptingSync;
 
 		return new Promise(resolve =>
 		{
@@ -56,12 +47,12 @@ export default class SheetUpdater
 
 				if (request.status === 200)
 				{
-					this._setStatus(status.synced);
+					this.status = status.synced;
 					resolve(true);
 				}
 				else
 				{
-					this._setStatus(status.noConnection);
+					this.status = status.noConnection;
 					resolve(false);
 				}
 			};
@@ -84,12 +75,5 @@ export default class SheetUpdater
 		};
 
 		return JSON.stringify(body);
-	}
-
-	_setStatus(status)
-	{
-		this.status = status;
-
-		this.handlers.forEach(handler => handler(status));
 	}
 }

@@ -13,28 +13,28 @@ export default class Manager
 
 		let syncQueued = false;
 
-		this.spendingManager.registerUpdate(() =>
-		{
-			if (this.spendingManager.expenditures.length === 0 || this.accountManager.status !== accountStatus.signedIn)
-				return;
+		// this.spendingManager.registerUpdate(() =>
+		// {
+		// 	if (this.spendingManager.expenditures.length === 0 || this.accountManager.status !== accountStatus.signedIn)
+		// 		return;
 
-			if (this.sheetUpdater.status === syncStatus.attemptingSync)
-				syncQueued = true;
-			else
-				this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
-		});
+		// 	if (this.sheetUpdater.status === syncStatus.attemptingSync)
+		// 		syncQueued = true;
+		// 	else
+		// 		this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
+		// });
 
-		this.sheetUpdater.registerUpdate(status =>
-		{
-			if (status === syncStatus.synced)
-				this.spendingManager.clearExpenditures(); // if more synces were made this could remove old ones
+		// this.sheetUpdater.registerUpdate(status =>
+		// {
+		// 	if (status === syncStatus.synced)
+		// 		this.spendingManager.clearExpenditures(); // if more synces were made this could remove old ones
 
-			if (syncQueued)
-			{
-				syncQueued = false;
-				this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
-			}
-		});
+		// 	if (syncQueued)
+		// 	{
+		// 		syncQueued = false;
+		// 		this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
+		// 	}
+		// });
 
 		this.accountManager.initialise();
 	}

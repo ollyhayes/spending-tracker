@@ -11,17 +11,6 @@ export default class AccountStatus extends React.Component
 
 		this.manager = props.manager;
 
-		// this.manager.registerAccountUpdate(() =>
-		// 	this.setState({
-		// 		status: this.accountManager.status,
-		// 		username: this.accountManager.username
-		// 	}));
-
-		// this.state = {
-		// 	status: this.manager.status,
-		// 	username: this.manager.username
-		// };
-
 		this.handleSignOut = this.handleSignOut.bind(this);
 	}
 

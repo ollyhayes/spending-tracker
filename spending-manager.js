@@ -1,10 +1,13 @@
+import {observable} from "mobx";
+
 export default class SpendingManager
 {
+	@observable
+	expenditures = [];
+
 	constructor()
 	{
 		const expendituresJson = localStorage.getItem("expenditures");
-
-		this.handlers = [];
 
 		this.expenditures = expendituresJson
 			? JSON.parse(expendituresJson)
@@ -12,11 +15,6 @@ export default class SpendingManager
 
 		// urgh, there must be a better way, but no internet at the moment
 		this.expenditures.forEach(expenditure => expenditure.date = new Date(expenditure.date));
-	}
-
-	registerUpdate(handler)
-	{
-		this.handlers.push(handler);
 	}
 
 	addExpenditure(date, category, amount, description)
@@ -40,6 +38,5 @@ export default class SpendingManager
 	_save()
 	{
 		localStorage.setItem("expenditures", JSON.stringify(this.expenditures));
-		this.handlers.forEach(handler => handler());
 	}
 }

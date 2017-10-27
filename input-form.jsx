@@ -6,7 +6,7 @@ export default class InputForm extends React.Component
 	{
 		super(props);
 
-		this.spendingManager = props.spendingManager;
+		this.manager = props.manager;
 
 		this.state = {
 			description: "",
@@ -63,7 +63,7 @@ export default class InputForm extends React.Component
 		event.preventDefault();
 		console.log(`Submitting: category - ${this.state.category}, description - ${this.state.description}, amount - ${this.state.amount}`);
 
-		this.spendingManager.addExpenditure(
+		this.manager.spendingManager.addExpenditure(
 			new Date(),
 			this.state.category,
 			this.state.amount,

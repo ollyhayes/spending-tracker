@@ -37,12 +37,12 @@ export const status = {
 export default class AccountManager
 {
 	@observable status = status.notConnected;
-	@observable userName = "";
+	@observable username = "";
 	@observable accessToken = "";
 
 	async initialise()
 	{
-		this._setLoading();
+		this.status = status.loading;
 
 		try
 		{
@@ -59,34 +59,29 @@ export default class AccountManager
 		}
 		finally
 		{
-			this._update();
+			this._updateStatus();
 		}
 	}
 
 	async signIn()
 	{
-		this._setLoading();
+		this.status = status.loading;
 
 		await gapi.auth2.getAuthInstance().signIn();
 
-		this._update();
+		this._updateStatus();
 	}
 
 	async signOut()
 	{
-		this._setLoading();
+		this.status = status.loading;
 
 		await gapi.auth2.getAuthInstance().signOut();
 
-		this._update();
+		this._updateStatus();
 	}
 
-	_setLoading()
-	{
-		this.status = status.loading;
-	}
-
-	_update()
+	_updateStatus()
 	{
 		if (!gapi || !gapi.auth2)
 		{
