@@ -1,51 +1,64 @@
 todo:
 		fix up psuedo code above
 		simplify account status
+	fix mutligle submissions
+	defocus on submit
+	numbers in currenty box
 	add temporary message
-	allow updating
+		allow updating spreadsheet
 	create multimanager and get crap out of index
 	switch to using mobx
 
+option 1
+	update - sync reqest
+	another update - queue sync until previous finished
+	once finished, make another sync
 
-no internet
-	accountManager.notConnected
-	7 items awaiting sync
-	click attempts init
+options 2
+	update - sync request - remove expenditure from list
+	another update - sync request - remove expenediture from list
+	if failed, re-add to expenditure list
 
-attempting init
-	accountManager.loading || sheetUpdater.attempingSync
-	sync status - loading -> status message: Cannot connect to server. -> 7 items awaiting sync
-
-display message
-	handle this stuff in the registerUpdate handler and have an overrige in the render body
-	accountManager.loading -> accountManager.notConnected
-	sheetUpdater.attemptingSync -> noConnection
-	sheetUpdater.attemptingSync -> synced
-
-no auth
-	accountManager.signedOut
-	sync status - sign to continue (link)
-
-authed/synced
-	else
-		sync status -> sync successful -> Synced with server
-
-
-
-	old:
-
-no internet
-	sync status - 7 items awaiting sync - click attempts init
-	account status - Nothing unless signed in
+old:
+	no internet
+		accountManager.notConnected
+		7 items awaiting sync
+		click attempts init
 
 	attempting init
-	sync status - loading -> status message: Cannot connect to server. -> 7 items awaiting sync
-	account status - Nothing unless signed in
+		accountManager.loading || sheetUpdater.attempingSync
+		sync status - loading -> status message: Cannot connect to server. -> 7 items awaiting sync
+
+	display message
+		handle this stuff in the registerUpdate handler and have an overrige in the render body
+		accountManager.loading -> accountManager.notConnected
+		sheetUpdater.attemptingSync -> noConnection
+		sheetUpdater.attemptingSync -> synced
 
 	no auth
-	sync status - sign to continue (link)
-	account status - Nothing unless signed in
+		accountManager.signedOut
+		sync status - sign to continue (link)
 
 	authed/synced
-	sync status -> sync successful -> Synced with server
-	account status - Signed in as: Olly Hayes    Sign Out
+		else
+			sync status -> sync successful -> Synced with server
+
+
+
+		old:
+
+	no internet
+		sync status - 7 items awaiting sync - click attempts init
+		account status - Nothing unless signed in
+
+		attempting init
+		sync status - loading -> status message: Cannot connect to server. -> 7 items awaiting sync
+		account status - Nothing unless signed in
+
+		no auth
+		sync status - sign to continue (link)
+		account status - Nothing unless signed in
+
+		authed/synced
+		sync status -> sync successful -> Synced with server
+		account status - Signed in as: Olly Hayes    Sign Out
