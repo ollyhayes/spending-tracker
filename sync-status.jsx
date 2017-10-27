@@ -15,18 +15,14 @@ export default class SyncStatus extends React.Component
 		this.handleSignIn = this.handleSignIn.bind(this);
 	}
 
-	async handleSync()
+	handleSync()
 	{
-		if (this.manager.accountStatus === accountStatus.notConnected)
-			await this.manager.accountManager.initialise();
-
-		if (this.manager.accountStatus === accountStatus.signedIn)
-			this.manager.sheetUpdater.trySync(this.manager.spendingManager.expenditures, this.manager.accountManager.accessToken);
+		this.manager.sync();
 	}
 
-	async handleSignIn()
+	handleSignIn()
 	{
-		this.manager.accountManager.signIn();
+		this.manager.signIn();
 	}
 
 	_getStatus()

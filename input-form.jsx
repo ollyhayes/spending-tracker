@@ -63,7 +63,7 @@ export default class InputForm extends React.Component
 		event.preventDefault();
 		console.log(`Submitting: category - ${this.state.category}, description - ${this.state.description}, amount - ${this.state.amount}`);
 
-		this.manager.spendingManager.addExpenditure(
+		this.manager.addExpenditure(
 			new Date(),
 			this.state.category,
 			this.state.amount,

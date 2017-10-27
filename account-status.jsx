@@ -16,7 +16,7 @@ export default class AccountStatus extends React.Component
 
 	handleSignOut()
 	{
-		this.manager.accountManager.signOut();
+		this.manager.signOut();
 	}
 
 	render()

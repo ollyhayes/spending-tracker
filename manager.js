@@ -52,19 +52,27 @@ export default class Manager
 
 	@computed get numberOfItemsAwaitingSync() { return this.spendingManager.expenditures.length; }
 
-	// signIn()
-	// {
-	// 	this.accountManager.signIn();
-	// }
+	signIn()
+	{
+		this.accountManager.signIn();
+	}
 
-	// signOut()
-	// {
-	// 	this.accountManager.signOut();
-	// }
+	signOut()
+	{
+		this.accountManager.signOut();
+	}
 
-	// registerAccountUpdate(handler)
-	// {
-	// 	this.accountManager.registerUpdate(handler);
-	// }
+	addExpenditure(date, category, amount, description)
+	{
+		this.spendingManager.addExpenditure(date, category, amount, description);
+	}
 
+	async sync()
+	{
+		if (this.accountStatus === accountStatus.notConnected)
+			await this.accountManager.initialise();
+
+		if (this.accountStatus === accountStatus.signedIn)
+			this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
+	}
 }
