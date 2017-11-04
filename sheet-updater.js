@@ -61,17 +61,20 @@ export default class SheetUpdater
 
 	_getJsonBody(expenditures)
 	{
-		const date = moment(expenditures.date);
-
 		const body = {
-			values: expenditures.map(expenditure => [
-				date.format("DD/MM/YYYY"),
-				date.format("HH:mm:ss"),
-				"",
-				expenditure.category,
-				expenditure.description,
-				expenditure.amount
-			])
+			values: expenditures.map(expenditure =>
+			{
+				const date = moment(expenditure.date);
+
+				return [
+					date.format("DD/MM/YYYY"),
+					date.format("HH:mm:ss"),
+					"",
+					expenditure.category,
+					expenditure.description,
+					expenditure.amount
+				];
+			})
 		};
 
 		return JSON.stringify(body);
