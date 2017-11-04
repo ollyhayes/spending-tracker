@@ -10,9 +10,9 @@ function loadGapi()
 			"auth2",
 			{
 				callback: resolve,
-				onerror: () => reject("Client library load error"),
+				onerror: error => reject("Client library load error: ", error),
 				timeout: 5000,
-				ontimeout: () => reject("Client library load error")
+				ontimeout: () => reject("Client library load error - timed out after 5 seconds")
 			});
 	});
 }
