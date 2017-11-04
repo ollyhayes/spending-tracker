@@ -11,7 +11,7 @@ function loadGapi()
 			{
 				callback: resolve,
 				onerror: error => reject("Client library load error: ", error),
-				timeout: 5000,
+				timeout: 30000,
 				ontimeout: () => reject("Client library load error - timed out after 5 seconds")
 			});
 	});

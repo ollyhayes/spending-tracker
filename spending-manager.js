@@ -1,4 +1,4 @@
-import {observable} from "mobx";
+import {observable, transaction} from "mobx";
 
 export default class SpendingManager
 {
@@ -29,9 +29,12 @@ export default class SpendingManager
 		this._save();
 	}
 
-	clearExpenditures()
+	clearExpenditures(expenditures)
 	{
-		this.expenditures = [];
+		transaction(() =>
+			expenditures.forEach(expenditure =>
+				this.expenditures.remove(expenditure)));
+
 		this._save();
 	}
 

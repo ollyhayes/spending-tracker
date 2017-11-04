@@ -9,40 +9,14 @@ export default class Manager
 {
 	constructor()
 	{
-		// move all this logic into a seperate multi manager, shouldn't be handled in the UI
 		this.spendingManager = new SpendingManager();
 		this.accountManager = new AccountManager();
 		this.sheetUpdater = new SheetUpdater();
 
-		let syncQueued = false;
+		this.syncQueud = false;
+		this.syncInProgress = false;
 
-		// this.spendingManager.registerUpdate(() =>
-		// {
-		// 	if (this.spendingManager.expenditures.length === 0 || this.accountManager.status !== accountStatus.signedIn)
-		// 		return;
-
-		// 	if (this.sheetUpdater.status === syncStatus.attemptingSync)
-		// 		syncQueued = true;
-		// 	else
-		// 		this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
-		// });
-
-		// this.sheetUpdater.registerUpdate(status =>
-		// {
-		// 	if (status === syncStatus.synced)
-		// 		this.spendingManager.clearExpenditures(); // if more synces were made this could remove old ones
-
-		// 	if (syncQueued)
-		// 	{
-		// 		syncQueued = false;
-		// 		this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
-		// 	}
-		// });
-
-		this.accountManager.initialise();
-
-		window.accountManager = this.accountManager;
-		window.sheetUpdater = this.sheetUpdater;
+		this.sync();
 	}
 
 	@computed get accountStatus() { return this.accountManager.status; }
@@ -65,14 +39,38 @@ export default class Manager
 	addExpenditure(date, category, amount, description)
 	{
 		this.spendingManager.addExpenditure(date, category, amount, description);
+
+		this.sync();
 	}
 
 	async sync()
 	{
+		if (this.syncInProgress)
+		{
+			this.syncQueued = true;
+			return;
+		}
+
+		this.syncInProgress = true;
+
 		if (this.accountStatus === accountStatus.notConnected)
 			await this.accountManager.initialise();
 
-		if (this.accountStatus === accountStatus.signedIn)
-			this.sheetUpdater.trySync(this.spendingManager.expenditures, this.accountManager.accessToken);
+		if (this.accountStatus !== accountStatus.signedIn)
+			return;
+
+		const currentExpenditures = this.spendingManager.expenditures.slice();
+		const success = await this.sheetUpdater.trySync(currentExpenditures, this.accountManager.accessToken);
+
+		if (success)
+			this.spendingManager.clearExpenditures(currentExpenditures);
+
+		this.syncInProgress = false;
+
+		if (this.syncQueued)
+		{
+			this.syncQueued = false;
+			await this.sync();
+		}
 	}
 }
