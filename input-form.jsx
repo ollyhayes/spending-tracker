@@ -104,6 +104,8 @@ export default class InputForm extends React.Component
 					<input
 						type="text"
 						name="amount"
+						pattern="/[\d.]*"
+						inputMode="numeric"
 						value={this.state.amount}
 						onChange={this.handleChange}
 						ref={element => this.focusOnCategoryChangeElement = element}/>
