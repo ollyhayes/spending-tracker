@@ -102,10 +102,8 @@ export default class InputForm extends React.Component
 				<div className="text-section">
 					<label>Enter amount:</label>
 					<input
-						type="text"
+						type="number"
 						name="amount"
-						pattern="/[\d.]*"
-						inputMode="numeric"
 						value={this.state.amount}
 						onChange={this.handleChange}
 						ref={element => this.focusOnCategoryChangeElement = element}/>
