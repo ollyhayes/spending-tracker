@@ -4,13 +4,17 @@ todo:
 		fix mutligle submissions
 	bring gapi in with webpack
 	defocus on submit
+	disallow submit without category or number
+	next and previous form element buttons on keyboard
+
 	numbers in currenty box
 	add temporary message
 		allow updating spreadsheet
 		create multimanager and get crap out of index
 		switch to using mobx
 	make children of multimanager private
-	have method on multimanager handle result of trySync, and do queued stuff syncs
+		have method on multimanager handle result of trySync, and do queued stuff syncs
+	remove outer border if up against side
 
 option 1
 	update - sync reqest

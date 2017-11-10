@@ -61,6 +61,19 @@ export default class InputForm extends React.Component
 	handleSubmit(event)
 	{
 		event.preventDefault();
+
+		if (this.state.category === "")
+		{
+			alert("Select a category");
+			return false;
+		}
+
+		if (this.state.amount === "")
+		{
+			alert("Enter an amount");
+			return false;
+		}
+
 		console.log(`Submitting: category - ${this.state.category}, description - ${this.state.description}, amount - ${this.state.amount}`);
 
 		this.manager.addExpenditure(
@@ -103,6 +116,7 @@ export default class InputForm extends React.Component
 					<label>Enter amount:</label>
 					<input
 						type="number"
+						step="0.01"
 						name="amount"
 						value={this.state.amount}
 						onChange={this.handleChange}
