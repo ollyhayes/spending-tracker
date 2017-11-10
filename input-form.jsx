@@ -1,39 +1,5 @@
 import * as React from "react";
 
-class NextElementFocuser
-{
-	setNextElement(nextElement)
-	{
-		this._nextElement = nextElement;
-	}
-
-	focusNextElementOnClick(element)
-	{
-		if (element == null)
-		{
-			console.log("null on click");
-			return;
-		}
-
-		element.addEventListener("click", () => this._nextElement.focus());
-	}
-
-	focusNextElementOnEnter(element)
-	{
-		if (element == null)
-		{
-			console.log("null on enter");
-			return;
-		}
-
-		element.addEventListener("keydown", event =>
-		{
-			if (event.keyCode === 13) // enter button
-				this._nextElement.focus();
-		});
-	}
-}
-
 export default class InputForm extends React.Component
 {
 	constructor(props)
@@ -73,11 +39,20 @@ export default class InputForm extends React.Component
 			],
 		];
 
+		this.handleCategoryChange = this.handleCategoryChange.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleAmountElementKeyDown = this.handleAmountElementKeyDown.bind(this);
 
-		this.amountElementFocuser = new NextElementFocuser();
-		this.descriptionElementFocuser = new NextElementFocuser();
+		this.amountElement = null;
+		this.descriptionElement = null;
+	}
+
+	handleCategoryChange(event)
+	{
+		this.handleChange(event);
+
+		this.amountElement.focus();
 	}
 
 	handleChange(event)
@@ -116,6 +91,15 @@ export default class InputForm extends React.Component
 		document.activeElement.blur();
 	}
 
+	handleAmountElementKeyDown(event)
+	{
+		if (event.keyCode === 13) // enter button
+		{
+			event.preventDefault();
+			this.descriptionElement.focus();
+		}
+	}
+
 	render()
 	{
 		return <div className="input-form">
@@ -134,8 +118,7 @@ export default class InputForm extends React.Component
 											name="category"
 											value={category}
 											type="button"
-											onClick={this.handleChange}
-											ref={element => this.amountElementFocuser.focusNextElementOnClick(element)}/>)
+											onClick={this.handleCategoryChange}/>)
 								}
 							</div>)
 					}
@@ -148,10 +131,8 @@ export default class InputForm extends React.Component
 						name="amount"
 						value={this.state.amount}
 						onChange={this.handleChange}
-						ref={element => {
-							this.amountElementFocuser.setNextElement(element);
-							this.descriptionElementFocuser.focusNextElementOnEnter(element);
-						}}/>
+						ref={element => this.amountElement = element}
+						onKeyDown={this.handleAmountElementKeyDown}/>
 				</div>
 				<div className="text-section">
 					<label>Enter description:</label>
@@ -160,7 +141,7 @@ export default class InputForm extends React.Component
 						name="description"
 						value={this.state.description}
 						onChange={this.handleChange}
-						ref={element => this.descriptionElementFocuser.setNextElement(element)}/>
+						ref={element => this.descriptionElement = element}/>
 				</div>
 				<div className="submit-section">
 					<input type="submit" value="Submit"/>
