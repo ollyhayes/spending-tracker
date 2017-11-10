@@ -8,13 +8,15 @@
 html,body
 {
 	margin: 0;
-	height: 100%;
 }
 
 body
 {
-	overflow-y: scroll;
+	//overflow-y: scroll;
+	background: @background;
 	font-size: 1em;
+	font-family: sans-serif;
+	padding: 0 10px 10px 10px;
 }
 
 .bordered()
@@ -35,19 +37,8 @@ body
 
 body > div
 {
-	font-family: sans-serif;
-
+    max-width: 500px;
     margin: auto;
-	padding: 0 10px 10px 10px;
-
-    max-width: 800px;
-	min-height: 100%;
-
-    background-color: @background;
-
-	.bordered();
-    border-top-style: none;
-    border-bottom-style: none;
 
 	header
 	{
