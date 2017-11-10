@@ -4,10 +4,11 @@ todo:
 		fix mutligle submissions
 	bring gapi in with webpack
 	defocus on submit
-	disallow submit without category or number
+		disallow submit without category or number
 	next and previous form element buttons on keyboard
+	animation on submit
 
-	numbers in currenty box
+		numbers in currenty box
 	add temporary message
 		allow updating spreadsheet
 		create multimanager and get crap out of index

@@ -92,7 +92,6 @@ export default class InputForm extends React.Component
 	render()
 	{
 		return <div className="input-form">
-			<header>New item...</header>
 			<form onSubmit={this.handleSubmit}>
 				<div className="category-section">
 					<label>Select category:</label>
