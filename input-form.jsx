@@ -1,5 +1,39 @@
 import * as React from "react";
 
+class NextElementFocuser
+{
+	setNextElement(nextElement)
+	{
+		this._nextElement = nextElement;
+	}
+
+	focusNextElementOnClick(element)
+	{
+		if (element == null)
+		{
+			console.log("null on click");
+			return;
+		}
+
+		element.addEventListener("click", () => this._nextElement.focus());
+	}
+
+	focusNextElementOnEnter(element)
+	{
+		if (element == null)
+		{
+			console.log("null on enter");
+			return;
+		}
+
+		element.addEventListener("keydown", event =>
+		{
+			if (event.keyCode === 13) // enter button
+				this._nextElement.focus();
+		});
+	}
+}
+
 export default class InputForm extends React.Component
 {
 	constructor(props)
@@ -39,18 +73,11 @@ export default class InputForm extends React.Component
 			],
 		];
 
-		this.focusOnCategoryChangeElement = null;
-
-		this.handleCategoryChange = this.handleCategoryChange.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-	}
 
-	handleCategoryChange(event)
-	{
-		this.handleChange(event);
-
-		this.focusOnCategoryChangeElement.focus();
+		this.amountElementFocuser = new NextElementFocuser();
+		this.descriptionElementFocuser = new NextElementFocuser();
 	}
 
 	handleChange(event)
@@ -73,8 +100,6 @@ export default class InputForm extends React.Component
 			alert("Enter an amount");
 			return false;
 		}
-
-		console.log(`Submitting: category - ${this.state.category}, description - ${this.state.description}, amount - ${this.state.amount}`);
 
 		this.manager.addExpenditure(
 			new Date(),
@@ -109,7 +134,8 @@ export default class InputForm extends React.Component
 											name="category"
 											value={category}
 											type="button"
-											onClick={this.handleCategoryChange}/>)
+											onClick={this.handleChange}
+											ref={element => this.amountElementFocuser.focusNextElementOnClick(element)}/>)
 								}
 							</div>)
 					}
@@ -122,11 +148,19 @@ export default class InputForm extends React.Component
 						name="amount"
 						value={this.state.amount}
 						onChange={this.handleChange}
-						ref={element => this.focusOnCategoryChangeElement = element}/>
+						ref={element => {
+							this.amountElementFocuser.setNextElement(element);
+							this.descriptionElementFocuser.focusNextElementOnEnter(element);
+						}}/>
 				</div>
 				<div className="text-section">
 					<label>Enter description:</label>
-					<input type="text" name="description" value={this.state.description} onChange={this.handleChange}/>
+					<input
+						type="text"
+						name="description"
+						value={this.state.description}
+						onChange={this.handleChange}
+						ref={element => this.descriptionElementFocuser.setNextElement(element)}/>
 				</div>
 				<div className="submit-section">
 					<input type="submit" value="Submit"/>

@@ -3,7 +3,7 @@ todo:
 		simplify account status
 		fix mutligle submissions
 	next and previous form element buttons on keyboard
-	defocus on submit
+		defocus on submit
 	bring gapi in with webpack
 		disallow submit without category or number
 	animation on submit
@@ -15,7 +15,8 @@ todo:
 		switch to using mobx
 	make children of multimanager private
 		have method on multimanager handle result of trySync, and do queued stuff syncs
-	remove outer border if up against side
+		remove outer border if up against side
+	rename categories for multiline buttons
 
 option 1
 	update - sync reqest
