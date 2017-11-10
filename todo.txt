@@ -2,13 +2,12 @@ todo:
 		fix up psuedo code above
 		simplify account status
 		fix mutligle submissions
-	bring gapi in with webpack
-	defocus on submit
-		disallow submit without category or number
 	next and previous form element buttons on keyboard
+	defocus on submit
+	bring gapi in with webpack
+		disallow submit without category or number
 	animation on submit
 	minify bunudle
-
 		numbers in currenty box
 	add temporary message
 		allow updating spreadsheet

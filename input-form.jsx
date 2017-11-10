@@ -87,6 +87,8 @@ export default class InputForm extends React.Component
 			amount: "",
 			category: ""
 		});
+
+		document.activeElement.blur();
 	}
 
 	render()
