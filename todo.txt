@@ -7,6 +7,7 @@ todo:
 		disallow submit without category or number
 	next and previous form element buttons on keyboard
 	animation on submit
+	minify bunudle
 
 		numbers in currenty box
 	add temporary message
