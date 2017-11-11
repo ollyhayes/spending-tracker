@@ -6,8 +6,9 @@ todo:
 		defocus on submit
 	bring gapi in with webpack
 		disallow submit without category or number
-	animation on submit
 	minify bunudle
+	get rid of autocomplete on text boxes
+	animation on submit
 		numbers in currenty box
 	add temporary message
 		allow updating spreadsheet
@@ -17,6 +18,27 @@ todo:
 		have method on multimanager handle result of trySync, and do queued stuff syncs
 		remove outer border if up against side
 	rename categories for multiline buttons
+
+	try creating special components so we don't have to manipulate elements directly in input-form
+		like how custom bindings worked in knockout
+
+		in knockout we would do:
+			<category-button data-on-click-focus-on="amount-button"/>
+			<amount-input data-focus-id="amount-button" data-on-enter-focus-on="description-button"/>
+			<description-input data-focus-id="description-button"/>
+
+		in react we could do:
+			<FocusNext
+				focusNext="amount-button"
+				focesWhen="click">
+				<category-button>
+			</FocusNext>
+			<FocusNext
+				focusNext="description-button"
+				focesWhen="enter">
+				<amount-button data-focus-id="amount-button">
+			</FocusNext>
+			<description-button data-focus-id="description-button">
 
 option 1
 	update - sync reqest
