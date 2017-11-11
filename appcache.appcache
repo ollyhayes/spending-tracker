@@ -1,4 +1,9 @@
 CACHE MANIFEST
-# v1 - 2017-11-10
+# v2 - 2017-11-11
+
+CACHE:
 /index.html
 /bundle.js
+
+NETWORK:
+*
