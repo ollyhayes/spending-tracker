@@ -4,7 +4,8 @@ todo:
 		fix mutligle submissions
 		next and previous form element buttons on keyboard
 		defocus on submit
-	bring gapi in with webpack
+	bring gapi in with webpack (or at least handle it not loading properly)
+	get sheet-updater to autofill the autofill columns and sort the table by date and time https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#autofillrequest
 		disallow submit without category or number
 	minify bunudle
 	get rid of autocomplete on text boxes

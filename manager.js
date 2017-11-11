@@ -60,6 +60,10 @@ export default class Manager
 			return;
 
 		const currentExpenditures = this.spendingManager.expenditures.slice();
+
+		if (currentExpenditures.length === 0)
+			return;
+
 		const success = await this.sheetUpdater.trySync(currentExpenditures, this.accountManager.accessToken);
 
 		if (success)
