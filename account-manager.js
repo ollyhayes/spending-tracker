@@ -38,7 +38,7 @@ export default class AccountManager
 {
 	@observable status = status.notConnected;
 	@observable username = "";
-	@observable accessToken = "";
+	user = null;
 
 	async initialise()
 	{
@@ -81,26 +81,30 @@ export default class AccountManager
 		this._updateStatus();
 	}
 
+	getAccessToken()
+	{
+		return this.user.getAuthResponse().access_token;
+	}
+
 	_updateStatus()
 	{
 		if (!gapi || !gapi.auth2)
 		{
 			this.status = status.notConnected;
 			this.username = "";
-			this.accessToken = "";
+			this.user = null;
 		}
 		else if (!gapi.auth2.getAuthInstance().isSignedIn.get())
 		{
 			this.status = status.signedOut;
 			this.username = "";
-			this.accessToken = "";
+			this.user = null;
 		}
 		else
 		{
 			this.status = status.signedIn;
-			const user = gapi.auth2.getAuthInstance().currentUser.get();
-			this.username = user.getBasicProfile().getName();
-			this.accessToken = user.getAuthResponse().access_token;
+			this.user = gapi.auth2.getAuthInstance().currentUser.get();
+			this.username = this.user.getBasicProfile().getName();
 		}
 	}
 }
