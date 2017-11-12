@@ -21,6 +21,7 @@ todo:
 		have method on multimanager handle result of trySync, and do queued stuff syncs
 		remove outer border if up against side
 	rename categories for multiline buttons
+	better font?
 
 	try creating special components so we don't have to manipulate elements directly in input-form
 		like how custom bindings worked in knockout

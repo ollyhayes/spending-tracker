@@ -32,15 +32,15 @@ export default class SyncStatus extends React.Component
 
 		if (this.manager.accountStatus === accountStatus.loading
 			|| this.manager.syncStatus === syncStatus.attemptingSync)
-			return <span>Loading...</span>;
+			return <span className="neutral-message">Loading...</span>;
 
 		if (this.manager.accountStatus === accountStatus.signedOut)
-			return <a href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
+			return <a className="neutral-message" href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
 
 		if (this.manager.numberOfItemsAwaitingSync === 0)
-			return <span className="sync">Synced with server</span>;
+			return <span className="good-message">Synced with server</span>;
 
-		return <a className="no-sync" href="javascript:void(0)" onClick={this.handleSync}>{this.manager.numberOfItemsAwaitingSync} items awaiting sync...</a>;
+		return <a className="bad-message" href="javascript:void(0)" onClick={this.handleSync}>{this.manager.numberOfItemsAwaitingSync} items awaiting sync...</a>;
 	}
 
 	render()

@@ -52,21 +52,25 @@ body > div
 		margin-bottom: 10px;
 	}
 
-	.sync-status
+	.upper-status-section
 	{
-		text-align: right;
-		padding: 10px;
+		display: flex;
+		justify-content: space-between;
+		margin: 10px 0;
 
 		a,span
 		{
-			color: #FF7E00; // amber
+			&.neutral-message
+			{
+				color: #FF7E00; // amber
+			}
 
-			&.sync
+			&.good-message
 			{
 				color: green;
 			}
 
-			&.no-sync
+			&.bad-message
 			{
 				color: red;
 			}
