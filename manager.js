@@ -1,4 +1,4 @@
-import {observable, computed} from "mobx";
+import {computed} from "mobx";
 import SpendingManager from "./spending-manager.js";
 import {default as SheetUpdater, status as syncStatus} from "./sheet-updater.js";
 import {default as AccountManager, status as accountStatus} from "./account-manager.js";
@@ -53,23 +53,28 @@ export default class Manager
 
 		this.syncInProgress = true;
 
-		if (this.accountStatus === accountStatus.notConnected)
-			await this.accountManager.initialise();
+		try
+		{
+			if (this.accountStatus === accountStatus.notConnected)
+				await this.accountManager.initialise();
 
-		if (this.accountStatus !== accountStatus.signedIn)
-			return;
+			if (this.accountStatus !== accountStatus.signedIn)
+				return;
 
-		const currentExpenditures = this.spendingManager.expenditures.slice();
+			const currentExpenditures = this.spendingManager.expenditures.slice();
 
-		if (currentExpenditures.length === 0)
-			return;
+			if (currentExpenditures.length === 0)
+				return;
 
-		const success = await this.sheetUpdater.trySync(currentExpenditures, this.accountManager.getAccessToken());
+			const success = await this.sheetUpdater.trySync(currentExpenditures, this.accountManager.getAccessToken());
 
-		if (success)
-			this.spendingManager.clearExpenditures(currentExpenditures);
-
-		this.syncInProgress = false;
+			if (success)
+				this.spendingManager.clearExpenditures(currentExpenditures);
+		}
+		finally
+		{
+			this.syncInProgress = false;
+		}
 
 		if (this.syncQueued)
 		{
