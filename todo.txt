@@ -1,4 +1,6 @@
 todo:
+	scroll to top after submiting so you can see the status change
+		change title to spending tracker
 		fix up psuedo code above
 		simplify account status
 		fix mutligle submissions
