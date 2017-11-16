@@ -7,7 +7,7 @@ todo:
 		next and previous form element buttons on keyboard
 		defocus on submit
 		use refresh token to get new access token when it expires
-	bring gapi in with webpack (or at least handle it not loading properly)
+		bring gapi in with webpack (or at least handle it not loading properly)
 	get sheet-updater to autofill the autofill columns and sort the table by date and time https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#autofillrequest
 		disallow submit without category or number
 	minify bunudle
@@ -15,7 +15,9 @@ todo:
 	get rid of autocomplete on text boxes
 	animation on submit
 		numbers in currenty box
+	improve messages - "uploading data" instead of loading etc
 	add temporary message
+	favicon - baht symbol?
 		allow updating spreadsheet
 		create multimanager and get crap out of index
 		switch to using mobx

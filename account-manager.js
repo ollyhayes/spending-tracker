@@ -1,8 +1,22 @@
 import {observable} from "mobx";
 
-const gapi = window.gapi;
-
 function loadGapi()
+{
+	return new Promise((resolve, reject) =>
+	{
+		const script = document.createElement("script");
+		script.type = "application/javascript";
+		script.async = false;
+		script.charset = "utf-8";
+		script.src = "https://apis.google.com/js/api.js";
+		script.addEventListener("load", () => resolve(window.gapi));
+		script.addEventListener("error", error => reject(error));
+
+		document.getElementsByTagName("head")[0].appendChild(script);
+	});
+}
+
+function loadAuth2(gapi)
 {
 	return new Promise((resolve, reject) =>
 	{
@@ -17,7 +31,7 @@ function loadGapi()
 	});
 }
 
-function initAuth(options)
+function initAuth(gapi, options)
 {
 	return new Promise((resolve, reject) =>
 		// I don't think this returns a real promise so we have to wrap it
@@ -38,7 +52,9 @@ export default class AccountManager
 {
 	@observable status = status.notConnected;
 	@observable username = "";
+
 	user = null;
+	gapi = null;
 
 	async initialise()
 	{
@@ -46,16 +62,22 @@ export default class AccountManager
 
 		try
 		{
-			await loadGapi();
+			if (!this.gapi)
+				this.gapi = await loadGapi();
 
-			await initAuth({
-				clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
-				scope: "https://www.googleapis.com/auth/spreadsheets"
-			});
+			if (!this.gapi.auth2)
+				await loadAuth2(this.gapi);
+
+			await initAuth(
+				this.gapi,
+				{
+					clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
+					scope: "https://www.googleapis.com/auth/spreadsheets"
+				});
 		}
 		catch (error)
 		{
-			console.log(error);
+			console.log("Error initialising auth: ", error);
 		}
 		finally
 		{
@@ -67,7 +89,7 @@ export default class AccountManager
 	{
 		this.status = status.loading;
 
-		await gapi.auth2.getAuthInstance().signIn();
+		await this.gapi.auth2.getAuthInstance().signIn();
 
 		this._updateStatus();
 	}
@@ -76,7 +98,7 @@ export default class AccountManager
 	{
 		this.status = status.loading;
 
-		await gapi.auth2.getAuthInstance().signOut();
+		await this.gapi.auth2.getAuthInstance().signOut();
 
 		this._updateStatus();
 	}
@@ -88,13 +110,13 @@ export default class AccountManager
 
 	_updateStatus()
 	{
-		if (!gapi || !gapi.auth2)
+		if (!this.gapi || !this.gapi.auth2)
 		{
 			this.status = status.notConnected;
 			this.username = "";
 			this.user = null;
 		}
-		else if (!gapi.auth2.getAuthInstance().isSignedIn.get())
+		else if (!this.gapi.auth2.getAuthInstance().isSignedIn.get())
 		{
 			this.status = status.signedOut;
 			this.username = "";
@@ -103,7 +125,7 @@ export default class AccountManager
 		else
 		{
 			this.status = status.signedIn;
-			this.user = gapi.auth2.getAuthInstance().currentUser.get();
+			this.user = this.gapi.auth2.getAuthInstance().currentUser.get();
 			this.username = this.user.getBasicProfile().getName();
 		}
 	}
