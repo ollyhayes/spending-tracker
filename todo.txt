@@ -13,6 +13,7 @@ todo:
 	minify bunudle
 	extract vendor code
 	get rid of autocomplete on text boxes
+	remember past expenpeses and show them in table so we can see if there are concurrency problems - https://issuetracker.google.com/issues/36760568
 	animation on submit
 		numbers in currenty box
 	improve messages - "uploading data" instead of loading etc

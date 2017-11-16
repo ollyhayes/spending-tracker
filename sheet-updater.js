@@ -16,7 +16,7 @@ const apiKey = "AIzaSyBlVXClFKOd0SxDFMBmgZYcOZJdM0LUW0I";
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`;
 
 const queryString = "responseValueRenderOption=FORMATTED_VALUE" +
-	"&insertDataOption=OVERWRITE" + 
+	"&insertDataOption=INSERT" + 
 	"&valueInputOption=USER_ENTERED" + 
 	"&responseDateTimeRenderOption=FORMATTED_STRING" + 
 	"&includeValuesInResponse=false" + 
