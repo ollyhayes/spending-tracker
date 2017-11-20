@@ -16,11 +16,14 @@ export default class SheetUpdater
 {
 	@observable status = status.unknown;
 
-	trySync(expenditures, accessToken)
+	async trySync(expenditures, accessToken)
 	{
 		this.status = status.attemptingSync;
 
-		const itemsAppended = this._appendItems(expenditures, accessToken);
+		const itemsAppended = await this._tryAppendItems(expenditures, accessToken);
+
+		if (itemsAppended)
+			await this._trySortItems(accessToken);
 
 		this.status = itemsAppended
 			? status.synced
@@ -29,7 +32,7 @@ export default class SheetUpdater
 		return itemsAppended;
 	}
 
-	async _appendItems(expenditures, accessToken)
+	_tryAppendItems(expenditures, accessToken)
 	{
 		const range = "A1";
 		const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`;
@@ -59,10 +62,44 @@ export default class SheetUpdater
 			})
 		};
 
-		return await this._makeRequest(url, JSON.stringify(body), accessToken);
+		return this._tryMakeRequest(url, JSON.stringify(body), accessToken);
 	}
 
-	_makeRequest(url, body, accessToken)
+	_trySortItems(accessToken)
+	{
+		const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`;
+
+		const body = {
+			requests: [
+				{
+					sortRange: {
+						range: {
+							sheetId: 1137143099, // Spending sheet ID
+							startRowIndex: 1,
+							endRowIndex: null,
+							startColumnIndex: 0,
+							endColumnIndex: null
+						},
+						sortSpecs: [
+							{
+								dimensionIndex: 0, // Date column
+								sortOrder: "ASCENDING"
+							},
+							{
+								dimensionIndex: 1, // Time column
+								sortOrder: "ASCENDING"
+							}
+						]
+					}
+				}
+			],
+			includeSpreadsheetInResponse: false
+		};
+
+		return this._tryMakeRequest(url, JSON.stringify(body), accessToken);
+	}
+
+	_tryMakeRequest(url, body, accessToken)
 	{
 		return new Promise(resolve =>
 		{
@@ -79,16 +116,7 @@ export default class SheetUpdater
 				if (request.readyState !== XMLHttpRequest.DONE)
 					return;
 
-				if (request.status === 200)
-				{
-					this.status = status.synced;
-					resolve(true);
-				}
-				else
-				{
-					this.status = status.noConnection;
-					resolve(false);
-				}
+				resolve(request.status === 200);
 			};
 		});
 	}
