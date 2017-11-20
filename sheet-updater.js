@@ -35,7 +35,7 @@ export default class SheetUpdater
 		const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`;
 
 		const queryString = "responseValueRenderOption=FORMATTED_VALUE" +
-			"&insertDataOption=INSERT" + 
+			"&insertDataOption=INSERT_ROWS" + 
 			"&valueInputOption=USER_ENTERED" + 
 			"&responseDateTimeRenderOption=FORMATTED_STRING" + 
 			"&includeValuesInResponse=false" + 
