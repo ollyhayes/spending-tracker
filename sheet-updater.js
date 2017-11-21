@@ -18,13 +18,14 @@ const autoFillColumns = [
 	{ startColumnIndex: 6, endColumnIndex: 9 }, // Currency columns (G, H, I)
 ];
 
-function getFinalRowIndexFrom(range)
+function getFirstAppendedRowIndexFrom(range)
 {
-	const finalRowIndexRegex = /.*![A-Z]+\d+:[A-Z]+(\d+)/; // e.g. "Spending!A587:F588" matching 588 in group 1
+	const regex = /.*![A-Z]+(\d+):[A-Z]+\d+/; // e.g. "Spending!A587:F588" matching 587 in group 1
 
-	const result = finalRowIndexRegex.exec(range);
+	const rowNumber = Number(regex.exec(range)[1]);
+	const rowIndex = rowNumber - 1;
 
-	return Number(result[1]);
+	return rowIndex;
 }
 
 export default class SheetUpdater
@@ -39,10 +40,10 @@ export default class SheetUpdater
 
 		if (success)
 		{
-			const finalRowIndex = getFinalRowIndexFrom(response.updates.updatedRange);
+			const firstAppendedRowIndex = getFirstAppendedRowIndexFrom(response.updates.updatedRange);
 
 			const autofillRequests = autoFillColumns.map(indices =>
-				this._getAutofillRequest(expenditures.length, finalRowIndex, indices));
+				this._getAutofillRequest(firstAppendedRowIndex, expenditures.length, indices));
 
 			await this._tryBatchRequest(
 				[
@@ -117,16 +118,20 @@ export default class SheetUpdater
 		};
 	}
 
-	_getAutofillRequest(numberOfExpendituresAdded, finalRowIndex, { startColumnIndex, endColumnIndex })
+	_getAutofillRequest(firstRowIndex, numberOfNewRows, { startColumnIndex, endColumnIndex })
 	{
 		return {
 			autoFill: {
-				range: {
-					sheetId,
-					startRowIndex: finalRowIndex - numberOfExpendituresAdded,
-					endRowIndex: finalRowIndex + 1,
-					startColumnIndex,
-					endColumnIndex
+				sourceAndDestination: {
+					source: {
+						sheetId,
+						startRowIndex: firstRowIndex - 1,
+						endRowIndex: firstRowIndex,
+						startColumnIndex,
+						endColumnIndex
+					},
+					dimension: "ROWS",
+					fillLength: numberOfNewRows
 				}
 			}
 		};
@@ -147,7 +152,7 @@ export default class SheetUpdater
 
 	_tryMakeRequest(url, body, accessToken)
 	{
-		return new Promise((resolve, reject) =>
+		return new Promise(resolve =>
 		{
 			const request = new XMLHttpRequest();
 			request.open("POST", url, true);
@@ -161,17 +166,15 @@ export default class SheetUpdater
 			{
 				if (request.readyState !== XMLHttpRequest.DONE)	// not finished yet
 					return;
-				else if (request.status === 200)				// success
-					resolve({
-						success: true,
-						response: JSON.parse(request.response)
-					});
-				else if (request.status < 100)					// no internet connection
-					resolve({
-						success: false
-					});
-				else
-					reject(request.response);					// other unknown error e.g. 400
+
+				const response = request.response === ""
+					? null
+					: JSON.parse(request.response);
+
+				resolve({
+					success: request.status === 200,
+					response
+				});
 			};
 		});
 	}

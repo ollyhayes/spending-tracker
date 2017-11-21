@@ -20,6 +20,7 @@ todo:
 	improve messages - "uploading data" instead of loading etc
 	add temporary message
 	favicon - baht symbol?
+	fix google oauth message saying app isn't verified by google
 		allow updating spreadsheet
 		create multimanager and get crap out of index
 		switch to using mobx
