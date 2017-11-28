@@ -1,5 +1,5 @@
 todo:
-	scroll to top after submiting so you can see the status change
+		scroll to top after submiting so you can see the status change
 		change title to spending tracker
 		fix up psuedo code above
 		simplify account status
@@ -8,7 +8,7 @@ todo:
 		defocus on submit
 		use refresh token to get new access token when it expires
 		bring gapi in with webpack (or at least handle it not loading properly)
-	get sheet-updater to autofill the autofill columns and sort the table by date and time https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#autofillrequest
+		get sheet-updater to autofill the autofill columns and sort the table by date and time https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#autofillrequest
 		disallow submit without category or number
 	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
 	minify bunudle

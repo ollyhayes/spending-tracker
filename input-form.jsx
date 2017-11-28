@@ -89,6 +89,7 @@ export default class InputForm extends React.Component
 		});
 
 		document.activeElement.blur();
+		document.documentElement.scrollTop = document.body.scrollTop = 0; // scroll back to top for new input
 	}
 
 	handleAmountElementKeyDown(event)
