@@ -24,7 +24,7 @@ function loadAuth2(gapi)
 			"auth2",
 			{
 				callback: resolve,
-				onerror: error => reject("Client library load error: ", error),
+				onerror: error => reject("Client library load error: ", JSON.stringify(error)),
 				timeout: 30000,
 				ontimeout: () => reject("Client library load error - timed out after 5 seconds")
 			});
@@ -38,7 +38,7 @@ function initAuth(gapi, options)
 		gapi.auth2.init(options)
 			.then(
 				() => resolve(), // if we pass the resolve method directly the page locks up
-				error => reject("Auth init error: " + error)));
+				error => reject("Auth init error: " + JSON.stringify(error))));
 }
 
 export const status = {
