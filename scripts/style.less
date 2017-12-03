@@ -21,8 +21,6 @@ body
 .bordered()
 {
 	border: @border 1px solid;
-	border-radius: 0;
-	-webkit-appearance: none; // OSX insists on rounded corners without this
 }
 
 .button()
@@ -31,9 +29,19 @@ body
 	width: 100px;
 	margin: 5px;
 	font-size: 0.8em;
-	white-space: normal;
+	white-space: normal; // allow wrap
 	background: white;
 	.bordered();
+	
+	// iOS insists on rounded corners without these
+	border-radius: 0;
+	-webkit-appearance: none; 
+
+	@media (max-width: 320px)
+	{
+		margin: 3px;
+		padding: 1px;
+	}
 }
 
 body > div
