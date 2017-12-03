@@ -3,9 +3,10 @@ import {observable} from "mobx";
 
 export const status = {
 	unknown: 0,
-	attemptingSync: 1,
-	noConnection: 2,
-	synced: 3
+	uploadingData: 1,
+	processingSpreadsheet: 2,
+	noConnection: 3,
+	synced: 4
 };
 
 //const spreadsheetId = "1_WgnEfEjsM0EvyDkOq9U1iGbmcno4tGWZZUWyp8975w"; // test sheet
@@ -34,30 +35,36 @@ export default class SheetUpdater
 
 	async trySync(expenditures, accessToken)
 	{
-		this.status = status.attemptingSync;
-
-		const {success, response} = await this._tryAppendItems(expenditures, accessToken);
-
-		if (success)
+		try
 		{
-			const firstAppendedRowIndex = getFirstAppendedRowIndexFrom(response.updates.updatedRange);
+			const {success, response} = await this._tryAppendItems(expenditures, accessToken);
 
-			const autofillRequests = autoFillColumns.map(indices =>
-				this._getAutofillRequest(firstAppendedRowIndex, expenditures.length, indices));
+			if (success)
+			{
+				const firstAppendedRowIndex = getFirstAppendedRowIndexFrom(response.updates.updatedRange);
 
-			await this._tryBatchRequest(
-				[
-					...autofillRequests,
-					this._getSortItemsRequest()
-				],
-				accessToken);
+				const autofillRequests = autoFillColumns.map(indices =>
+					this._getAutofillRequest(firstAppendedRowIndex, expenditures.length, indices));
+
+				await this._tryBatchRequest(
+					[
+						...autofillRequests,
+						this._getSortItemsRequest()
+					],
+					accessToken);
+			}
+
+			this.status = success
+				? status.synced
+				: status.noConnection;
+
+			return success;
 		}
-
-		this.status = success
-			? status.synced
-			: status.noConnection;
-
-		return success;
+		catch (error)
+		{
+			this.status = noConnection;
+			throw error;
+		}
 	}
 
 	_tryAppendItems(expenditures, accessToken)
@@ -85,6 +92,8 @@ export default class SheetUpdater
 					expenditure.amount
 				])
 		};
+
+		this.status = status.uploadingData;
 
 		return this._tryMakeRequest(url, JSON.stringify(body), accessToken);
 	}
@@ -141,6 +150,8 @@ export default class SheetUpdater
 			requests: requests,
 			includeSpreadsheetInResponse: false
 		};
+
+		this.status = status.processingSpreadsheet;
 
 		return this._tryMakeRequest(url, JSON.stringify(body), accessToken);
 	}

@@ -30,9 +30,14 @@ export default class SyncStatus extends React.Component
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
 
-		if (this.manager.accountStatus === accountStatus.loading
-			|| this.manager.syncStatus === syncStatus.attemptingSync)
+		if (this.manager.accountStatus === accountStatus.loading)
 			return <span className="neutral-message">Loading...</span>;
+
+		if (this.manager.syncStatus === syncStatus.uploadingData)
+			return <span className="neutral-message">Uploading data...</span>;
+
+		if (this.manager.syncStatus === syncStatus.processingSpreadsheet)
+			return <span className="neutral-message">Processing spreadsheet...</span>;
 
 		if (this.manager.accountStatus === accountStatus.signedOut)
 			return <a className="neutral-message" href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
