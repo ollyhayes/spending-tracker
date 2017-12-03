@@ -1,7 +1,10 @@
+const path = require("path");
+
 module.exports = {
-	entry: "./entry.js",
+	entry: path.resolve(__dirname, "scripts/entry.js"),
 	output: {
 		filename: "bundle.js",
+		path: path.resolve(__dirname, "public")
 	},
 	devtool: "#source-map",
 	module: {
