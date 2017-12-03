@@ -10,7 +10,7 @@ todo:
 		bring gapi in with webpack (or at least handle it not loading properly)
 		get sheet-updater to autofill the autofill columns and sort the table by date and time https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#autofillrequest
 		disallow submit without category or number
-	minify bunudle
+		minify bunudle
 	improve messages - "uploading data" instead of loading etc
 	remember past expenpeses and show them in table so we can see if there are concurrency problems - https://issuetracker.google.com/issues/36760568
 	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
