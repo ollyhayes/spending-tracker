@@ -1,4 +1,4 @@
-import moment from "moment";
+import timestamp from "time-stamp";
 import {observable} from "mobx";
 
 export const status = {
@@ -76,18 +76,14 @@ export default class SheetUpdater
 		const url = `${baseUrl}?${queryString}`;
 		const body = {
 			values: expenditures.map(expenditure =>
-			{
-				const date = moment(expenditure.date);
-
-				return [
-					date.format("DD/MM/YYYY"),
-					date.format("HH:mm:ss"),
+				[
+					timestamp("DD/MM/YYYY", expenditure.date),
+					timestamp("HH:mm:ss", expenditure.date),
 					"",
 					expenditure.category,
 					expenditure.description,
 					expenditure.amount
-				];
-			})
+				])
 		};
 
 		return this._tryMakeRequest(url, JSON.stringify(body), accessToken);
