@@ -7,7 +7,7 @@ module.exports = env =>
 	const config = {
 		entry: path.resolve(__dirname, "scripts/entry.js"),
 		output: {
-			filename: "bundle.js",
+			filename: "[name].bundle.js",
 			path: path.resolve(__dirname, "public")
 		},
 		devtool: "#source-map",
@@ -17,7 +17,13 @@ module.exports = env =>
 				{ test: /\.less$/, exclude: /node_modules/, loader: "style-loader!css-loader!less-loader" }
 			]
 		},
-		plugins: []
+		plugins: [
+			// We only have one chunk, but we can fool this plugin into extracting anything from node_modules into a vendor chunk
+			new webpack.optimize.CommonsChunkPlugin({
+				name: 'vendor',
+				minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
+			})
+		]
 	};
 
 	if (env && env.production)

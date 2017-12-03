@@ -14,7 +14,7 @@ todo:
 	improve messages - "uploading data" instead of loading etc
 	remember past expenpeses and show them in table so we can see if there are concurrency problems - https://issuetracker.google.com/issues/36760568
 	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
-	extract vendor code
+		extract vendor code
 	animation on submit
 		numbers in currenty box
 	add temporary status messages
