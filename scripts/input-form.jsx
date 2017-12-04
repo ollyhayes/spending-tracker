@@ -23,19 +23,21 @@ export default class InputForm extends React.Component
 			],
 			[
 				"Drinks - Soft",
-				"Drinks - Alcoholic"
-			],
-			[
-				"Laundry",
-				"Clothing",
+				"Drinks - Alcoholic",
 				"Toiletries",
 				"Medical"
 			],
 			[
+				"Laundry",
+				"Clothing",
 				"Sights",
 				"Transport",
+			],
+			[
+				"ATM Fees",
 				"Technology",
-				"Other"
+				"Other",
+				"Hotels"
 			],
 		];
 
@@ -76,8 +78,17 @@ export default class InputForm extends React.Component
 			return false;
 		}
 
+		const date = new Date();
+
+		if (this.state.category === "Hotels")
+		{
+			date.setHours(23);
+			date.setMinutes(59);
+			date.setSeconds(59);
+		}
+
 		this.manager.addExpenditure(
-			new Date(),
+			date,
 			this.state.category,
 			this.state.amount,
 			this.state.description);

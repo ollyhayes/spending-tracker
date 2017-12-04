@@ -1,4 +1,7 @@
 todo:
+	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
+	see if we can auto fill the entire page on the currency conversion stuff, so that it doesn't matter if the second request gets lost
+	some sort of timeout on the account init - it just stays loading for ages on iphone
 		scroll to top after submiting so you can see the status change
 		change title to spending tracker
 		fix up psuedo code above
