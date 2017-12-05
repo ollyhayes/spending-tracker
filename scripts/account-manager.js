@@ -93,6 +93,10 @@ export default class AccountManager
 		{
 			await this.gapi.auth2.getAuthInstance().signIn();
 		}
+		catch (error)
+		{
+			alert("Sign in error: " + JSON.stringify(error));
+		}
 		finally
 		{
 			this._updateStatus();
