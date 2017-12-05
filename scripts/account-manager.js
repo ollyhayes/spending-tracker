@@ -89,18 +89,28 @@ export default class AccountManager
 	{
 		this.status = status.loading;
 
-		await this.gapi.auth2.getAuthInstance().signIn();
-
-		this._updateStatus();
+		try
+		{
+			await this.gapi.auth2.getAuthInstance().signIn();
+		}
+		finally
+		{
+			this._updateStatus();
+		}
 	}
 
 	async signOut()
 	{
 		this.status = status.loading;
 
-		await this.gapi.auth2.getAuthInstance().signOut();
-
-		this._updateStatus();
+		try
+		{
+			await this.gapi.auth2.getAuthInstance().signOut();
+		}
+		finally
+		{
+			this._updateStatus();
+		}
 	}
 
 	getAccessToken()
