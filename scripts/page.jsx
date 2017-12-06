@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import InputForm from "./input-form.jsx";
 import SyncStatus from "./sync-status.jsx";
 import AccountStatus from "./account-status.jsx";
@@ -7,13 +6,13 @@ import AppCacheStatus from "./app-cache-status.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
 import Manager from "./manager";
 
-class Content extends React.Component
+export default class Page extends React.Component
 {
-	constructor()
+	constructor(props)
 	{
 		super();
 
-		this.manager = new Manager();
+		this.manager = props.manager;
 	}
 
 	render()
@@ -32,9 +31,3 @@ class Content extends React.Component
 	}
 }
 
-document.addEventListener("DOMContentLoaded", () =>
-{
-	ReactDOM.render(
-		<Content/>,
-		document.querySelector("body > div"));
-});
