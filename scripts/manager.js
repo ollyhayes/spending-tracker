@@ -7,14 +7,16 @@ export {accountStatus, syncStatus};
 
 export default class Manager
 {
-	constructor()
+	constructor(logger)
 	{
 		this.spendingManager = new SpendingManager();
-		this.accountManager = new AccountManager();
+		this.accountManager = new AccountManager(logger);
 		this.sheetUpdater = new SheetUpdater();
+		this.logger = logger;
 
 		this.syncQueud = false;
 		this.syncInProgress = false;
+		this.syncNumber = 0;
 
 		this.sync();
 	}
@@ -45,8 +47,14 @@ export default class Manager
 
 	async sync()
 	{
+		const syncNumber = this.syncNumber++;
+		const log = message => this.logger.log(`S${syncNumber} - ${message}`);
+
+		log("Starting...");
+
 		if (this.syncInProgress)
 		{
+			log("Sync in progress - queueing");
 			this.syncQueued = true;
 			return;
 		}
@@ -59,17 +67,32 @@ export default class Manager
 				await this.accountManager.initialise();
 
 			if (this.accountStatus !== accountStatus.signedIn)
+			{
+				log("Not signed in - aborting");
 				return;
+			}
 
 			const currentExpenditures = this.spendingManager.expenditures.slice();
 
 			if (currentExpenditures.length === 0)
+			{
+				log("No new expenditures - aborting");
 				return;
+			}
+
+			log(`Attempting sync - ${currentExpenditures.length} expenditures`);
 
 			const success = await this.sheetUpdater.trySync(currentExpenditures, this.accountManager.getAccessToken());
 
 			if (success)
+			{
+				log("Sync succeded");
 				this.spendingManager.clearExpenditures(currentExpenditures);
+			}
+			else
+			{
+				log("Sync failed");
+			}
 		}
 		finally
 		{

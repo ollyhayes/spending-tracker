@@ -56,6 +56,11 @@ export default class AccountManager
 	user = null;
 	gapi = null;
 
+	constructor(logger)
+	{
+		this.logger = logger;
+	}
+
 	async initialise()
 	{
 		this.status = status.loading;
@@ -91,11 +96,15 @@ export default class AccountManager
 
 		try
 		{
+			this.logger.log("Attempting sign in");
 			await this.gapi.auth2.getAuthInstance().signIn();
+			this.logger.log("Signin requested");
 		}
 		catch (error)
 		{
+			this.logger.log("Signin failed - " + JSON.stringify(error));
 			alert("Sign in error: " + JSON.stringify(error));
+			throw error;
 		}
 		finally
 		{
@@ -109,7 +118,14 @@ export default class AccountManager
 
 		try
 		{
+			this.logger.log("Attempting sign out");
 			await this.gapi.auth2.getAuthInstance().signOut();
+			this.logger.log("Signout succeded");
+		}
+		catch (error)
+		{
+			this.logger.log("Signout failed - " + JSON.stringify(error));
+			throw error;
 		}
 		finally
 		{

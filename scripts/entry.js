@@ -3,8 +3,10 @@ import * as ReactDOM from "react-dom";
 import "./style.less";
 import Manager from "./manager.js";
 import Page from "./page.jsx";
+import Logger from "./logger.js";
 
-const manager = new Manager();
+const logger = new Logger();
+const manager = new Manager(logger);
 
 document.addEventListener("DOMContentLoaded", () =>
 {
