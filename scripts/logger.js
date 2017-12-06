@@ -14,6 +14,9 @@ export default class Logger
 		{
 			this.log("Global error handled - " + JSON.stringify(args));
 		}
+
+		this.logElement = document.createElement("pre");
+		document.body.appendChild(this.logElement);
 	}
 
 	log(undatedMessage)
@@ -30,5 +33,7 @@ export default class Logger
 		}
 
 		this.messages.push(message);
+
+		this.logElement.append("\n" + message);
 	}
 }
