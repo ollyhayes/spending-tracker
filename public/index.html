@@ -9,5 +9,16 @@
     </head>
 	<body>
 		<div></div>
+		<a href="javascript:void(0)" class="signIn">Sign in</a>
+		<script>
+			document.querySelector(".signIn").addEventListener("click", () =>
+				{
+					console.log("signin in manually");
+
+					gapi.auth2.getAuthInstance().signIn()
+						.then(() => console.log("signed in, " + gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName()))
+						.catch(error => console.log("Signin failed - " + JSON.stringify(error)));
+				});
+		</script>
     </body>
 </html>
