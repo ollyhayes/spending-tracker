@@ -90,26 +90,40 @@ export default class AccountManager
 		}
 	}
 
-	async signIn()
+	// async signIn()
+	// {
+	// 	this.status = status.loading;
+
+	// 	try
+	// 	{
+	// 		this.logger.log("Attempting sign in");
+	// 		await this.gapi.auth2.getAuthInstance().signIn();
+	// 		this.logger.log("Signin succeded");
+	// 	}
+	// 	catch (error)
+	// 	{
+	// 		this.logger.log("Signin failed - " + JSON.stringify(error));
+	// 		alert("Sign in error: " + JSON.stringify(error));
+	// 		throw error;
+	// 	}
+	// 	finally
+	// 	{
+	// 		this._updateStatus();
+	// 	}
+	// }
+	//
+	signIn()
 	{
 		this.status = status.loading;
 
-		try
-		{
-			this.logger.log("Attempting sign in");
-			await this.gapi.auth2.getAuthInstance().signIn();
-			this.logger.log("Signin requested");
-		}
-		catch (error)
-		{
-			this.logger.log("Signin failed - " + JSON.stringify(error));
-			alert("Sign in error: " + JSON.stringify(error));
-			throw error;
-		}
-		finally
-		{
-			this._updateStatus();
-		}
+		this.logger.log("Attempting sign in");
+
+		return Promise.resolve(this.gapi.auth2.getAuthInstance().signIn())
+			.then(error => this.logger.log("Signin succeded"))
+			.catch(error => this.logger.log("Signin failed - " + JSON.stringify(error)))
+			.then(() => this._updateStatus());
+
+		this.logger.log("Signin requested");
 	}
 
 	async signOut()
