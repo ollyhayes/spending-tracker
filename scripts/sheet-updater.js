@@ -62,7 +62,7 @@ export default class SheetUpdater
 		}
 		catch (error)
 		{
-			this.status = noConnection;
+			this.status = status.noConnection;
 			throw error;
 		}
 	}

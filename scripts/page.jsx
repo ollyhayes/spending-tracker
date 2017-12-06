@@ -4,7 +4,6 @@ import SyncStatus from "./sync-status.jsx";
 import AccountStatus from "./account-status.jsx";
 import AppCacheStatus from "./app-cache-status.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
-import Manager from "./manager";
 
 export default class Page extends React.Component
 {

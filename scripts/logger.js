@@ -13,7 +13,7 @@ export default class Logger
 		window.onerror = (...args) =>
 		{
 			this.log("Global error handled - " + JSON.stringify(args));
-		}
+		};
 
 		this.logElement = document.createElement("pre");
 		document.body.appendChild(this.logElement);
