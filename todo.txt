@@ -1,7 +1,8 @@
 todo:
+	show debug information on request
+	test whether it would be quicker to just sort the last x rows instead of all of them
+	some sort of timeout on the account init - it just stays loading for ages on iphone and sometimes android
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
-	see if we can auto fill the entire page on the currency conversion stuff, so that it doesn't matter if the second request gets lost
-	some sort of timeout on the account init - it just stays loading for ages on iphone
 		scroll to top after submiting so you can see the status change
 		change title to spending tracker
 		fix up psuedo code above
@@ -31,6 +32,8 @@ todo:
 		remove outer border if up against side
 	rename categories for multiline buttons
 	better font?
+	see if we can auto fill the entire page on the currency conversion stuff, so that it doesn't matter if the second request gets lost
+		not sure if we need the above, it seems to have never happened
 
 	try creating special components so we don't have to manipulate elements directly in input-form
 		like how custom bindings worked in knockout
