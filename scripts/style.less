@@ -87,6 +87,29 @@ body > div
 		}
 	}
 
+	.settings-page-container
+	{
+		overflow: hidden;
+		max-height: 100px;
+		transition: max-height 1s;
+
+		&.hidden
+		{
+			max-height: 0;
+		}
+	}
+
+	.settings-page
+	{
+		padding: 10px;
+
+		button
+		{
+			.button();
+			width: 180px;
+		}
+	}
+
 	.input-form
 	{
 		.control();
