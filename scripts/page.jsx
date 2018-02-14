@@ -20,11 +20,18 @@ export default class Page extends React.Component
 		};
 
 		this.handleToggleSettingsPageShown = this.handleToggleSettingsPageShown.bind(this);
+
+		window.onpopstate = state =>
+		{
+			this.setState({settingsShown: state.state === "settings"});
+		};
 	}
 
 	handleToggleSettingsPageShown()
 	{
 		this.setState({settingsShown: !this.state.settingsShown});
+
+		window.history.pushState("settings", "settings", "/settings");
 	}
 
 	render()
