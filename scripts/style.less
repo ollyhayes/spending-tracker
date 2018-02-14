@@ -4,6 +4,7 @@
 @background: gainsboro;
 @highlight: #D9D9D9;
 @border: gray;
+@transition-time: 0.2s;
 
 html,body
 {
@@ -32,6 +33,12 @@ body
 	font-size: 0.8em;
 	white-space: normal; // allow wrap
 	.bordered();
+
+	transition: background-color @transition-time;
+	&.selected
+	{
+		background: @background;
+	}
 	
 	// iOS insists on rounded corners without these
 	border-radius: 0;
@@ -107,13 +114,23 @@ body > div
 	.settings-page-button
 	{
 		.icon-button();
+
+		svg
+		{
+			transition: transform @transition-time;
+		}
+
+		&.selected svg
+		{
+			transform: rotate(45deg);
+		}
 	}
 
 	.settings-page-container
 	{
 		overflow: hidden;
 		max-height: 72px;
-		transition: max-height 0.2s;
+		transition: max-height @transition-time;
 
 		&.hidden
 		{
@@ -153,11 +170,6 @@ body > div
 				{
 					.button();
 					flex-grow: 1;
-
-					&.selected
-					{
-						background: @background;
-					}
 				}
 			}
 		}

@@ -31,7 +31,9 @@ export default class Page extends React.Component
 	{
 		return <div>
 			<div className="upper-status-section">
-				<button className="settings-page-button" onClick={this.handleToggleSettingsPageShown}>
+				<button
+					className={"settings-page-button" + (this.state.settingsShown ? " selected" : "")}
+					onClick={this.handleToggleSettingsPageShown}>
 					<Icon iconName="cog"/>
 				</button>
 				<SyncStatus manager={this.manager}/>
