@@ -30,8 +30,11 @@ export default class Page extends React.Component
 	{
 		return <div>
 			<div className="upper-status-section">
-				<button onClick={this.handleToggleSettingsPageShown}>
-					{this.state.settingsShown ? "Hide Settings" : "Show Settings"}
+				<button className="settings-page-button" onClick={this.handleToggleSettingsPageShown}>
+					{/*this.state.settingsShown ? "Hide Settings" : "Show Settings"*/}
+					<svg className="icon">
+						<use xlinkHref="svg-sprites/fa-solid.svg#cog"></use>
+					</svg>
 				</button>
 				<SyncStatus manager={this.manager}/>
 			</div>
