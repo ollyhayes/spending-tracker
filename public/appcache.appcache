@@ -5,7 +5,7 @@ CACHE:
 /index.html
 /main.bundle.js
 /vendor.bundle.js
-/svg-sprites/fa-solid.svg
+/fa-bundle.svg
 
 NETWORK:
 *
