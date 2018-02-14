@@ -1,5 +1,6 @@
 todo:
 	show debug information on request
+	remove unused icons from sprites.svg
 	test whether it would be quicker to just sort the last x rows instead of all of them
 	some sort of timeout on the account init - it just stays loading for ages on iphone and sometimes android
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
