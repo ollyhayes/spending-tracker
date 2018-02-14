@@ -21,6 +21,7 @@ body
 .bordered()
 {
 	border: @border 1px solid;
+	background: white;
 }
 
 .button()
@@ -30,7 +31,6 @@ body
 	margin: 5px;
 	font-size: 0.8em;
 	white-space: normal; // allow wrap
-	background: white;
 	.bordered();
 	
 	// iOS insists on rounded corners without these
@@ -42,6 +42,16 @@ body
 		margin: 3px;
 		padding: 1px;
 	}
+}
+
+.icon-button()
+{
+	.button();
+
+	height: auto;
+	width: auto;
+	margin: 0;
+	padding: 5px;
 }
 
 svg.icon
@@ -63,9 +73,8 @@ body > div
 
 	.control()
 	{
-		background-color: white;
-		padding: 10px;
 		.bordered();
+		padding: 10px;
 		margin-bottom: 10px;
 	}
 
@@ -97,13 +106,7 @@ body > div
 
 	.settings-page-button
 	{
-		.button();
-
-		// maybe parameterise these in the button mixin
-		height: auto;
-		width: auto;
-		margin: 0;
-		padding: 5px;
+		.icon-button();
 	}
 
 	.settings-page-container
@@ -120,7 +123,8 @@ body > div
 
 	.settings-page
 	{
-		padding: 10px;
+		// like a .control(), but without a border and that
+		padding: 0 10px 10px 10px;
 
 		button
 		{
