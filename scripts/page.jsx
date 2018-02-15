@@ -6,7 +6,10 @@ import AccountStatus from "./account-status.jsx";
 import SettingsPage from "./settings-page.jsx";
 import Icon from "./icon.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
+import {default as PageState, page} from "./page-state";
+import {observer} from "mobx-react";
 
+@observer
 export default class Page extends React.Component
 {
 	constructor(props)
@@ -15,23 +18,17 @@ export default class Page extends React.Component
 
 		this.manager = props.manager;
 
-		this.state = {
-			settingsShown: false
-		};
+		this.pageState = new PageState();
 
 		this.handleToggleSettingsPageShown = this.handleToggleSettingsPageShown.bind(this);
-
-		window.onpopstate = state =>
-		{
-			this.setState({settingsShown: state.state === "settings"});
-		};
 	}
 
 	handleToggleSettingsPageShown()
 	{
-		this.setState({settingsShown: !this.state.settingsShown});
-
-		window.history.pushState("settings", "settings", "/settings");
+		this.pageState.setPage(
+			this.pageState.settingsShown
+				? page.main
+				: page.settings);
 	}
 
 	render()
@@ -39,13 +36,13 @@ export default class Page extends React.Component
 		return <div>
 			<div className="upper-status-section">
 				<button
-					className={"settings-page-button" + (this.state.settingsShown ? " selected" : "")}
+					className={"settings-page-button" + (this.pageState.settingsShown ? " selected" : "")}
 					onClick={this.handleToggleSettingsPageShown}>
 					<Icon iconName="cog"/>
 				</button>
 				<SyncStatus manager={this.manager}/>
 			</div>
-			<div className={"settings-page-container" + (this.state.settingsShown ? "" : " hidden")}>
+			<div className={"settings-page-container" + (this.pageState.settingsShown ? "" : " hidden")}>
 				<SettingsPage manager={this.manager} logger={this.manager.logger}/>
 			</div>
 			<InputForm manager={this.manager}/>
