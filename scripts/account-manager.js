@@ -1,4 +1,5 @@
 import {observable} from "mobx";
+import createEnum from "./enum.js";
 
 function loadGapi()
 {
@@ -41,12 +42,12 @@ function initAuth(gapi, options)
 				error => reject("Auth init error: " + JSON.stringify(error))));
 }
 
-export const status = {
-	notConnected: 0,
-	loading: 1,
-	signedOut: 2,
-	signedIn: 3
-};
+export const status = createEnum(
+	"notConnected",
+	"loading",
+	"signedOut",
+	"signedIn",
+);
 
 export default class AccountManager
 {

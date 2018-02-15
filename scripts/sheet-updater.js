@@ -1,13 +1,14 @@
 import timestamp from "time-stamp";
 import {observable} from "mobx";
+import createEnum from "./enum.js";
 
-export const status = {
-	unknown: 0,
-	uploadingData: 1,
-	processingSpreadsheet: 2,
-	noConnection: 3,
-	synced: 4
-};
+export const status = createEnum(
+	"unknown",
+	"uploadingData",
+	"processingSpreadsheet",
+	"noConnection",
+	"synced",
+);
 
 //const spreadsheetId = "1_WgnEfEjsM0EvyDkOq9U1iGbmcno4tGWZZUWyp8975w"; // test sheet
 const spreadsheetId = "19wRTaZ6ESmu4l2M7uV46OwDn5N3e-fzpgHSXdWChrOU";

@@ -1,10 +1,11 @@
 import {observable} from "mobx";
+import createEnum from "./enum.js";
 
-export const page = {
-	main: "main",
-	settings: "settings",
-	debugMessages: "debugMessages"
-};
+export const page = createEnum(
+	"main",
+	"settings",
+	"debugMessages"
+);
 
 export default class PageState
 {
