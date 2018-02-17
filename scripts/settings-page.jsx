@@ -21,9 +21,13 @@ export default class SettingsPage extends React.Component
 	render()
 	{
 		return <div className="settings-page">
-			<label>Application version:</label>
-			<AppCacheStatus/>
-			<button className="debug-button" onClick={this.handleShowDebugMessages}>Show debug messages</button>
+			<div className="statuses">
+				<label>Application version:</label>
+				<AppCacheStatus/>
+			</div>
+			<div className="buttons">
+				<button className="debug-button" onClick={this.handleShowDebugMessages}>Show debug messages</button>
+			</div>
 		</div>;
 	}
 }

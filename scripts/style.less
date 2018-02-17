@@ -142,24 +142,34 @@ body > div
 	{
 		// like a .control(), but without a border and that
 		padding: 0 10px 10px 10px;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-row-gap: 10px;
-		grid-column-gap: 10px;
 
-		label
+		.statuses
 		{
-			// or use grid's justify-content: right?
-			text-align: right;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-row-gap: 10px;
+			grid-column-gap: 10px;
+			font-size: 0.8em;
+
+			label
+			{
+				// or use grid's justify-content: right?
+				//text-align: right;
+				justify-self: right;
+			}
+		}
+
+		.buttons
+		{
+			//align buttons to the right
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
 		}
 
 		button.debug-button
 		{
-			grid-column-end: 3;
-			justify-self: right;
-
 			.button();
-			margin: 0;
 			width: 180px;
 		}
 	}
