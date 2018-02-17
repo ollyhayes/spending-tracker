@@ -142,9 +142,23 @@ body > div
 	{
 		// like a .control(), but without a border and that
 		padding: 0 10px 10px 10px;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
 
-		button
+		.cache-label
 		{
+			grid-column: 1;
+		}
+		.cache-value
+		{
+			grid-column: 2;
+		}
+
+		button.debug-button
+		{
+			grid-column: 1 / 2;
+			//grid-row: 1;
+
 			.button();
 			width: 180px;
 		}

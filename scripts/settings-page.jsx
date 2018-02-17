@@ -1,5 +1,6 @@
 import * as React from "react";
 import {page} from "./page-state";
+import AppCacheStatus from "./app-cache-status.jsx";
 
 export default class SettingsPage extends React.Component
 {
@@ -20,7 +21,9 @@ export default class SettingsPage extends React.Component
 	render()
 	{
 		return <div className="settings-page">
-			<button onClick={this.handleShowDebugMessages}>Show debug messages</button>
+			<label className="cache-label">Cache Status:</label>
+			<AppCacheStatus className="cache-value"/>
+			<button className="debug-button" onClick={this.handleShowDebugMessages}>Show debug messages</button>
 		</div>;
 	}
 }

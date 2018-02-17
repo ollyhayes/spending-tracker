@@ -2,7 +2,6 @@ import * as React from "react";
 import InputForm from "./input-form.jsx";
 import SyncStatus from "./sync-status.jsx";
 import AccountStatus from "./account-status.jsx";
-//import AppCacheStatus from "./app-cache-status.jsx";
 import SettingsPage from "./settings-page.jsx";
 import Icon from "./icon.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
