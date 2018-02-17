@@ -26,7 +26,7 @@ export default class SettingsPage extends React.Component
 				<AppCacheStatus/>
 			</div>
 			<div className="buttons">
-				<button className="debug-button" onClick={this.handleShowDebugMessages}>Show debug messages</button>
+				<button className="debug-button" onClick={this.handleShowDebugMessages}>Show debug log</button>
 			</div>
 		</div>;
 	}
