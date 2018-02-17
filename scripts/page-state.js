@@ -36,4 +36,9 @@ export default class PageState
 	{
 		return this._currentPage === page.settings;
 	}
+
+	get debugMessagesShown()
+	{
+		return this._currentPage === page.debugMessages;
+	}
 }

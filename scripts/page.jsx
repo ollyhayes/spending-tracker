@@ -8,6 +8,7 @@ import Icon from "./icon.jsx";
 //import ExpenditureList from "./expenditure-list.jsx";
 import {default as PageState, page} from "./page-state";
 import {observer} from "mobx-react";
+import DebugMessages from "./debug-messages.jsx";
 
 @observer
 export default class Page extends React.Component
@@ -33,6 +34,9 @@ export default class Page extends React.Component
 
 	render()
 	{
+		if (this.pageState.debugMessagesShown)
+			return <DebugMessages/>;
+
 		return <div>
 			<div className="upper-status-section">
 				<button
@@ -43,7 +47,7 @@ export default class Page extends React.Component
 				<SyncStatus manager={this.manager}/>
 			</div>
 			<div className={"settings-page-container" + (this.pageState.settingsShown ? "" : " hidden")}>
-				<SettingsPage manager={this.manager} logger={this.manager.logger}/>
+				<SettingsPage pageState={this.pageState}/>
 			</div>
 			<InputForm manager={this.manager}/>
 			<AccountStatus manager={this.manager}/>
