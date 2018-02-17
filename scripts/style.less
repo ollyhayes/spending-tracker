@@ -61,6 +61,24 @@ body
 	padding: 5px;
 }
 
+a,span
+{
+	&.neutral-message
+	{
+		color: #FF7E00; // amber
+	}
+
+	&.good-message
+	{
+		color: green;
+	}
+
+	&.bad-message
+	{
+		color: red;
+	}
+}
+
 svg.icon
 {
 	height: 1em;
@@ -91,24 +109,6 @@ body > div
 		justify-content: space-between;
 		align-items: center;
 		margin: 10px 0;
-
-		a,span
-		{
-			&.neutral-message
-			{
-				color: #FF7E00; // amber
-			}
-
-			&.good-message
-			{
-				color: green;
-			}
-
-			&.bad-message
-			{
-				color: red;
-			}
-		}
 	}
 
 	.settings-page-button
@@ -129,7 +129,7 @@ body > div
 	.settings-page-container
 	{
 		overflow: hidden;
-		max-height: 72px;
+		max-height: 89.5px;
 		transition: max-height @transition-time;
 
 		&.hidden
@@ -144,22 +144,22 @@ body > div
 		padding: 0 10px 10px 10px;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
+		grid-row-gap: 10px;
+		grid-column-gap: 10px;
 
-		.cache-label
+		label
 		{
-			grid-column: 1;
-		}
-		.cache-value
-		{
-			grid-column: 2;
+			// or use grid's justify-content: right?
+			text-align: right;
 		}
 
 		button.debug-button
 		{
-			grid-column: 1 / 2;
-			//grid-row: 1;
+			grid-column-end: 3;
+			justify-self: right;
 
 			.button();
+			margin: 0;
 			width: 180px;
 		}
 	}

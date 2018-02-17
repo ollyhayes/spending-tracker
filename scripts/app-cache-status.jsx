@@ -34,7 +34,7 @@ export default class AppCacheStatus extends React.Component
 		case appCache.UNCACHED: // UNCACHED == 0
 			return <span className="bad-message">Application uncached</span>;
 		case appCache.IDLE: // IDLE == 1
-			return null;
+			return <span className="good-message">Up to date</span>;
 		case appCache.CHECKING: // CHECKING == 2
 			return <span className="neutral-message">Checking for updates...</span>;
 		case appCache.DOWNLOADING: // DOWNLOADING == 3
