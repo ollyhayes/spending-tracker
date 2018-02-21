@@ -1,24 +1,15 @@
 import * as React from "react";
+import {observer} from "mobx-react";
+import timestamp from "time-stamp";
 
+@observer
 export default class ExpenditureList extends React.Component
 {
 	constructor(props)
 	{
 		super(props);
 
-		this.spendingManager = props.spendingManager;
-		this.spendingManager.registerUpdate(() => this.handleUpdate());
-
-		this.state = {
-			expenditures: this.spendingManager.expenditures
-		};
-	}
-
-	handleUpdate()
-	{
-		this.setState({
-			expenditures: this.spendingManager.expenditures
-		});
+		this.manager = props.manager;
 	}
 
 	render()
@@ -31,16 +22,18 @@ export default class ExpenditureList extends React.Component
 						<th>Category</th>
 						<th>Description</th>
 						<th>Amount</th>
+						<th>Synced</th>
 					</tr>
 				</thead>
 				<tbody>
 					{
-						this.state.expenditures.map(expenditure =>
+						this.manager.allExpenditures.map(expenditure =>
 							<tr key={expenditure.date.getTime()}>
-								<td>{expenditure.date.toString()}</td>
+								<td>{timestamp("DD/MM/YY HH:mm:ss", expenditure.date)}</td>
 								<td>{expenditure.category}</td>
 								<td>{expenditure.description}</td>
 								<td>{expenditure.amount}</td>
+								<td>{expenditure.synced.toString()}</td>
 							</tr>)
 					}
 				</tbody>

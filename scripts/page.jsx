@@ -4,7 +4,6 @@ import SyncStatus from "./sync-status.jsx";
 import AccountStatus from "./account-status.jsx";
 import SettingsPage from "./settings-page.jsx";
 import Icon from "./icon.jsx";
-//import ExpenditureList from "./expenditure-list.jsx";
 import {default as PageState, page} from "./page-state";
 import {observer} from "mobx-react";
 import DebugMessages from "./debug-messages.jsx";
@@ -47,15 +46,11 @@ export default class Page extends React.Component
 				<SyncStatus manager={this.manager}/>
 			</div>
 			<div className={"settings-page-container" + (this.pageState.settingsShown ? "" : " hidden")}>
-				<SettingsPage pageState={this.pageState}/>
+				<SettingsPage pageState={this.pageState} manager={this.manager}/>
 			</div>
 			<InputForm manager={this.manager}/>
 			<AccountStatus manager={this.manager}/>
 		</div>;
-
-		// <AppCacheStatus/>
-		// leaving this out for now
-		// <ExpenditureList spendingManager={this.spendingManager}/>
 	}
 }
 

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {page} from "./page-state";
 import AppCacheStatus from "./app-cache-status.jsx";
+import ExpenditureList from "./expenditure-list.jsx";
 
 export default class SettingsPage extends React.Component
 {
@@ -9,6 +10,7 @@ export default class SettingsPage extends React.Component
 		super(props);
 
 		this.pageState = props.pageState;
+		this.manager = props.manager;
 
 		this.handleShowDebugMessages = this.handleShowDebugMessages.bind(this);
 	}
@@ -21,6 +23,7 @@ export default class SettingsPage extends React.Component
 	render()
 	{
 		return <div className="settings-page">
+			<ExpenditureList manager={this.manager}/>
 			<div className="statuses">
 				<label>Application version:</label>
 				<AppCacheStatus/>

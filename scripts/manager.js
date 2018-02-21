@@ -27,6 +27,7 @@ export default class Manager
 	@computed get syncStatus() { return this._sheetUpdater.status; }
 
 	@computed get numberOfItemsAwaitingSync() { return this._spendingManager.newExpenditures.length; }
+	@computed get allExpenditures() { return this._spendingManager.allExpenditures; }
 
 	signIn()
 	{
