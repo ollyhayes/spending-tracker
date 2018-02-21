@@ -1,6 +1,7 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import timestamp from "time-stamp";
+import Icon from "./icon.jsx";
 
 @observer
 export default class ExpenditureList extends React.Component
@@ -35,7 +36,13 @@ export default class ExpenditureList extends React.Component
 									<td className="date">{timestamp("DD/MM/YY HH:mm:ss", expenditure.date)}</td>
 									<td>{`${expenditure.category} - ${expenditure.description}`}</td>
 									<td>{expenditure.amount}</td>
-									<td>{expenditure.synced.toString()}</td>
+									<td>
+										{
+											expenditure.synced
+												? <span className="good-message"><Icon iconName="check"/></span>
+												: <span className="bad-message"><Icon iconName="times"/></span>
+										}
+									</td>
 								</tr>)
 							: <tr><td colSpan="5">No expenditures logged</td></tr>
 					}
