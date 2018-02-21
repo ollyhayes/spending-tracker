@@ -23,23 +23,39 @@ export default class SpendingManager
 			date: date,
 			category: category,
 			amount: amount,
-			description: description
+			description: description,
+			synced: false
 		});
 
 		this._save();
 	}
 
-	clearExpenditures(expenditures)
+	markExpendituresSynced(expenditures)
 	{
 		transaction(() =>
+		{
 			expenditures.forEach(expenditure =>
-				this.expenditures.remove(expenditure)));
+				expenditure.synced = true);
+		});
 
 		this._save();
 	}
 
 	_save()
 	{
+		if (this.expenditures.length > 10)
+		{
+			transaction(() =>
+			{
+				const oldItems = this.expenditures.filter((expenditure, index) =>
+					index > 9 && expenditure.synced);
+
+				oldItems.forEach(this.expenditures.remove);
+			});
+		}
+
 		localStorage.setItem("expenditures", JSON.stringify(this.expenditures));
+
+		window.expenditures = this.expenditures.slice();
 	}
 }

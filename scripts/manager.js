@@ -87,7 +87,7 @@ export default class Manager
 			if (success)
 			{
 				log("Sync succeded");
-				this._spendingManager.clearExpenditures(currentExpenditures);
+				this._spendingManager.markExpendituresAsSynced(currentExpenditures);
 			}
 			else
 			{
