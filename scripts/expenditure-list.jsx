@@ -15,6 +15,9 @@ export default class ExpenditureList extends React.Component
 	render()
 	{
 		return <div className="expenditure-list">
+			<header>
+				Recent expenditures:
+			</header>
 			<table>
 				<thead>
 					<tr>

@@ -129,7 +129,7 @@ body > div
 	.settings-page-container
 	{
 		overflow: hidden;
-		max-height: 89.5px;
+		max-height: 500px;
 		transition: max-height @transition-time;
 
 		&.hidden
@@ -143,6 +143,11 @@ body > div
 		// like a .control(), but without a border and that
 		padding: 0 10px 10px 10px;
 
+		& > div
+		{
+			margin: 20px 0;
+		}
+
 		.statuses
 		{
 			display: grid;
@@ -153,8 +158,6 @@ body > div
 
 			label
 			{
-				// or use grid's justify-content: right?
-				//text-align: right;
 				justify-self: right;
 			}
 		}
@@ -171,6 +174,34 @@ body > div
 		{
 			.button();
 			width: 180px;
+		}
+
+		 .expenditure-list
+		 {
+			header
+			{
+				font-size: 0.8em;
+				margin-bottom: 5px;
+			}
+
+			table
+			{
+				font-size: 0.8em;
+				width: 100%;
+				border-collapse: collapse;
+
+				tr
+				{
+					border-bottom: solid 1px gray;
+					border-top: solid 1px gray;
+				}
+
+				td,th
+				{
+					text-align: center;
+					padding: 5px 0;
+				}
+			}
 		}
 	}
 
@@ -244,84 +275,4 @@ body > div
 		height: 100%;
 		font-size: 0.7em;
 	}
-
-	// div.expenditure-list
-	// {
-	// 	.control();
-
-	// 	table
-	// 	{
-	// 			width: 100%;
-	// 			border-collapse: collapse;
-
-	// 			th,td
-	// 			{
-	// 				padding: 5px 10px;
-
-	// 				text-align: center;
-
-	// 				&.icon-column
-	// 				{
-	// 					width: 1%;
-	// 				}
-
-	// 				&.name
-	// 				{
-	// 					text-align: left;
-	// 				}
-
-	// 				&.size
-	// 				{
-	// 					text-align: right;
-	// 					width: 1%;
-	// 					white-space: nowrap;
-
-	// 					@media (max-width: 450px)
-	// 					{
-	// 						display: none;
-	// 					}
-	// 				}
-					
-	// 				&.date
-	// 				{
-	// 					width: 25%;
-						
-	// 					@media (max-width: 950px)
-	// 					{
-	// 						width: 1%;
-	// 					}
-	// 					@media (max-width: 700px)
-	// 					{
-	// 						display: none;
-	// 					}
-	// 				}
-	// 			}
-
-	// 			tbody tr
-	// 			{
-	// 				border-top: @border solid 1px;
-
-	// 				&:hover
-	// 				{
-	// 					background-color: @highlight;
-	// 				}
-
-	// 				&.directory
-	// 				{
-	// 					cursor: pointer;
-	// 				}
-
-	// 				&:not(.directory) td.icon-column svg.icon
-	// 				{
-	// 					cursor: pointer;
-
-	// 					&:hover
-	// 					{
-	// 						fill: blue;
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	//}
 }
