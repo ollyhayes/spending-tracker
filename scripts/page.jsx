@@ -48,7 +48,9 @@ export default class Page extends React.Component
 			<div className={"settings-page-container" + (this.pageState.settingsShown ? "" : " hidden")}>
 				<SettingsPage pageState={this.pageState} manager={this.manager}/>
 			</div>
-			<InputForm manager={this.manager}/>
+			<div className={"input-form-container" + (this.pageState.settingsShown ? " disabled" : "")}>
+				<InputForm manager={this.manager}/>
+			</div>
 			<AccountStatus manager={this.manager}/>
 		</div>;
 	}
