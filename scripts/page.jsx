@@ -17,6 +17,7 @@ export default class Page extends React.Component
 		super();
 
 		this.manager = props.manager;
+		this.logger = props.logger;
 
 		this.pageState = new PageState();
 
@@ -34,7 +35,7 @@ export default class Page extends React.Component
 	render()
 	{
 		if (this.pageState.debugMessagesShown)
-			return <DebugMessages logger={this.manager.logger}/>;
+			return <DebugMessages logger={this.logger}/>;
 
 		return <div>
 			<div className="upper-status-section">

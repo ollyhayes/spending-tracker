@@ -13,6 +13,6 @@ document.addEventListener("DOMContentLoaded", () =>
 	ReactDOM.render(
 		React.createElement(
 			Page,
-			{manager}),
+			{manager, logger}),
 		document.querySelector("body > div"));
 });
