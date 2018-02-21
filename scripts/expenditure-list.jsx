@@ -22,10 +22,9 @@ export default class ExpenditureList extends React.Component
 				<thead>
 					<tr>
 						<th>Date</th>
-						<th>Category</th>
 						<th>Description</th>
-						<th>Amount</th>
-						<th>Synced</th>
+						<th>Price</th>
+						<th>Sync</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -33,9 +32,8 @@ export default class ExpenditureList extends React.Component
 						this.manager.allExpenditures.length > 0
 							? this.manager.allExpenditures.map(expenditure =>
 								<tr key={expenditure.date.getTime()}>
-									<td>{timestamp("DD/MM/YY HH:mm:ss", expenditure.date)}</td>
-									<td>{expenditure.category}</td>
-									<td>{expenditure.description}</td>
+									<td className="date">{timestamp("DD/MM/YY HH:mm:ss", expenditure.date)}</td>
+									<td>{`${expenditure.category} - ${expenditure.description}`}</td>
 									<td>{expenditure.amount}</td>
 									<td>{expenditure.synced.toString()}</td>
 								</tr>)

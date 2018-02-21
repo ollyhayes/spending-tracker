@@ -58,7 +58,7 @@ body
 	height: auto;
 	width: auto;
 	margin: 0;
-	padding: 5px;
+	padding: 3px;
 }
 
 a,span
@@ -81,8 +81,8 @@ a,span
 
 svg.icon
 {
-	height: 1em;
-	width: 1em;
+	height: 1.2em;
+	width: 1.2em;
 	display: block;
 }
 
@@ -200,6 +200,12 @@ body > div
 				{
 					text-align: center;
 					padding: 5px 0;
+
+					&.date
+					{
+						width: 100px; // force wraping to make multi line table
+					}
+
 				}
 			}
 		}
