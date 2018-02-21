@@ -30,14 +30,16 @@ export default class ExpenditureList extends React.Component
 				</thead>
 				<tbody>
 					{
-						this.manager.allExpenditures.map(expenditure =>
-							<tr key={expenditure.date.getTime()}>
-								<td>{timestamp("DD/MM/YY HH:mm:ss", expenditure.date)}</td>
-								<td>{expenditure.category}</td>
-								<td>{expenditure.description}</td>
-								<td>{expenditure.amount}</td>
-								<td>{expenditure.synced.toString()}</td>
-							</tr>)
+						this.manager.allExpenditures.length > 0
+							? this.manager.allExpenditures.map(expenditure =>
+								<tr key={expenditure.date.getTime()}>
+									<td>{timestamp("DD/MM/YY HH:mm:ss", expenditure.date)}</td>
+									<td>{expenditure.category}</td>
+									<td>{expenditure.description}</td>
+									<td>{expenditure.amount}</td>
+									<td>{expenditure.synced.toString()}</td>
+								</tr>)
+							: <tr><td colSpan="5">No expenditures logged</td></tr>
 					}
 				</tbody>
 			</table>
