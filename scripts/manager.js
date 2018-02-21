@@ -26,7 +26,7 @@ export default class Manager
 
 	@computed get syncStatus() { return this._sheetUpdater.status; }
 
-	@computed get numberOfItemsAwaitingSync() { return this._spendingManager.expenditures.length; }
+	@computed get numberOfItemsAwaitingSync() { return this._spendingManager.newExpenditures.length; }
 
 	signIn()
 	{
@@ -72,22 +72,22 @@ export default class Manager
 				return;
 			}
 
-			const currentExpenditures = this._spendingManager.expenditures.slice();
+			const newExpenditures = this._spendingManager.newExpenditures;
 
-			if (currentExpenditures.length === 0)
+			if (newExpenditures.length === 0)
 			{
 				log("No new expenditures - aborting");
 				return;
 			}
 
-			log(`Attempting sync - ${currentExpenditures.length} expenditures`);
+			log(`Attempting sync - ${newExpenditures.length} expenditures`);
 
-			const success = await this._sheetUpdater.trySync(currentExpenditures, this._accountManager.getAccessToken());
+			const success = await this._sheetUpdater.trySync(newExpenditures, this._accountManager.getAccessToken());
 
 			if (success)
 			{
 				log("Sync succeded");
-				this._spendingManager.markExpendituresAsSynced(currentExpenditures);
+				this._spendingManager.markExpendituresSynced(newExpenditures);
 			}
 			else
 			{
