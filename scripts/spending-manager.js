@@ -1,5 +1,7 @@
 import {observable, transaction, computed} from "mobx";
 
+const recentItemsCount = 5;
+
 export default class SpendingManager
 {
 	@observable
@@ -46,14 +48,14 @@ export default class SpendingManager
 
 	_save()
 	{
-		if (this._expenditures.length > 10)
+		if (this._expenditures.length > recentItemsCount)
 		{
 			transaction(() =>
 			{
-				const oldItems = this._expenditures.filter((expenditure, index) =>
-					index > 9 && expenditure.synced);
+				const oldItems = this._expenditures.reverse().filter((expenditure, index) =>
+					index >= recentItemsCount && expenditure.synced);
 
-				oldItems.forEach(this._expenditures.remove);
+				oldItems.forEach(oldItem => this._expenditures.remove(oldItem));
 			});
 		}
 

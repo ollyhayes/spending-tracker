@@ -1,5 +1,10 @@
 todo:
-	show debug information on request
+	past expenses:
+		show date or time not both
+		horizontal padding on cells
+		fix height of settings page
+	fix multitab bug - check localstorage all the time
+		show debug information on request
 		remove unused icons from sprites.svg
 	test whether it would be quicker to just sort the last x rows instead of all of them
 	some sort of timeout on the account init - it just stays loading for ages on iphone and sometimes android
@@ -17,7 +22,7 @@ todo:
 		disallow submit without category or number
 		minify bunudle
 		improve messages - "uploading data" instead of loading etc
-	remember past expenpeses and show them in table so we can see if there are concurrency problems - https://issuetracker.google.com/issues/36760568
+		remember past expenpeses and show them in table so we can see if there are concurrency problems - https://issuetracker.google.com/issues/36760568
 	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
 		extract vendor code
 	animation on submit
