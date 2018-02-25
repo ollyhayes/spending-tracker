@@ -36,7 +36,7 @@ export default class ExpenditureList extends React.Component
 				<tbody>
 					{
 						this.manager.allExpenditures.length > 0
-							? this.manager.allExpenditures.map(expenditure =>
+							? this.manager.allExpenditures.reverse().map(expenditure =>
 								<tr key={expenditure.date.getTime()}>
 									<td>
 										{
