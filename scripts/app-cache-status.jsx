@@ -40,7 +40,7 @@ export default class AppCacheStatus extends React.Component
 		case appCache.DOWNLOADING: // DOWNLOADING == 3
 			return <span className="neutral-message">Downloading updates...</span>;
 		case appCache.UPDATEREADY:  // UPDATEREADY == 4
-			return <span className="good-message">Update ready</span>;
+			return <span className="neutral-message">Update ready</span>;
 		case appCache.OBSOLETE: // OBSOLETE == 5
 			return <span className="bad-message">Update required</span>;
 		default:
