@@ -1,9 +1,8 @@
 todo:
 	past expenses:
-		show date or time not both
-		horizontal padding on cells
+			horizontal padding on cells
 		fix height of settings page
-		reverse order
+			reverse order
 		fix stepped tr border on sync tick
 	can't sign out and in as someone else
 	fix multitab bug - check localstorage all the time
