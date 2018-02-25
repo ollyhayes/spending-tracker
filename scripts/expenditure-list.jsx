@@ -41,7 +41,7 @@ export default class ExpenditureList extends React.Component
 									<td>
 										{
 											isSameDay(new Date(), expenditure.date)
-												? timestamp("HH:mm:ss", expenditure.date)
+												? timestamp("HH:mm", expenditure.date)
 												: timestamp("DD/MM/YY", expenditure.date)
 										}
 									</td>
