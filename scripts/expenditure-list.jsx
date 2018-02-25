@@ -36,7 +36,7 @@ export default class ExpenditureList extends React.Component
 				<tbody>
 					{
 						this.manager.allExpenditures.length > 0
-							? this.manager.allExpenditures.reverse().map(expenditure =>
+							? this.manager.allExpenditures.map(expenditure =>
 								<tr key={expenditure.date.getTime()}>
 									<td>
 										{
@@ -54,7 +54,7 @@ export default class ExpenditureList extends React.Component
 												: <span className="bad-message"><Icon iconName="times"/></span>
 										}
 									</td>
-								</tr>)
+								</tr>).reverse()
 							: <tr><td colSpan="5">No expenditures logged</td></tr>
 					}
 				</tbody>

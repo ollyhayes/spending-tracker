@@ -1,11 +1,12 @@
 todo:
+	fix multitab bug - check localstorage all the time
+	some sort of timeout on the account init - it just stays loading for ages on iphone and sometimes android
+	test whether it would be quicker to just sort the last x rows instead of all of them
 	optional animation
 	optional blur
 	optional autosync
+	add other statuses to settings page
 	can't sign out and in as someone else
-	fix multitab bug - check localstorage all the time
-	test whether it would be quicker to just sort the last x rows instead of all of them
-	some sort of timeout on the account init - it just stays loading for ages on iphone and sometimes android
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
 	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
 	animation on submit
