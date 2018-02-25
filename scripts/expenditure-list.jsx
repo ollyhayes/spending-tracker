@@ -3,6 +3,11 @@ import {observer} from "mobx-react";
 import timestamp from "time-stamp";
 import Icon from "./icon.jsx";
 
+function isSameDay(x, y)
+{
+	return x.getDate() === y.getDate() && x.getMonth() === y.getMonth() && x.getFullYear() == y.getFullYear();
+}
+
 @observer
 export default class ExpenditureList extends React.Component
 {
@@ -33,7 +38,13 @@ export default class ExpenditureList extends React.Component
 						this.manager.allExpenditures.length > 0
 							? this.manager.allExpenditures.map(expenditure =>
 								<tr key={expenditure.date.getTime()}>
-									<td className="date">{timestamp("DD/MM/YY HH:mm:ss", expenditure.date)}</td>
+									<td>
+										{
+											isSameDay(new Date(), expenditure.date)
+												? timestamp("HH:mm:ss", expenditure.date)
+												: timestamp("DD/MM/YY", expenditure.date)
+										}
+									</td>
 									<td>{`${expenditure.category} - ${expenditure.description}`}</td>
 									<td>{expenditure.amount}</td>
 									<td>
