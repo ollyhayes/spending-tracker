@@ -5,15 +5,24 @@ function loadGapi()
 {
 	return new Promise((resolve, reject) =>
 	{
+		if (window.gapi)
+			resolve(window.gapi);
+
 		const script = document.createElement("script");
 		script.type = "application/javascript";
 		script.async = false;
 		script.charset = "utf-8";
 		script.src = "https://apis.google.com/js/api.js";
 		script.addEventListener("load", () => resolve(window.gapi));
-		script.addEventListener("error", error => reject(error));
+		script.addEventListener("error", error => {
+			return reject(error);
+		});
 
 		document.getElementsByTagName("head")[0].appendChild(script);
+
+		setTimeout(
+			() => reject(new Error("Loading gapi failed after 10 seconds")),
+			10000);
 	});
 }
 
@@ -26,8 +35,8 @@ function loadAuth2(gapi)
 			{
 				callback: resolve,
 				onerror: error => reject("Client library load error: ", JSON.stringify(error)),
-				timeout: 30000,
-				ontimeout: () => reject("Client library load error - timed out after 5 seconds")
+				timeout: 10000,
+				ontimeout: () => reject("Client library load error - timed out after 10 seconds")
 			});
 	});
 }
@@ -35,7 +44,7 @@ function loadAuth2(gapi)
 function initAuth(gapi, options)
 {
 	return new Promise((resolve, reject) =>
-		// I don't think this returns a real promise so we have to wrap it
+		// I don't think this returns a real promise so we have to wrap it EDIT: Actually I think it's because the promise resolves to itself or something. Maybe I'll investigate later
 		gapi.auth2.init(options)
 			.then(
 				() => resolve(), // if we pass the resolve method directly the page locks up
@@ -83,7 +92,7 @@ export default class AccountManager
 		}
 		catch (error)
 		{
-			console.log("Error initialising auth: ", error);
+			this.logger.log("Error initialising auth: " + error.message);
 		}
 		finally
 		{
