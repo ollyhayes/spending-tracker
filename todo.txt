@@ -1,5 +1,4 @@
 todo:
-	fix multitab bug - check localstorage all the time
 	some sort of timeout on the account init - it just stays loading for ages on iphone and sometimes android
 	test whether it would be quicker to just sort the last x rows instead of all of them
 	optional animation

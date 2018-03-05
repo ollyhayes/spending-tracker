@@ -9,14 +9,7 @@ export default class SpendingManager
 
 	constructor()
 	{
-		const expendituresJson = localStorage.getItem("expenditures");
-
-		this._expenditures = expendituresJson
-			? JSON.parse(expendituresJson)
-			: [];
-
-		// urgh, there must be a better way, but no internet at the moment
-		this._expenditures.forEach(expenditure => expenditure.date = new Date(expenditure.date));
+		this.syncWithLocalStorage();
 	}
 
 	@computed get newExpenditures() { return this._expenditures.filter(expenditure => !expenditure.synced); }
@@ -32,7 +25,7 @@ export default class SpendingManager
 			synced: false
 		});
 
-		this._save();
+		this.syncWithLocalStorage();
 	}
 
 	markExpendituresSynced(expenditures)
@@ -43,22 +36,44 @@ export default class SpendingManager
 				expenditure.synced = true);
 		});
 
-		this._save();
+		this.syncWithLocalStorage();
 	}
 
-	_save()
+	syncWithLocalStorage()
 	{
-		if (this._expenditures.length > recentItemsCount)
-		{
-			transaction(() =>
-			{
-				const oldItems = this._expenditures.reverse().filter((expenditure, index) =>
-					index >= recentItemsCount && expenditure.synced);
+		const storedExpendituresJson = localStorage.getItem("expenditures");
 
-				oldItems.forEach(oldItem => this._expenditures.remove(oldItem));
-			});
-		}
+		const storedExpenditures = storedExpendituresJson
+			? JSON.parse(storedExpendituresJson)
+			: [];
 
+		// urgh, there must be a better way, but no internet at the moment
+		storedExpenditures.forEach(expenditure => expenditure.date = new Date(expenditure.date));
+
+		const uniqueExpenditures = storedExpenditures
+			.concat(this._expenditures.slice()) // create copy - concat doesn't work with mobx arrays
+			.reduce(
+				(uniqueExpenditures, next) =>
+				{
+					const alreadyAddedExpenditure = uniqueExpenditures.find(expenditure =>
+						expenditure.date.getTime() === next.date.getTime());
+
+					if (alreadyAddedExpenditure)
+						alreadyAddedExpenditure.synced = alreadyAddedExpenditure.synced || next.synced;
+
+					return alreadyAddedExpenditure
+						? uniqueExpenditures
+						: uniqueExpenditures.concat(next);
+				},
+				[]);
+
+		const recentIndexCutoff = uniqueExpenditures.length - recentItemsCount;
+
+		const recentUniqueExpenditures = uniqueExpenditures
+			.filter((expenditure, index) => 
+				!expenditure.synced || index >= recentIndexCutoff);
+
+		this._expenditures = recentUniqueExpenditures;
 		localStorage.setItem("expenditures", JSON.stringify(this._expenditures));
 	}
 }

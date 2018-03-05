@@ -73,6 +73,8 @@ export default class Manager
 				return;
 			}
 
+			// check if other tabs have added expenditures
+			this._spendingManager.syncWithLocalStorage();
 			const newExpenditures = this._spendingManager.newExpenditures;
 
 			if (newExpenditures.length === 0)
