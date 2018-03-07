@@ -45,7 +45,7 @@ export default class ExpenditureList extends React.Component
 												: timestamp("DD/MM/YY", expenditure.date)
 										}
 									</td>
-									<td>{`${expenditure.category} - ${expenditure.description}`}</td>
+									<td>{expenditure.description}</td>
 									<td>{expenditure.amount}</td>
 									<td>
 										{
