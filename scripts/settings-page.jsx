@@ -3,7 +3,7 @@ import {page} from "./page-state";
 import AppCacheStatus from "./app-cache-status.jsx";
 import ExpenditureList from "./expenditure-list.jsx";
 import AccountStatus from "./account-status.jsx";
-import SyncStatus from "./sync-status.jsx";
+import SpendingStatus from "./spending-status.jsx";
 
 export default class SettingsPage extends React.Component
 {
@@ -27,12 +27,12 @@ export default class SettingsPage extends React.Component
 		return <div className="settings-page">
 			<ExpenditureList manager={this.manager}/>
 			<div className="statuses">
-				<label>Application version:</label>
-				<AppCacheStatus/>
+				<label>Sync status:</label>
+				<SpendingStatus manager={this.manager}/>
 				<label>Sign in:</label>
 				<AccountStatus manager={this.manager}/>
-				<label>Sync status:</label>
-				<SyncStatus manager={this.manager}/>
+				<label>Application version:</label>
+				<AppCacheStatus/>
 			</div>
 			<div className="buttons">
 				<button className="debug-button" onClick={this.handleShowDebugMessages}>Show debug log</button>

@@ -1,5 +1,4 @@
 todo:
-	add other statuses to settings page
 	optional animation
 	optional blur
 	optional autosync
