@@ -11,7 +11,13 @@ export default class AccountStatus extends React.Component
 
 		this.manager = props.manager;
 
+		this.handleSignIn = this.handleSignIn.bind(this);
 		this.handleSignOut = this.handleSignOut.bind(this);
+	}
+
+	handleSignIn()
+	{
+		this.manager.signIn();
 	}
 
 	handleSignOut()
@@ -21,10 +27,12 @@ export default class AccountStatus extends React.Component
 
 	render()
 	{
-		return this.manager.accountStatus === accountStatus.signedIn
-			? <div className="account-status">
-				<span>Signed in as: {this.manager.accountUsername}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>
-			</div>
-			: null;
+		return <div className="account-status">
+			{
+				this.manager.accountStatus === accountStatus.signedIn
+					? <span className="good-message">{this.manager.accountUsername}<a href="javascript:void(0)" onClick={this.handleSignOut}>Sign out</a></span>
+					: <span className="neutral-message">Signed out<a href="javascript:void(0)" onClick={this.handleSignIn}>Sign in</a></span>
+			}
+		</div>;
 	}
 }

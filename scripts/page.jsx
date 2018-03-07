@@ -1,7 +1,6 @@
 import * as React from "react";
 import InputForm from "./input-form.jsx";
 import SyncStatus from "./sync-status.jsx";
-import AccountStatus from "./account-status.jsx";
 import SettingsPage from "./settings-page.jsx";
 import Icon from "./icon.jsx";
 import {default as PageState, page} from "./page-state";
@@ -51,7 +50,6 @@ export default class Page extends React.Component
 			<div className={"input-form-container" + (this.pageState.settingsShown ? " disabled" : "")}>
 				<InputForm manager={this.manager}/>
 			</div>
-			<AccountStatus manager={this.manager}/>
 		</div>;
 	}
 }
