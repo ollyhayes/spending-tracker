@@ -34,13 +34,17 @@ export default class SettingsPage extends React.Component
 
 	render()
 	{
-		const settingInput = name =>
-			<input
-				type="checkbox"
-				name={name}
-				checked={this.settings[name]}
-				onChange={this.handleSettingChanged}>
-			</input>;
+		const settingsRow = (displayName, name) =>
+			<React.Fragment>
+				<label htmlFor={"setting_" + name}>{displayName + ":"}</label>
+				<input
+					type="checkbox"
+					name={name}
+					id={"setting_" + name}
+					checked={this.settings[name]}
+					onChange={this.handleSettingChanged}>
+				</input>
+			</React.Fragment>;
 
 		return <div className="settings-page">
 			<ExpenditureList manager={this.manager}/>
@@ -53,12 +57,9 @@ export default class SettingsPage extends React.Component
 				<AppCacheStatus/>
 			</div>
 			<div className="settings">
-				<label>Animate:</label>
-				{settingInput("animate")}
-				<label>Blur effect:</label>
-				{settingInput("blurEffect")}
-				<label>Auto sync:</label>
-				{settingInput("autoSync")}
+				{settingsRow("Animate", "animate")}
+				{settingsRow("Blur effect", "blurEffect")}
+				{settingsRow("Auto sync", "autoSync")}
 			</div>
 			<div className="buttons">
 				<button className="debug-button" onClick={this.handleShowDebugMessages}>Show debug log</button>
