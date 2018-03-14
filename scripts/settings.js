@@ -13,9 +13,11 @@ export default class Settings
 	{
 		const get = (name, defaultValue) =>
 		{
-			const fromStorage = localStorage.getItem(name);
+			const storedOptionString = localStorage.getItem(name);
 
-			return fromStorage == undefined ? defaultValue : fromStorage;
+			return storedOptionString == undefined
+				? defaultValue
+				: storedOptionString === "true";
 		};
 
 		this._animate = get("animate", true);
@@ -56,6 +58,6 @@ export default class Settings
 	set autoSync(value)
 	{
 		this._autoSync = value;
-		localStorage.setItem("autoSync ", value);
+		localStorage.setItem("autoSync", value);
 	}
 }
