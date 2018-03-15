@@ -7,18 +7,20 @@ export {accountStatus, syncStatus};
 
 export default class Manager
 {
-	constructor(logger)
+	constructor(logger, settings)
 	{
 		this._spendingManager = new SpendingManager();
 		this._accountManager = new AccountManager(logger);
 		this._sheetUpdater = new SheetUpdater();
 		this._logger = logger;
+		this._settings = settings;
 
 		this._syncQueud = false;
 		this._syncInProgress = false;
 		this._syncNumber = 0;
 
-		this.sync();
+		if (this._settings.autoSync)
+			this.sync();
 	}
 
 	@computed get accountStatus() { return this._accountManager.status; }
@@ -43,7 +45,8 @@ export default class Manager
 	{
 		this._spendingManager.addExpenditure(date, category, amount, description);
 
-		this.sync();
+		if (this._settings.autoSync)
+			this.sync();
 	}
 
 	async sync()
@@ -73,7 +76,7 @@ export default class Manager
 				return;
 			}
 
-			// check if other tabs have added expenditures
+			// check if other spending tracker is open in other tabs and has other added expenditures
 			this._spendingManager.syncWithLocalStorage();
 			const newExpenditures = this._spendingManager.newExpenditures;
 

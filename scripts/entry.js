@@ -4,9 +4,11 @@ import "./style.less";
 import Manager from "./manager.js";
 import Page from "./page.jsx";
 import Logger from "./logger.js";
+import Settings from "./settings.js";
 
 const logger = new Logger();
-const manager = new Manager(logger);
+const settings = new Settings();
+const manager = new Manager(logger, settings);
 
 document.addEventListener("DOMContentLoaded", () =>
 {
