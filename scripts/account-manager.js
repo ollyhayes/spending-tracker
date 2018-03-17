@@ -113,7 +113,6 @@ export default class AccountManager
 		catch (error)
 		{
 			this.logger.log("Signin failed - " + JSON.stringify(error));
-			alert("Sign in error: " + JSON.stringify(error));
 			throw error;
 		}
 		finally
@@ -129,7 +128,7 @@ export default class AccountManager
 		try
 		{
 			this.logger.log("Attempting sign out");
-			await this.gapi.auth2.getAuthInstance().signOut();
+			await this.gapi.auth2.getAuthInstance().disconnect();
 			this.logger.log("Signout succeded");
 		}
 		catch (error)

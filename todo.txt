@@ -1,17 +1,12 @@
 todo:
-	optional animation
-	optional blur
-	optional autosync
 	split manager.sync() into seperate methods for locking, initialising and syncing
 	don't start syncing for a few seconds in case there's something else to be synced
-	can't sign out and in as someone else
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
 	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
 	animation on submit
 	add temporary status messages
 	favicon - baht symbol?
 	fix google oauth message saying app isn't verified by google
-	make children of multimanager private
 	rename categories for multiline buttons
 	better font?
 	see if we can auto fill the entire page on the currency conversion stuff, so that it doesn't matter if the second request gets lost
