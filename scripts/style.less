@@ -221,8 +221,13 @@ body > div
 
 		&.disabled
 		{
-			filter: blur(2px) brightness(80%);
 			pointer-events: none;
+			filter: brightness(80%);
+
+			&.blur-animation
+			{
+				filter: blur(2px) brightness(80%);
+			}
 		}
 	}
 

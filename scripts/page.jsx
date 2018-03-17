@@ -16,6 +16,7 @@ export default class Page extends React.Component
 
 		this.manager = props.manager;
 		this.logger = props.logger;
+		this.settings = props.settings;
 
 		this.pageState = new PageState();
 
@@ -45,9 +46,14 @@ export default class Page extends React.Component
 				<SyncStatus manager={this.manager}/>
 			</div>
 			<div className={"settings-page-container" + (this.pageState.settingsShown ? "" : " hidden")}>
-				<SettingsPage pageState={this.pageState} manager={this.manager}/>
+				<SettingsPage pageState={this.pageState} manager={this.manager} settings={this.settings}/>
 			</div>
-			<div className={"input-form-container" + (this.pageState.settingsShown ? " disabled" : "")}>
+			<div
+				className={
+					"input-form-container" +
+					(this.pageState.settingsShown ? " disabled" : "") +
+					(this.settings.blurEffect ? " blur-animation" : "")
+				}>
 				<InputForm manager={this.manager}/>
 			</div>
 		</div>;

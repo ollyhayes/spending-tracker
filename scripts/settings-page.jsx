@@ -4,7 +4,6 @@ import AppCacheStatus from "./app-cache-status.jsx";
 import ExpenditureList from "./expenditure-list.jsx";
 import AccountStatus from "./account-status.jsx";
 import SpendingStatus from "./spending-status.jsx";
-import Settings from "./settings.js";
 import {observer} from "mobx-react";
 
 @observer
@@ -16,7 +15,7 @@ export default class SettingsPage extends React.Component
 
 		this.pageState = props.pageState;
 		this.manager = props.manager;
-		this.settings = new Settings();
+		this.settings = props.settings;
 
 		this.handleShowDebugMessages = this.handleShowDebugMessages.bind(this);
 		this.handleSettingChanged = this.handleSettingChanged.bind(this);
