@@ -3,8 +3,6 @@ import {observable, computed} from "mobx";
 export default class Settings
 {
 	@observable
-	_animate = null;
-	@observable
 	_blurEffect = null;
 	@observable
 	_autoSync = null;
@@ -20,21 +18,8 @@ export default class Settings
 				: storedOptionString === "true";
 		};
 
-		this._animate = get("animate", true);
 		this._blurEffect = get("blurEffect", false);
 		this._autoSync = get("autoSync", true);
-	}
-
-	@computed
-	get animate()
-	{
-		return this._animate;
-	}
-
-	set animate(value)
-	{
-		this._animate = value;
-		localStorage.setItem("animate", value);
 	}
 
 	@computed

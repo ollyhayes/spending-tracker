@@ -56,7 +56,6 @@ export default class SettingsPage extends React.Component
 				<AppCacheStatus/>
 			</div>
 			<div className="settings">
-				{settingsRow("Animate", "animate")}
 				{settingsRow("Blur effect", "blurEffect")}
 				{settingsRow("Auto sync", "autoSync")}
 			</div>
