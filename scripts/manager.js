@@ -1,5 +1,6 @@
 import {computed} from "mobx";
 import SpendingManager from "./spending-manager.js";
+import Locker from "./locker.js";
 import {default as SheetUpdater, status as syncStatus} from "./sheet-updater.js";
 import {default as AccountManager, status as accountStatus} from "./account-manager.js";
 
@@ -15,9 +16,9 @@ export default class Manager
 		this._logger = logger;
 		this._settings = settings;
 
-		this._syncQueud = false;
-		this._syncInProgress = false;
 		this._syncNumber = 0;
+
+		this._locker = new Locker(() => this.sync());
 
 		if (this._settings.autoSync)
 			this.sync();
@@ -56,16 +57,7 @@ export default class Manager
 
 		log("Starting...");
 
-		if (this._syncInProgress)
-		{
-			log("Sync in progress - queueing");
-			this._syncQueued = true;
-			return;
-		}
-
-		this._syncInProgress = true;
-
-		try
+		await this._locker.lock(async () =>
 		{
 			if (this.accountStatus === accountStatus.notConnected)
 				await this._accountManager.initialise();
@@ -99,16 +91,7 @@ export default class Manager
 			{
 				log("Sync failed");
 			}
-		}
-		finally
-		{
-			this._syncInProgress = false;
-		}
-
-		if (this._syncQueued)
-		{
-			this._syncQueued = false;
-			await this.sync();
-		}
+		},
+		log);
 	}
 }

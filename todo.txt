@@ -10,6 +10,7 @@ todo:
 	rename categories for multiline buttons
 	better font?
 	see if we can auto fill the entire page on the currency conversion stuff, so that it doesn't matter if the second request gets lost
+	allow custom spreadsheet
 
 	try creating special components so we don't have to manipulate elements directly in input-form
 		like how custom bindings worked in knockout
