@@ -34,6 +34,8 @@ export default class SpendingManager
 		{
 			expenditures.forEach(expenditure =>
 				expenditure.synced = true);
+
+
 		});
 
 		this.syncWithLocalStorage();
@@ -50,8 +52,8 @@ export default class SpendingManager
 		// urgh, there must be a better way, but no internet at the moment
 		storedExpenditures.forEach(expenditure => expenditure.date = new Date(expenditure.date));
 
-		const uniqueExpenditures = storedExpenditures
-			.concat(this._expenditures.slice()) // create copy - concat doesn't work with mobx arrays
+		const uniqueExpenditures = this._expenditures.slice() // create copy - concat doesn't work with mobx arrays
+			.concat(storedExpenditures)
 			.reduce(
 				(uniqueExpenditures, next) =>
 				{
