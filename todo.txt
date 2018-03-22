@@ -1,4 +1,5 @@
 todo:
+	fix the loading issue
 	split manager.sync() into seperate methods for locking, initialising and syncing
 	don't start syncing for a few seconds in case there's something else to be synced
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
