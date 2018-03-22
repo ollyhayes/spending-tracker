@@ -50,6 +50,12 @@ export default class Manager
 			this.sync();
 	}
 
+	delayAwaitingSync()
+	{
+		if (this._delayAwaitingSync)
+			this._delayAwaitingSync();
+	}
+
 	async sync()
 	{
 		const syncNumber = this._syncNumber++;
@@ -61,6 +67,11 @@ export default class Manager
 		{
 			if (!await this._checkAccountStatus())
 				return log("Not signed in - aborting");
+
+			// here we wait for five seconds to see if there are any more expenditures
+			// set status indicating we're waiting for more input
+			// allow cancelling waiting
+			await this._waitForMoreInput();
 
 			// check if other spending tracker is open in other tabs and has other added expenditures
 			this._spendingManager.syncWithLocalStorage();
@@ -89,5 +100,26 @@ export default class Manager
 			await this._accountManager.initialise();
 
 		return this.accountStatus === accountStatus.signedIn;
+	}
+
+	_waitForMoreInput()
+	{
+		return new Promise(resolve =>
+		{
+			const timeoutReached = () =>
+			{
+				this.delayAwaitingSync = null;
+				resolve();
+			};
+
+			let timeoutId = setTimeout(() => timeoutReached(), 5000);
+
+			this.delayAwaitingSync = () =>
+			{
+				clearTimeout(timeoutId);
+
+				timeoutId = setTimeout(() => timeoutReached(), 10000);
+			};
+		});
 	}
 }

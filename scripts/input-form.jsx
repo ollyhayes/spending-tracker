@@ -60,6 +60,8 @@ export default class InputForm extends React.Component
 	handleChange(event)
 	{
 		this.setState({[event.target.name]: event.target.value});
+
+		this.manager.delayAwaitingSync();
 	}
 
 	handleSubmit(event)
@@ -87,6 +89,7 @@ export default class InputForm extends React.Component
 			date.setSeconds(59);
 		}
 
+		this.manager.delayAwaitingSync(); // is this correct?
 		this.manager.addExpenditure(
 			date,
 			this.state.category,
