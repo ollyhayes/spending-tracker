@@ -14,15 +14,14 @@ function loadGapi()
 		script.charset = "utf-8";
 		script.src = "https://apis.google.com/js/api.js";
 		script.addEventListener("load", () => resolve(window.gapi));
-		script.addEventListener("error", error => {
-			return reject(error);
-		});
+		script.addEventListener("error", error => reject(error));
 
 		document.getElementsByTagName("head")[0].appendChild(script);
 
-		setTimeout(
-			() => reject(new Error("Loading gapi failed after 10 seconds")),
-			10000);
+		// will leave this out for now, I think the infinite loading was because of initAuth (this is cached), not adding the script
+		// setTimeout(
+		// 	() => reject(new Error("Loading gapi failed after 10 seconds")),
+		// 	10000);
 	});
 }
 
@@ -44,11 +43,18 @@ function loadAuth2(gapi)
 function initAuth(gapi, options)
 {
 	return new Promise((resolve, reject) =>
-		// I don't think this returns a real promise so we have to wrap it EDIT: Actually I think it's because the promise resolves to itself or something. Maybe I'll investigate later
+	{
+		// This doesn't return a promise, it's an object with a 'then' method that resolves to itself when initialised.
+		// If we try to await it we get infinite recursion, so wrap it in a promise
 		gapi.auth2.init(options)
 			.then(
-				() => resolve(), // if we pass the resolve method directly the page locks up
-				error => reject("Auth init error: " + JSON.stringify(error))));
+				() => resolve(), // resolve to nothing instead of itself
+				error => reject("Auth init error: " + JSON.stringify(error)));
+
+		setTimeout(
+			() => reject(new Error("Initialising auth failed after 10 seconds")),
+			10000);
+	});
 }
 
 export const status = createEnum(
@@ -63,6 +69,7 @@ export default class AccountManager
 	@observable status = status.notConnected;
 	@observable username = "";
 
+	initialised = false;
 	user = null;
 	gapi = null;
 
@@ -83,12 +90,16 @@ export default class AccountManager
 			if (!this.gapi.auth2)
 				await loadAuth2(this.gapi);
 
-			await initAuth(
-				this.gapi,
-				{
-					clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
-					scope: "https://www.googleapis.com/auth/spreadsheets"
-				});
+			if (!this.initialised)
+				await initAuth(
+					this.gapi,
+					{
+						clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
+						scope: "https://www.googleapis.com/auth/spreadsheets"
+					});
+
+			// annoyingly the GoogleAuth object doesn't know if it's not been initialised so we have to remember
+			this.initialised = true;
 		}
 		catch (error)
 		{
@@ -149,7 +160,7 @@ export default class AccountManager
 
 	_updateStatus()
 	{
-		if (!this.gapi || !this.gapi.auth2)
+		if (!this.initialised)
 		{
 			this.status = status.notConnected;
 			this.username = "";
