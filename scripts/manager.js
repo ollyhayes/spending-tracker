@@ -59,27 +59,17 @@ export default class Manager
 
 		await this._locker.lock(async () =>
 		{
-			if (this.accountStatus === accountStatus.notConnected)
-				await this._accountManager.initialise();
-
-			if (this.accountStatus !== accountStatus.signedIn)
-			{
-				log("Not signed in - aborting");
-				return;
-			}
+			if (!await this._checkAccountStatus())
+				return log("Not signed in - aborting");
 
 			// check if other spending tracker is open in other tabs and has other added expenditures
 			this._spendingManager.syncWithLocalStorage();
 			const newExpenditures = this._spendingManager.newExpenditures;
 
 			if (newExpenditures.length === 0)
-			{
-				log("No new expenditures - aborting");
-				return;
-			}
+				return log("No new expenditures - aborting");
 
 			log(`Attempting sync - ${newExpenditures.length} expenditures`);
-
 			const success = await this._sheetUpdater.trySync(newExpenditures, this._accountManager.getAccessToken());
 
 			if (success)
@@ -88,10 +78,16 @@ export default class Manager
 				this._spendingManager.markExpendituresSynced(newExpenditures);
 			}
 			else
-			{
 				log("Sync failed");
-			}
 		},
 		log);
+	}
+
+	async _checkAccountStatus()
+	{
+		if (this.accountStatus === accountStatus.notConnected)
+			await this._accountManager.initialise();
+
+		return this.accountStatus === accountStatus.signedIn;
 	}
 }
