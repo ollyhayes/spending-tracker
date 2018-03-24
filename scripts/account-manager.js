@@ -44,16 +44,24 @@ function initAuth(gapi, options)
 {
 	return new Promise((resolve, reject) =>
 	{
+		const timeoutId = setTimeout(
+			() => reject(new Error("Initialising auth failed after 10 seconds")),
+			10000);
+
 		// This doesn't return a promise, it's an object with a 'then' method that resolves to itself when initialised.
 		// If we try to await it we get infinite recursion, so wrap it in a promise
 		gapi.auth2.init(options)
 			.then(
-				() => resolve(), // resolve to nothing instead of itself
-				error => reject("Auth init error: " + JSON.stringify(error)));
-
-		setTimeout(
-			() => reject(new Error("Initialising auth failed after 10 seconds")),
-			10000);
+				() => 
+				{
+					clearTimeout(timeoutId);
+					resolve(); // resolve to nothing instead of itself
+				},
+				error => 
+				{
+					clearTimeout(timeoutId);
+					reject("Auth init error: " + JSON.stringify(error));
+				});
 	});
 }
 
