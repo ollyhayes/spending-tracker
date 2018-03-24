@@ -1,10 +1,12 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import {observer, observable} from "mobx-react";
 import {accountStatus, syncStatus} from "./manager";
 
 @observer
 export default class SyncStatus extends React.Component
 {
+	//@observable waitTimeUntilSync = null;
+
 	constructor(props)
 	{
 		super(props);
@@ -12,12 +14,18 @@ export default class SyncStatus extends React.Component
 		this.manager = props.manager;
 
 		this.handleSync = this.handleSync.bind(this);
+		this.handleCancel = this.handleCancel.bind(this);
 		this.handleSignIn = this.handleSignIn.bind(this);
 	}
 
 	handleSync()
 	{
-		this.manager.sync();
+		this.manager.syncNow();
+	}
+
+	handleCancel()
+	{
+		this.manager.cancelWaitingSync();
 	}
 
 	handleSignIn()
@@ -29,6 +37,15 @@ export default class SyncStatus extends React.Component
 	{
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
+		
+		if (this.manager.waitingToSyncUntil)
+			return <span className="neutral-message">
+				<a href="javascript:void(0)" onClick={this.handleSync}>
+					Sync
+				</a> in {1}...  <a href="javascript:void(0)" onClick={this.handleCancel}> { /* wierd formatting to prevent spaces being lost */ }
+					Cancel
+				</a>
+			</span>;
 
 		if (this.manager.accountStatus === accountStatus.loading)
 			return <span className="neutral-message">Loading...</span>;

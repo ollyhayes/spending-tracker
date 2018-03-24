@@ -1,4 +1,4 @@
-import {computed} from "mobx";
+import {observable, computed} from "mobx";
 import SpendingManager from "./spending-manager.js";
 import Locker from "./locker.js";
 import {default as SheetUpdater, status as syncStatus} from "./sheet-updater.js";
@@ -28,6 +28,7 @@ export default class Manager
 	@computed get accountUsername() { return this._accountManager.username; }
 
 	@computed get syncStatus() { return this._sheetUpdater.status; }
+	@observable waitingToSyncUntil = null;
 
 	@computed get numberOfItemsAwaitingSync() { return this._spendingManager.newExpenditures.length; }
 	@computed get allExpenditures() { return this._spendingManager.allExpenditures; }
@@ -115,20 +116,26 @@ export default class Manager
 	{
 		return new Promise(resolve =>
 		{
+			const waitTime = 5000;
+
 			log("Starting timout - 5 seconds");
 			let timeoutId = setTimeout(() => 
 			{
 				log("timeout reached, continuing");
 				this._endWaiting = null;
+				this.waitingToSyncUntil = null;
 				resolve(true);
 			},
-			5000);
+			waitTime);
+
+			this.waitingToSyncUntil = new Date().getTime() + waitTime;
 
 			this._endWaiting = proceed =>
 			{
 				log(`manual intervention, ${proceed ? "proceeding with" : "cancelling"} sync`);
 				clearTimeout(timeoutId);
 				this._endWaiting = null;
+				this.waitingToSyncUntil = null;
 				resolve(proceed);
 			};
 		});
