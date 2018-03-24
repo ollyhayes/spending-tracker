@@ -18,10 +18,10 @@ export default class Manager
 
 		this._syncNumber = 0;
 
-		this._locker = new Locker(() => this.sync());
+		this._locker = new Locker(() => this._sync());
 
 		if (this._settings.autoSync)
-			this.sync();
+			this._sync();
 	}
 
 	@computed get accountStatus() { return this._accountManager.status; }
@@ -47,16 +47,24 @@ export default class Manager
 		this._spendingManager.addExpenditure(date, category, amount, description);
 
 		if (this._settings.autoSync)
-			this.sync();
+			this._sync();
 	}
 
-	delayAwaitingSync()
+	syncNow()
 	{
-		if (this._delayAwaitingSync)
-			this._delayAwaitingSync();
+		if (this._endWaiting)
+			this._endWaiting(true);
+		else
+			this._sync(true);
 	}
 
-	async sync()
+	cancelWaitingSync()
+	{
+		if (this._endWaiting)
+			this._endWaiting(false);
+	}
+
+	async _sync(immediate = false)
 	{
 		const syncNumber = this._syncNumber++;
 		const log = message => this._logger.log(`S${syncNumber} - ${message}`);
@@ -65,13 +73,14 @@ export default class Manager
 
 		await this._locker.lock(async () =>
 		{
-			if (!await this._checkAccountStatus())
-				return log("Not signed in - aborting");
-
-			// here we wait for five seconds to see if there are any more expenditures
+			// here we wait for a few seconds to see if there are any more expenditures
 			// set status indicating we're waiting for more input
 			// allow cancelling waiting
-			await this._waitForMoreInput();
+			if (!immediate && !await this._waitToCheckForCancel(log))
+				return log("Cancelled - aborting");
+
+			if (!await this._checkAccountStatus())
+				return log("Not signed in - aborting");
 
 			// check if other spending tracker is open in other tabs and has other added expenditures
 			this._spendingManager.syncWithLocalStorage();
@@ -102,23 +111,25 @@ export default class Manager
 		return this.accountStatus === accountStatus.signedIn;
 	}
 
-	_waitForMoreInput()
+	_waitToCheckForCancel(log)
 	{
 		return new Promise(resolve =>
 		{
-			const timeoutReached = () =>
+			log("Starting timout - 5 seconds");
+			let timeoutId = setTimeout(() => 
 			{
-				this.delayAwaitingSync = null;
-				resolve();
-			};
+				log("timeout reached, continuing");
+				this._endWaiting = null;
+				resolve(true);
+			},
+			5000);
 
-			let timeoutId = setTimeout(() => timeoutReached(), 5000);
-
-			this.delayAwaitingSync = () =>
+			this._endWaiting = proceed =>
 			{
+				log(`manual intervention, ${proceed ? "proceeding with" : "cancelling"} sync`);
 				clearTimeout(timeoutId);
-
-				timeoutId = setTimeout(() => timeoutReached(), 10000);
+				this._endWaiting = null;
+				resolve(proceed);
 			};
 		});
 	}

@@ -1,9 +1,11 @@
 todo:
 	don't start syncing for a few seconds in case there's something else to be synced
+	cancel timeout in account mananger
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
 	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
 	animation on submit
 	add temporary status messages
+	loading icon whilst syncing
 	favicon - baht symbol?
 	fix google oauth message saying app isn't verified by google
 	rename categories for multiline buttons
@@ -31,6 +33,19 @@ todo:
 				<amount-button data-focus-id="amount-button">
 			</FocusNext>
 			<description-button data-focus-id="description-button">
+	
+notes about delayed syncing
+	add item
+		don't sync for a second - or two?
+		allow user to force sync immediately
+		allow user to cancel sync
+	start adding another item
+		cancel sync - or delay it?
+	status message
+		Sync in 2... Cancel - underline sync and underline cancel
+	manager interface
+		sync() - immediately sync, if one is waiting, proceed
+		cancel() - cancel any impending syncs
 
 option 1
 	update - sync reqest
