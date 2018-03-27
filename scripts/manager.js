@@ -74,16 +74,14 @@ export default class Manager
 
 		await this._locker.lock(async () =>
 		{
-			// here we wait for a few seconds to see if there are any more expenditures
-			// set status indicating we're waiting for more input
-			// allow cancelling waiting
-			if (!immediate && !await this._waitToCheckForCancel(log))
-				return log("Cancelled - aborting");
-
 			if (!await this._checkAccountStatus())
 				return log("Not signed in - aborting");
 
-			// check if other spending tracker is open in other tabs and has other added expenditures
+			// here we wait for a few seconds to see if there are any more expenditures
+			if (!immediate && !await this._waitToCheckForCancel(log))
+				return log("Cancelled - aborting");
+
+			// check if spending tracker is open in other tabs and has other added expenditures
 			this._spendingManager.syncWithLocalStorage();
 			const newExpenditures = this._spendingManager.newExpenditures;
 
