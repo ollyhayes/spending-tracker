@@ -114,9 +114,9 @@ export default class Manager
 	{
 		return new Promise(resolve =>
 		{
-			const waitTime = 5000;
+			const waitTime = 3000;
 
-			log("Starting timout - 5 seconds");
+			log("Starting timout - 3 seconds");
 			let timeoutId = setTimeout(() => 
 			{
 				log("timeout reached, continuing");

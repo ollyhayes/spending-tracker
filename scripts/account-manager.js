@@ -45,8 +45,8 @@ function initAuth(gapi, options)
 	return new Promise((resolve, reject) =>
 	{
 		const timeoutId = setTimeout(
-			() => reject(new Error("Initialising auth failed after 10 seconds")),
-			10000);
+			() => reject(new Error("Initialising auth failed after 5 seconds")),
+			5000);
 
 		// This doesn't return a promise, it's an object with a 'then' method that resolves to itself when initialised.
 		// If we try to await it we get infinite recursion, so wrap it in a promise
