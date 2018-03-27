@@ -1,11 +1,12 @@
 import * as React from "react";
-import {observer, observable} from "mobx-react";
+import {observer} from "mobx-react";
+import {observable, observe} from "mobx";
 import {accountStatus, syncStatus} from "./manager";
 
 @observer
 export default class SyncStatus extends React.Component
 {
-	//@observable waitTimeUntilSync = null;
+	@observable secondsUntilSync = null;
 
 	constructor(props)
 	{
@@ -16,6 +17,36 @@ export default class SyncStatus extends React.Component
 		this.handleSync = this.handleSync.bind(this);
 		this.handleCancel = this.handleCancel.bind(this);
 		this.handleSignIn = this.handleSignIn.bind(this);
+
+		// not sure if I'm keeping all this waitingToSync stuff, it's a bit complicated,
+		// might move all this to it's own class if I do.
+		observe(this.manager, "waitingToSyncUntil", ({newValue}) =>
+		{
+			if (newValue)
+			{
+				const updateSeconds = () =>
+				{
+					newValue = this.manager.waitingToSyncUntil;
+
+					const secondsUntilSync = Math.round((newValue - new Date().getTime()) / 1000);
+
+					if (newValue && secondsUntilSync > 0)
+					{
+						this.secondsUntilSync = secondsUntilSync;
+					}
+					else
+					{
+						clearInterval(intervalId);
+						this.secondsUntilSync = null;
+					}
+				};
+
+				const intervalId = setInterval(updateSeconds, 1000);
+				updateSeconds();
+			}
+			else
+				this.secondsUntilSync = null;
+		}, true);
 	}
 
 	handleSync()
@@ -37,15 +68,6 @@ export default class SyncStatus extends React.Component
 	{
 		//if (temporaryMessage)
 		//	return <span>{temporaryMessage}</span>;
-		
-		if (this.manager.waitingToSyncUntil)
-			return <span className="neutral-message">
-				<a href="javascript:void(0)" onClick={this.handleSync}>
-					Sync
-				</a> in {1}...  <a href="javascript:void(0)" onClick={this.handleCancel}> { /* wierd formatting to prevent spaces being lost */ }
-					Cancel
-				</a>
-			</span>;
 
 		if (this.manager.accountStatus === accountStatus.loading)
 			return <span className="neutral-message">Loading...</span>;
@@ -61,6 +83,15 @@ export default class SyncStatus extends React.Component
 
 		if (this.manager.numberOfItemsAwaitingSync === 0)
 			return <span className="good-message">Synced with server</span>;
+		
+		if (this.secondsUntilSync)
+			return <span className="neutral-message">
+				<a href="javascript:void(0)" className="neutral-message" onClick={this.handleSync}>
+					Sync
+				</a> in {this.secondsUntilSync}...  <a href="javascript:void(0)" className="neutral-message" onClick={this.handleCancel}> { /* wierd formatting to prevent spaces being lost */ }
+					Cancel
+				</a>
+			</span>;
 
 		return <a className="bad-message" href="javascript:void(0)" onClick={this.handleSync}>{this.manager.numberOfItemsAwaitingSync} items awaiting sync...</a>;
 	}
