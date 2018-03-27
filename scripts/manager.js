@@ -81,12 +81,12 @@ export default class Manager
 			this._spendingManager.syncWithLocalStorage();
 			const newExpenditures = this._spendingManager.newExpenditures;
 
+			if (newExpenditures.length === 0)
+				return log("No new expenditures - aborting");
+
 			// here we wait for a few seconds to see if there are any more expenditures
 			if (!immediate && !await this._waitToCheckForCancel(log))
 				return log("Cancelled - aborting");
-
-			if (newExpenditures.length === 0)
-				return log("No new expenditures - aborting");
 
 			log(`Attempting sync - ${newExpenditures.length} expenditures`);
 			const success = await this._sheetUpdater.trySync(newExpenditures, this._accountManager.getAccessToken());
