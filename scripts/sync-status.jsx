@@ -15,7 +15,6 @@ export default class SyncStatus extends React.Component
 		this.manager = props.manager;
 
 		this.handleSync = this.handleSync.bind(this);
-		this.handleCancel = this.handleCancel.bind(this);
 		this.handleSignIn = this.handleSignIn.bind(this);
 
 		// not sure if I'm keeping all this waitingToSync stuff, it's a bit complicated,
@@ -54,11 +53,6 @@ export default class SyncStatus extends React.Component
 		this.manager.syncNow();
 	}
 
-	handleCancel()
-	{
-		this.manager.cancelWaitingSync();
-	}
-
 	handleSignIn()
 	{
 		this.manager.signIn();
@@ -80,18 +74,16 @@ export default class SyncStatus extends React.Component
 
 		if (this.manager.accountStatus === accountStatus.signedOut)
 			return <a className="neutral-message" href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
-
-		if (this.manager.numberOfItemsAwaitingSync === 0)
-			return <span className="good-message">Synced with server</span>;
 		
 		if (this.secondsUntilSync)
 			return <span className="neutral-message">
 				<a href="javascript:void(0)" className="neutral-message" onClick={this.handleSync}>
 					Sync
-				</a> in {this.secondsUntilSync}...  <a href="javascript:void(0)" className="neutral-message" onClick={this.handleCancel}> { /* wierd formatting to prevent spaces being lost */ }
-					Cancel
-				</a>
+				</a> in {this.secondsUntilSync}...
 			</span>;
+
+		if (this.manager.numberOfItemsAwaitingSync === 0)
+			return <span className="good-message">Synced with server</span>;
 
 		return <a className="bad-message" href="javascript:void(0)" onClick={this.handleSync}>{this.manager.numberOfItemsAwaitingSync} items awaiting sync...</a>;
 	}
