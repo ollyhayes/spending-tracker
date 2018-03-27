@@ -77,13 +77,13 @@ export default class Manager
 			if (!await this._checkAccountStatus())
 				return log("Not signed in - aborting");
 
-			// here we wait for a few seconds to see if there are any more expenditures
-			if (!immediate && !await this._waitToCheckForCancel(log))
-				return log("Cancelled - aborting");
-
 			// check if spending tracker is open in other tabs and has other added expenditures
 			this._spendingManager.syncWithLocalStorage();
 			const newExpenditures = this._spendingManager.newExpenditures;
+
+			// here we wait for a few seconds to see if there are any more expenditures
+			if (!immediate && !await this._waitToCheckForCancel(log))
+				return log("Cancelled - aborting");
 
 			if (newExpenditures.length === 0)
 				return log("No new expenditures - aborting");
