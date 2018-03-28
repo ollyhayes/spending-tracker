@@ -34,6 +34,11 @@ export default class SheetUpdater
 {
 	@observable status = status.unknown;
 
+	constructor(logger)
+	{
+		this.logger = logger;
+	}
+
 	async trySync(expenditures, accessToken)
 	{
 		try
@@ -64,6 +69,7 @@ export default class SheetUpdater
 		catch (error)
 		{
 			this.status = status.noConnection;
+			this.logger.log("Error syncing: " + JSON.stringify(error));
 			throw error;
 		}
 	}

@@ -1,6 +1,4 @@
 todo:
-	don't start syncing for a few seconds in case there's something else to be synced
-	cancel timeout in account mananger
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
 	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
 	animation on submit

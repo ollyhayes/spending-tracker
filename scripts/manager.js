@@ -12,7 +12,7 @@ export default class Manager
 	{
 		this._spendingManager = new SpendingManager();
 		this._accountManager = new AccountManager(logger);
-		this._sheetUpdater = new SheetUpdater();
+		this._sheetUpdater = new SheetUpdater(logger);
 		this._logger = logger;
 		this._settings = settings;
 
