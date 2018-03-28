@@ -1,7 +1,7 @@
 import {observable, computed} from "mobx";
 import SpendingManager from "./spending-manager.js";
 import Locker from "./locker.js";
-import {default as SheetUpdater, status as syncStatus} from "./sheet-updater.js";
+import {default as SheetUpdater, status as syncStatus, syncResult} from "./sheet-updater.js";
 import {default as AccountManager, status as accountStatus} from "./account-manager.js";
 
 export {accountStatus, syncStatus};
@@ -89,9 +89,18 @@ export default class Manager
 				return log("Cancelled - aborting");
 
 			log(`Attempting sync - ${newExpenditures.length} expenditures`);
-			const success = await this._sheetUpdater.trySync(newExpenditures, this._accountManager.getAccessToken());
+			let result = await this._sheetUpdater.trySync(newExpenditures, this._accountManager.getAccessToken());
+			
+			if (result === syncResult.unauthorised) // if unauthorised, it might be because phone was off when access token expired so it couldn't automatically reload
+			{
+				log("Reauthorising...");
+				await this._accountManager.reloadAccessToken();
 
-			if (success)
+				log(`Reattempting sync - ${newExpenditures.length} expenditures`);
+				result = await this._sheetUpdater.trySync(newExpenditures, this._accountManager.getAccessToken());
+			}
+
+			if (result === syncResult.success)
 			{
 				log("Sync succeded");
 				this._spendingManager.markExpendituresSynced(newExpenditures);

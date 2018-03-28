@@ -77,9 +77,8 @@ export default class AccountManager
 	@observable status = status.notConnected;
 	@observable username = "";
 
-	initialised = false;
-	user = null;
-	gapi = null;
+	_initialised = false;
+	_gapi = null;
 
 	constructor(logger)
 	{
@@ -92,22 +91,22 @@ export default class AccountManager
 
 		try
 		{
-			if (!this.gapi)
-				this.gapi = await loadGapi();
+			if (!this._gapi)
+				this._gapi = await loadGapi();
 
-			if (!this.gapi.auth2)
-				await loadAuth2(this.gapi);
+			if (!this._gapi.auth2)
+				await loadAuth2(this._gapi);
 
-			if (!this.initialised)
+			if (!this._initialised)
 				await initAuth(
-					this.gapi,
+					this._gapi,
 					{
 						clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
 						scope: "https://www.googleapis.com/auth/spreadsheets"
 					});
 
 			// annoyingly the GoogleAuth object doesn't know if it's not been initialised so we have to remember
-			this.initialised = true;
+			this._initialised = true;
 		}
 		catch (error)
 		{
@@ -126,7 +125,7 @@ export default class AccountManager
 		try
 		{
 			this.logger.log("Attempting sign in");
-			await this.gapi.auth2.getAuthInstance().signIn();
+			await this._auth.signIn();
 			this.logger.log("Signin requested");
 		}
 		catch (error)
@@ -147,7 +146,7 @@ export default class AccountManager
 		try
 		{
 			this.logger.log("Attempting sign out");
-			await this.gapi.auth2.getAuthInstance().disconnect();
+			await this._auth.disconnect();
 			this.logger.log("Signout succeded");
 		}
 		catch (error)
@@ -161,30 +160,42 @@ export default class AccountManager
 		}
 	}
 
+	reloadAccessToken()
+	{
+		return this._user.reloadAuthResponse();
+	}
+
 	getAccessToken()
 	{
-		return this.user.getAuthResponse().access_token;
+		return this._user.getAuthResponse().access_token;
 	}
 
 	_updateStatus()
 	{
-		if (!this.initialised)
+		if (!this._initialised)
 		{
 			this.status = status.notConnected;
 			this.username = "";
-			this.user = null;
 		}
-		else if (!this.gapi.auth2.getAuthInstance().isSignedIn.get())
+		else if (!this._auth.isSignedIn.get())
 		{
 			this.status = status.signedOut;
 			this.username = "";
-			this.user = null;
 		}
 		else
 		{
 			this.status = status.signedIn;
-			this.user = this.gapi.auth2.getAuthInstance().currentUser.get();
-			this.username = this.user.getBasicProfile().getName();
+			this.username = this._user.getBasicProfile().getName();
 		}
+	}
+
+	get _auth()
+	{
+		return this._gapi.auth2.getAuthInstance();
+	}
+
+	get _user()
+	{
+		return this._auth.currentUser.get();
 	}
 }

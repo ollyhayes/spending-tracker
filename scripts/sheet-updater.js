@@ -10,6 +10,22 @@ export const status = createEnum(
 	"synced",
 );
 
+export const syncResult = createEnum(
+	"success",
+	"unauthorised",
+	"failed"
+);
+
+function getSyncResult(statusCode)
+{
+	switch (statusCode)
+	{
+	case 200: return syncResult.success;
+	case 401: return syncResult.unauthorised;
+	default: return syncResult.failed;
+	}
+}
+
 //const spreadsheetId = "1_WgnEfEjsM0EvyDkOq9U1iGbmcno4tGWZZUWyp8975w"; // test sheet
 const spreadsheetId = "19wRTaZ6ESmu4l2M7uV46OwDn5N3e-fzpgHSXdWChrOU";
 const sheetId = 1137143099;
@@ -43,9 +59,9 @@ export default class SheetUpdater
 	{
 		try
 		{
-			const {success, response} = await this._tryAppendItems(expenditures, accessToken);
+			const {result, response} = await this._tryAppendItems(expenditures, accessToken);
 
-			if (success)
+			if (result === syncResult.success)
 			{
 				const firstAppendedRowIndex = getFirstAppendedRowIndexFrom(response.updates.updatedRange);
 
@@ -60,11 +76,11 @@ export default class SheetUpdater
 					accessToken);
 			}
 
-			this.status = success
+			this.status = result === syncResult.success
 				? status.synced
 				: status.noConnection;
 
-			return success;
+			return result;
 		}
 		catch (error)
 		{
@@ -186,7 +202,7 @@ export default class SheetUpdater
 					: JSON.parse(request.response);
 
 				resolve({
-					success: request.status === 200,
+					result: getSyncResult(request.status),
 					response
 				});
 			};
