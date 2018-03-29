@@ -1,7 +1,6 @@
 todo:
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
 	animation on submit
-	if no description, show category in recent expenditures table
 	add temporary status messages
 	loading icon whilst syncing
 	favicon - baht symbol?
