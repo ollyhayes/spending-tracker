@@ -7,6 +7,7 @@ export default class InputForm extends React.Component
 		super(props);
 
 		this.manager = props.manager;
+		this.inputCompleted = props.inputCompleted;
 
 		this.state = {
 			description: "",
@@ -98,11 +99,7 @@ export default class InputForm extends React.Component
 			this.state.amount,
 			this.state.description);
 
-		this.setState({
-			description: "",
-			amount: "",
-			category: ""
-		});
+		this.inputCompleted();
 
 		document.activeElement.blur();
 		document.documentElement.scrollTop = document.body.scrollTop = 0; // scroll back to top for new input

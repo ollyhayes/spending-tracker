@@ -1,12 +1,9 @@
 todo:
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
-	animation on submit
-	add temporary status messages
 	loading icon whilst syncing
 	favicon - baht symbol?
 	fix google oauth message saying app isn't verified by google
 	better font?
-	see if we can auto fill the entire page on the currency conversion stuff, so that it doesn't matter if the second request gets lost
 	allow custom spreadsheet
 
 	try creating special components so we don't have to manipulate elements directly in input-form

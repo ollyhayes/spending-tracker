@@ -17,6 +17,7 @@ body
 	font-size: 1em;
 	font-family: sans-serif;
 	padding: 0 10px 10px 10px;
+	overflow-x: hidden;
 }
 
 .bordered()
@@ -94,6 +95,7 @@ body > div
 {
     max-width: 500px;
     margin: auto;
+	position: relative;
 
 	header
 	{
@@ -217,7 +219,19 @@ body > div
 
 	.input-form-container
 	{
-		transition: filter @transition-time;
+		transition: filter @transition-time, transform @transition-time;
+		position: absolute;
+		width: 100%;
+
+		&.completed
+		{
+			transform: translateX(-100vw);
+		}
+
+		&.next
+		{
+			transform: translateX(100vw);
+		}
 
 		&.disabled
 		{
