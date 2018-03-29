@@ -68,8 +68,9 @@ function initAuth(gapi, options)
 export const status = createEnum(
 	"notConnected",
 	"loading",
+	"reauthorising",
 	"signedOut",
-	"signedIn",
+	"signedIn"
 );
 
 export default class AccountManager
@@ -160,9 +161,23 @@ export default class AccountManager
 		}
 	}
 
-	reloadAccessToken()
+	async reloadAccessToken()
 	{
-		return this._user.reloadAuthResponse();
+		this.status = status.reauthorising;
+
+		try
+		{
+			await this._user.reloadAuthResponse();
+		}
+		catch (error)
+		{
+			this.logger.log("Reauthorising failed - " + JSON.stringify(error));
+			throw error;
+		}
+		finally
+		{
+			this._updateStatus();
+		}
 	}
 
 	getAccessToken()

@@ -1,6 +1,5 @@
 todo:
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
-	call reloadAuthResponse if we get a 403 (or whatever the invalid access token is)
 	animation on submit
 	if no description, show category in recent expenditures table
 	add temporary status messages

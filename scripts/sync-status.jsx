@@ -66,6 +66,9 @@ export default class SyncStatus extends React.Component
 		if (this.manager.accountStatus === accountStatus.loading)
 			return <span className="neutral-message">Loading...</span>;
 
+		if (this.manager.accountStatus === accountStatus.reauthorising)
+			return <span className="neutral-message">Reauthorising...</span>;
+
 		if (this.manager.syncStatus === syncStatus.uploadingData)
 			return <span className="neutral-message">Uploading data...</span>;
 

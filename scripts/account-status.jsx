@@ -48,6 +48,10 @@ export default class AccountStatus extends React.Component
 			return <span className="neutral-message">
 				Loading...
 			</span>;
+		case accountStatus.reauthorising:
+			return <span className="neutral-message">
+				Reauthorising...
+			</span>;
 		case accountStatus.notConnected:
 			return <span className="bad-message">
 				Not connected
