@@ -5,7 +5,6 @@ todo:
 	loading icon whilst syncing
 	favicon - baht symbol?
 	fix google oauth message saying app isn't verified by google
-	rename categories for multiline buttons
 	better font?
 	see if we can auto fill the entire page on the currency conversion stuff, so that it doesn't matter if the second request gets lost
 	allow custom spreadsheet

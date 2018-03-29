@@ -14,30 +14,33 @@ export default class InputForm extends React.Component
 			category: ""
 		};
 
+		const category = (friendlyName, name) =>
+			({friendlyName, name: name || friendlyName});
+
 		this.groupedCategories = [
 			[
-				"Food - Breakfast",
-				"Food - Lunch",
-				"Food - Dinner",
-				"Food"
+				category("Breakfast", "Food - Breakfast"),
+				category("Lunch", "Food - Lunch"),
+				category("Dinner", "Food - Dinner"),
+				category("Misc Food", "Food"),
 			],
 			[
-				"Drinks - Soft",
-				"Drinks - Alcoholic",
-				"Toiletries",
-				"Medical"
+				category("Soft Drinks", "Drinks - Soft"),
+				category("Alcoholic Drinks", "Drinks - Alcoholic"),
+				category("Toiletries"),
+				category("Medical"),
 			],
 			[
-				"Laundry",
-				"Clothing",
-				"Sights",
-				"Transport",
+				category("Laundry"),
+				category("Clothing"),
+				category("Sights"),
+				category("Transport"),
 			],
 			[
-				"ATM Fees",
-				"Technology",
-				"Other",
-				"Hotels"
+				category("ATM Fees"),
+				category("Technology"),
+				category("Other"),
+				category("Hotels"),
 			],
 		];
 
@@ -126,13 +129,15 @@ export default class InputForm extends React.Component
 							<div className="category-group" key={index}>
 								{
 									categoryGroup.map(category =>
-										<input
-											className={"category-button" + (this.state.category == category ? " selected" : "")}
-											key={category}
+										<button
+											className={"category-button" + (this.state.category == category.name ? " selected" : "")}
 											name="category"
-											value={category}
+											key={category.name}
+											value={category.name}
 											type="button"
-											onClick={this.handleCategoryChange}/>)
+											onClick={this.handleCategoryChange}>
+											{category.friendlyName}
+										</button>)
 								}
 							</div>)
 					}
