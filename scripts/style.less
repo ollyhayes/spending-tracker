@@ -89,6 +89,24 @@ svg.icon
 	width: 16px;
 	display: block;
 	margin: auto;
+
+	&.spinning
+	{
+		animation: 2s linear infinite spinning;
+	}
+}
+
+@keyframes spinning
+{
+	from
+	{
+		transform: rotate(0);
+	}
+
+	to
+	{
+		transform: rotate(360deg);
+	}
 }
 
 body > div
@@ -131,6 +149,15 @@ body > div
 		{
 			transform: rotate(45deg);
 		}
+	}
+
+	.sync-status svg
+	{
+		display: inline-block;
+		height: 1em;
+		width: 1em;
+		vertical-align: middle;
+		margin-left: 5px;
 	}
 
 	.settings-page-container

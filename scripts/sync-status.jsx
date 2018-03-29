@@ -2,6 +2,7 @@ import * as React from "react";
 import {observer} from "mobx-react";
 import {observable, observe} from "mobx";
 import {accountStatus, syncStatus} from "./manager";
+import Icon from "./icon.jsx";
 
 @observer
 export default class SyncStatus extends React.Component
@@ -60,23 +61,36 @@ export default class SyncStatus extends React.Component
 
 	_getStatus()
 	{
-		//if (temporaryMessage)
-		//	return <span>{temporaryMessage}</span>;
+		const loadingIcon = <Icon iconName="sync" spinning={true}/>;
 
 		if (this.manager.accountStatus === accountStatus.loading)
-			return <span className="neutral-message">Loading...</span>;
+			return <span className="neutral-message">
+				Loading...
+				{loadingIcon}
+			</span>;
 
 		if (this.manager.accountStatus === accountStatus.reauthorising)
-			return <span className="neutral-message">Reauthorising...</span>;
+			return <span className="neutral-message">
+				Reauthorising...
+				{loadingIcon}
+			</span>;
 
 		if (this.manager.syncStatus === syncStatus.uploadingData)
-			return <span className="neutral-message">Uploading data...</span>;
+			return <span className="neutral-message">
+				Uploading data...
+				{loadingIcon}
+			</span>;
 
 		if (this.manager.syncStatus === syncStatus.processingSpreadsheet)
-			return <span className="neutral-message">Processing spreadsheet...</span>;
+			return <span className="neutral-message">
+				Processing spreadsheet...
+				{loadingIcon}
+			</span>;
 
 		if (this.manager.accountStatus === accountStatus.signedOut)
-			return <a className="neutral-message" href="javascript:void(0)" onClick={this.handleSignIn}>Sign in to continue...</a>;
+			return <a className="neutral-message" href="javascript:void(0)" onClick={this.handleSignIn}>
+				Sign in to continue...
+			</a>;
 		
 		if (this.secondsUntilSync)
 			return <span className="neutral-message">
@@ -88,7 +102,9 @@ export default class SyncStatus extends React.Component
 		if (this.manager.numberOfItemsAwaitingSync === 0)
 			return <span className="good-message">Synced with server</span>;
 
-		return <a className="bad-message" href="javascript:void(0)" onClick={this.handleSync}>{this.manager.numberOfItemsAwaitingSync} items awaiting sync...</a>;
+		return <a className="bad-message" href="javascript:void(0)" onClick={this.handleSync}>
+			{this.manager.numberOfItemsAwaitingSync} items awaiting sync...
+		</a>;
 	}
 
 	render()

@@ -1,6 +1,5 @@
 todo:
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
-	loading icon whilst syncing
 	favicon - baht symbol?
 	fix google oauth message saying app isn't verified by google
 	better font?
