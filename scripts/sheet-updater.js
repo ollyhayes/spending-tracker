@@ -33,7 +33,7 @@ const apiKey = "AIzaSyBlVXClFKOd0SxDFMBmgZYcOZJdM0LUW0I";
 
 const autoFillColumns = [
 	{ startColumnIndex: 2, endColumnIndex: 3 }, // Location column (C)
-	{ startColumnIndex: 6, endColumnIndex: 11 }, // Currency columns (G, H, I, J, K)
+	{ startColumnIndex: 6, endColumnIndex: 10 }, // Currency columns (G, H, I, J)
 ];
 
 function getFirstAppendedRowIndexFrom(range)
