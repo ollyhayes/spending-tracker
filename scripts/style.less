@@ -109,7 +109,7 @@ svg.icon
 	}
 }
 
-body > div
+body > div > div
 {
     max-width: 500px;
     margin: auto;
@@ -324,17 +324,18 @@ body > div
 	{
 		margin-left: 10px
 	}
+}
 
-	pre.debug-messages
-	{
-		position: absolute;
-		left: 0;
-		top: 0;
-		margin: 0;
-		padding: 10px;
-		background: white;
-		width: 100%;
-		height: 100%;
-		font-size: 0.7em;
-	}
+pre.debug-messages
+{
+	overflow: auto;
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	padding: 10px;
+	background: white;
+	width: 100%;
+	height: 100%;
+	font-size: 0.7em;
 }
