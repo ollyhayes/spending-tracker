@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#v47b - 2017-11-11
+# v47b - 2017-11-11
 
 CACHE:
 /index.html
@@ -7,5 +7,6 @@ CACHE:
 /vendor.bundle.js
 /fa-bundle.svg
 
+# Required because Google's API scripts are never cached (no internet/no need for GAPI anyway)
 NETWORK:
 *
