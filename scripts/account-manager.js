@@ -40,7 +40,7 @@ function loadAuth2(gapi)
 	});
 }
 
-function initAuth(gapi, options)
+function initAuth(gapi, options, logMessage)
 {
 	return new Promise((resolve, reject) =>
 	{
@@ -54,13 +54,16 @@ function initAuth(gapi, options)
 			.then(
 				() => 
 				{
+					logMessage("initialised successfully");
 					clearTimeout(timeoutId);
 					resolve(); // resolve to nothing instead of itself
 				},
 				error => 
 				{
+					const errorString = JSON.stringify(error);
+					logMessage("initialisation failed: " + errorString);
 					clearTimeout(timeoutId);
-					reject("Auth init error: " + JSON.stringify(error));
+					reject("Auth init error: " + errorString);
 				});
 	});
 }
@@ -104,7 +107,8 @@ export default class AccountManager
 					{
 						clientId: "899237718363-7s1kvbo7bj1kimho5njef9psdj8r8l3p.apps.googleusercontent.com",
 						scope: "https://www.googleapis.com/auth/spreadsheets"
-					});
+					},
+					message => this.logger.log("Init-auth: " + message));
 
 			// annoyingly the GoogleAuth object doesn't know if it's not been initialised so we have to remember
 			this._initialised = true;
