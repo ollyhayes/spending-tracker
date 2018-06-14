@@ -57,37 +57,28 @@ export default class SheetUpdater
 
 	async trySync(expenditures, accessToken)
 	{
-		try
+		const {result, response} = await this._tryAppendItems(expenditures, accessToken);
+
+		if (result === syncResult.success)
 		{
-			const {result, response} = await this._tryAppendItems(expenditures, accessToken);
+			const firstAppendedRowIndex = getFirstAppendedRowIndexFrom(response.updates.updatedRange);
 
-			if (result === syncResult.success)
-			{
-				const firstAppendedRowIndex = getFirstAppendedRowIndexFrom(response.updates.updatedRange);
+			const autofillRequests = autoFillColumns.map(indices =>
+				this._getAutofillRequest(firstAppendedRowIndex, expenditures.length, indices));
 
-				const autofillRequests = autoFillColumns.map(indices =>
-					this._getAutofillRequest(firstAppendedRowIndex, expenditures.length, indices));
-
-				await this._tryBatchRequest(
-					[
-						...autofillRequests,
-						this._getSortItemsRequest()
-					],
-					accessToken);
-			}
-
-			this.status = result === syncResult.success
-				? status.synced
-				: status.noConnection;
-
-			return result;
+			await this._tryBatchRequest(
+				[
+					...autofillRequests,
+					this._getSortItemsRequest()
+				],
+				accessToken);
 		}
-		catch (error)
-		{
-			this.status = status.noConnection;
-			this.logger.log("Error syncing: " + JSON.stringify(error));
-			throw error;
-		}
+
+		this.status = result === syncResult.success
+			? status.synced
+			: status.noConnection;
+
+		return result;
 	}
 
 	_tryAppendItems(expenditures, accessToken)
