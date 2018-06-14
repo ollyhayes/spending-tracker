@@ -3,8 +3,16 @@ todo:
 	fix bug - two tabs, one syncs more than 5 items, second tab doesn't know 6+th item is synced
 	maybe mark items as syncing so they show as a loading icon in the list?
 	favicon - baht symbol?
+	still have sync timeout when you click submit
+	add comments
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
 	fix google oauth message saying app isn't verified by google
+	bug
+		page is loaded without internet
+		I think gapi & auth2 are loaded from the cache, but auth2.init times out
+		page later gets internet
+		auth2.init times out
+		
 
 	try creating special components so we don't have to manipulate elements directly in input-form
 		like how custom bindings worked in knockout
