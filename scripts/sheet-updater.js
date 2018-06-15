@@ -57,6 +57,7 @@ export default class SheetUpdater
 
 	async trySync(expenditures, accessToken)
 	{
+		this.status = status.uploadingData;
 		const {result, response} = await this._tryAppendItems(expenditures, accessToken);
 
 		if (result === syncResult.success)
@@ -66,6 +67,7 @@ export default class SheetUpdater
 			const autofillRequests = autoFillColumns.map(indices =>
 				this._getAutofillRequest(firstAppendedRowIndex, expenditures.length, indices));
 
+			this.status = status.processingSpreadsheet;
 			await this._tryBatchRequest(
 				[
 					...autofillRequests,
@@ -85,7 +87,6 @@ export default class SheetUpdater
 	{
 		const range = "A1";
 		const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`;
-
 		const queryString = "responseValueRenderOption=FORMATTED_VALUE" +
 			"&insertDataOption=INSERT_ROWS" + 
 			"&valueInputOption=USER_ENTERED" + 
@@ -106,8 +107,6 @@ export default class SheetUpdater
 					expenditure.amount
 				])
 		};
-
-		this.status = status.uploadingData;
 
 		return this._tryMakeRequest(url, JSON.stringify(body), accessToken);
 	}
@@ -159,13 +158,10 @@ export default class SheetUpdater
 	_tryBatchRequest(requests, accessToken)
 	{
 		const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`;
-
 		const body = {
 			requests: requests,
 			includeSpreadsheetInResponse: false
 		};
-
-		this.status = status.processingSpreadsheet;
 
 		return this._tryMakeRequest(url, JSON.stringify(body), accessToken);
 	}
