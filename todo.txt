@@ -1,7 +1,6 @@
 todo:
-	make recent items scrollable
 	fix bug - two tabs, one syncs more than 5 items, second tab doesn't know 6+th item is synced
-	maybe mark items as syncing so they show as a loading icon in the list?
+		maybe mark items as syncing so they show as a loading icon in the list?
 	favicon - baht symbol?
 	still have sync timeout when you click submit
 	add comments
@@ -12,6 +11,7 @@ todo:
 		I think gapi & auth2 are loaded from the cache, but auth2.init times out
 		page later gets internet
 		auth2.init times out
+	do we still need the focus-next-on-enter hack in chrome for android? Think something might have changed
 		
 
 	try creating special components so we don't have to manipulate elements directly in input-form
