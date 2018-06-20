@@ -78,8 +78,9 @@ export default class Manager
 				return log("Not signed in - aborting");
 
 			// check if spending tracker is open in other tabs and has other added expenditures
-			this._spendingManager.syncWithLocalStorage();
+			this._spendingManager.loadFromStorage();
 			const newExpenditures = this._spendingManager.newExpenditures;
+			const syncTime = new Date();
 
 			if (newExpenditures.length === 0)
 				return log("No new expenditures - aborting");
@@ -103,7 +104,7 @@ export default class Manager
 			if (result === syncResult.success)
 			{
 				log("Sync succeded");
-				this._spendingManager.markExpendituresSynced(newExpenditures);
+				this._spendingManager.markExpendituresSyncedSince(syncTime);
 			}
 			else
 				log("Sync failed");

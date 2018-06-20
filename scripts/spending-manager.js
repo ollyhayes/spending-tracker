@@ -9,7 +9,7 @@ export default class SpendingManager
 
 	constructor()
 	{
-		this.syncWithLocalStorage();
+		this.loadFromStorage();
 	}
 
 	@computed get newExpenditures() { return this._expenditures.filter(expenditure => !expenditure.synced); }
@@ -17,65 +17,60 @@ export default class SpendingManager
 
 	addExpenditure(date, category, amount, description)
 	{
-		this._expenditures.push({
-			date: date,
-			category: category,
-			amount: amount,
-			description: description,
-			synced: false
-		});
+		transaction(() =>
+		{
+			this.loadFromStorage();
 
-		this.syncWithLocalStorage();
+			this._expenditures.push({
+				date: date,
+				category: category,
+				amount: amount,
+				description: description,
+				synced: false
+			});
+
+			this.saveToStorage();
+		});
 	}
 
-	markExpendituresSynced(expenditures)
+	markExpendituresSyncedSince(syncTime)
 	{
 		transaction(() =>
 		{
-			expenditures.forEach(expenditure =>
-				expenditure.synced = true);
+			this.loadFromStorage();
 
+			this._expenditures.forEach(expenditure =>
+			{
+				if (expenditure.date < syncTime)
+					expenditure.synced = true;
+			});
 
+			this.saveToStorage();
 		});
-
-		this.syncWithLocalStorage();
 	}
 
-	syncWithLocalStorage()
+	loadFromStorage()
 	{
-		const storedExpendituresJson = localStorage.getItem("expenditures");
+		const expendituresJson = localStorage.getItem("expenditures");
 
-		const storedExpenditures = storedExpendituresJson
-			? JSON.parse(storedExpendituresJson)
+		const expenditures = expendituresJson
+			? JSON.parse(expendituresJson)
 			: [];
 
 		// urgh, there must be a better way, but no internet at the moment
-		storedExpenditures.forEach(expenditure => expenditure.date = new Date(expenditure.date));
+		expenditures.forEach(expenditure => expenditure.date = new Date(expenditure.date));
 
-		const uniqueExpenditures = this._expenditures.slice() // create copy - concat doesn't work with mobx arrays
-			.concat(storedExpenditures)
-			.reduce(
-				(uniqueExpenditures, next) =>
-				{
-					const alreadyAddedExpenditure = uniqueExpenditures.find(expenditure =>
-						expenditure.date.getTime() === next.date.getTime());
+		this._expenditures = expenditures;
+	}
 
-					if (alreadyAddedExpenditure)
-						alreadyAddedExpenditure.synced = alreadyAddedExpenditure.synced || next.synced;
+	saveToStorage()
+	{
+		const recentIndexCutoff = this._expenditures.length - recentItemsCount;
 
-					return alreadyAddedExpenditure
-						? uniqueExpenditures
-						: uniqueExpenditures.concat(next);
-				},
-				[]);
-
-		const recentIndexCutoff = uniqueExpenditures.length - recentItemsCount;
-
-		const recentUniqueExpenditures = uniqueExpenditures
+		this._expenditures = this._expenditures
 			.filter((expenditure, index) => 
 				!expenditure.synced || index >= recentIndexCutoff);
 
-		this._expenditures = recentUniqueExpenditures;
 		localStorage.setItem("expenditures", JSON.stringify(this._expenditures));
 	}
 }

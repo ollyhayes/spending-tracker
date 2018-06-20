@@ -1,6 +1,4 @@
 todo:
-	fix bug - two tabs, one syncs more than 5 items, second tab doesn't know 6+th item is synced
-		maybe mark items as syncing so they show as a loading icon in the list?
 	favicon - baht symbol?
 	still have sync timeout when you click submit
 	add comments
