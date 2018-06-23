@@ -43,9 +43,9 @@ export default class Manager
 		this._accountManager.signOut();
 	}
 
-	addExpenditure(date, category, amount, description)
+	addExpenditure(createdDate, date, category, amount, description)
 	{
-		this._spendingManager.addExpenditure(date, category, amount, description);
+		this._spendingManager.addExpenditure(createdDate, date, category, amount, description);
 
 		if (this._settings.autoSync)
 			this._sync();
