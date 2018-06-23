@@ -15,17 +15,18 @@ export default class SpendingManager
 	@computed get newExpenditures() { return this._expenditures.filter(expenditure => !expenditure.synced); }
 	@computed get allExpenditures() { return this._expenditures.slice(); }
 
-	addExpenditure(date, category, amount, description)
+	addExpenditure(createdDate, date, category, amount, description)
 	{
 		transaction(() =>
 		{
 			this.loadFromStorage();
 
 			this._expenditures.push({
-				date: date,
-				category: category,
-				amount: amount,
-				description: description,
+				createdDate,
+				date,
+				category,
+				amount,
+				description,
 				synced: false
 			});
 
@@ -41,7 +42,7 @@ export default class SpendingManager
 
 			this._expenditures.forEach(expenditure =>
 			{
-				if (expenditure.date < syncTime)
+				if (expenditure.createdDate < syncTime)
 					expenditure.synced = true;
 			});
 
@@ -57,8 +58,12 @@ export default class SpendingManager
 			? JSON.parse(expendituresJson)
 			: [];
 
-		// urgh, there must be a better way, but no internet at the moment
-		expenditures.forEach(expenditure => expenditure.date = new Date(expenditure.date));
+		// urgh, there must be a better way to deserialise dates, but no internet at the moment
+		expenditures.forEach(expenditure =>
+		{
+			expenditure.date = new Date(expenditure.date);
+			expenditure.createdDate = new Date(expenditure.createdDate);
+		});
 
 		this._expenditures = expenditures;
 	}

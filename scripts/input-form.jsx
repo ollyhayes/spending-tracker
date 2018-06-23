@@ -94,6 +94,7 @@ export default class InputForm extends React.Component
 		}
 
 		this.manager.addExpenditure(
+			new Date(),
 			date,
 			this.state.category,
 			this.state.amount,
