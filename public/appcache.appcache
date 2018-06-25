@@ -6,6 +6,7 @@ CACHE:
 /main.bundle.js
 /vendor.bundle.js
 /fa-bundle.svg
+/favicon.ico
 
 # Required because Google's API scripts are never cached (no internet/no need for GAPI anyway)
 NETWORK:
