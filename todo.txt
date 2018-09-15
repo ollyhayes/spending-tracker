@@ -1,4 +1,6 @@
 todo:
+	checkboxes are in wrong place on firefox
+	separate jsx/js/less etc
 	still have sync timeout when you click submit
 	add comments
 	fix horizontal alignment of text input feilds on iphone - display block and margin auto don't work
