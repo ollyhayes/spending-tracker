@@ -30,7 +30,8 @@ function getSyncResult(statusCode)
 //const spreadsheetId = "19wRTaZ6ESmu4l2M7uV46OwDn5N3e-fzpgHSXdWChrOU"; // traveling sheet
 const spreadsheetId = "1rsoB7YOOiwYLqo63TSO9X2P27Uis7olbnh6mRjz5x7c"; // example sheet for blog
 
-const sheetId = 1137143099;
+//const sheetId = 1137143099; // traveling sheet spending sheet ID
+const sheetId = 0; // blog sheet spending sheet ID
 const apiKey = "AIzaSyBlVXClFKOd0SxDFMBmgZYcOZJdM0LUW0I";
 
 const autoFillColumns = [
